@@ -132,7 +132,7 @@ end
 
 
 
-savedStr = get(obj, 'eeglab');
+savedStr = get_meta(obj, 'eeglab');
 if ~isempty(savedStr),
     tmp = savedStr;
 else

@@ -9,9 +9,8 @@ function y = eq(a,b)
 % Documentation: class_pset_event.txt
 % Description: Tests for equality
 
-import misc.isevent;
 
-if ~isevent(a),
+if ~isa(a, 'physioset.event.event'),
     tmp = a;
     a = b;
     b = tmp;
@@ -31,7 +30,7 @@ elseif isnumeric(b),
     for i = 1:numel(a)
         y(i) = abs((a(i).Type-b)) < eps;        
     end    
-elseif isevent(b),
+elseif isa(b, 'physioset.event.event'),
     if numel(b) > 1 && (ndims(a)~=ndims(b) || ~all(size(a)==size(b))),
         error('The dimensions of the input arguments do not match.');
     end

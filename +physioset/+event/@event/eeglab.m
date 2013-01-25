@@ -121,11 +121,11 @@ for i = 1:numel(a)
     
     ev(i).type     = types{i};
     ev(i).latency  = sample(i);
-    ev(i).position = get(a(i), 'Position');
-    ev(i).urevent  = get(a(i), 'Urevent');
+    ev(i).position = get_meta(a(i), 'Position');
+    ev(i).urevent  = get_meta(a(i), 'Urevent');
     
     if epoched
-        ev(i).epoch    = epochVal(i);
+        ev(i).epoch = epochVal(i);
     end
     
     metaData      = get_meta(a(i));

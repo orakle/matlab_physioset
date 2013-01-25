@@ -1,4 +1,4 @@
-function sensObj = physioset.sensors.obj)
+function sensObj = sensors(obj)
 
 if ~isempty(obj.DimSelection),
     sensObj = subset(obj.Sensors, obj.DimSelection);

@@ -23,7 +23,7 @@ function outStr = eeglab(obj, what)
 import physioset.sensors.abstract_sensors
 
 if nargin < 2 || isempty(what),
-    what = 'physioset.sensors.;
+    what = 'sensors';
 end
 
 if isempty(obj.Label), outStr = []; return; end
@@ -32,10 +32,10 @@ outStr = eeglab@physioset.sensors.physiology(obj);
 
 radius    = head_radius(obj);
 
-if strcmpi(what, 'physioset.sensors.) && isempty(obj.Cartesian) || ...
+if strcmpi(what, 'sensors') && isempty(obj.Cartesian) || ...
         all(isnan(obj.Cartesian(:))),
     outStr = [];
-elseif strcmpi(what, 'physioset.sensors.)
+elseif strcmpi(what, 'sensors')
     isMissing = any(isnan(obj.Cartesian),2);
     coords    = obj.Cartesian(~isMissing,:);   
     

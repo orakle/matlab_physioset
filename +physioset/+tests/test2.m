@@ -1,9 +1,9 @@
 function [status, MEh] = test2()
 % TEST2 - Conversion to/from EEGLAB and Fieldtrip structures
 
+import test.simple.*;
 import mperl.file.spec.*;
 import physioset.*;
-import test.simple.*;
 import pset.session;
 import safefid.safefid;
 import datahash.DataHash;

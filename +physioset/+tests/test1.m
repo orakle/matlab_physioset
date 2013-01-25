@@ -1,9 +1,9 @@
 function [status, MEh] = test1()
 % TEST1 - Tests demo functionality
 
+import test.simple.*;
 import mperl.file.spec.*;
 import physioset.*;
-import test.simple.*;
 import pset.session;
 import safefid.safefid;
 import datahash.DataHash;
