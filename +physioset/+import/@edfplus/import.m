@@ -6,7 +6,7 @@ function pObj = import(obj, varargin)
 % See also: edfplus
 
 
-import pset.event.event;
+import physioset.event.event;
 import misc.sizeof;
 import io.edfplus.isedfplus;
 import io.edfplus.read;

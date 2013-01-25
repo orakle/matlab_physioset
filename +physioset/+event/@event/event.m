@@ -1,4 +1,4 @@
-classdef event < pset.event.itypes.setget & ...
+classdef event < goo.abstract_setget & ...
         matlab.mixin.Heterogeneous
     
     % EVENT - Class for events in a pointset container
@@ -65,7 +65,7 @@ classdef event < pset.event.itypes.setget & ...
     %   % QRS complex and that is located around the position of the
     %   % R-peak:
     %
-    %   import pset.event.event;
+    %   import physioset.event.event;
     %   ev = event(1000, 'Type', 'QRS', 'Offset', -40, 'Duration', 100)
     %
     %   % which assumes that the QRS complex was located at sample
@@ -318,7 +318,7 @@ classdef event < pset.event.itypes.setget & ...
         
         function obj = event(pos, varargin)
             
-            import pset.event.event;
+            import physioset.event.event;
             
             if nargin < 1 || isempty(pos), return; end
             

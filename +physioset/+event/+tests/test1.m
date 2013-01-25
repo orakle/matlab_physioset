@@ -1,8 +1,8 @@
 function [status, MEh] = test1()
 % TEST1 - Tests basic functionality of package event
 
-import pset.event.*;
-import pset.event.std.*;
+import physioset.event.*;
+import physioset.event.std.*;
 import test.simple.*;
 
 MEh     = [];
@@ -360,8 +360,8 @@ try
     sel2 = select(evSelector, ev);
  
     ok(...
-        numel(sel) == 1 && isa(sel, 'pset.event.std.analysis_window') && ...
-        numel(sel2) == 2 && isa(sel2(1), 'pset.event.std.epoch_begin'), ...
+        numel(sel) == 1 && isa(sel, 'physioset.event.std.analysis_window') && ...
+        numel(sel2) == 2 && isa(sel2(1), 'physioset.event.std.epoch_begin'), ...
         name);    
     
 catch ME

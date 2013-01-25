@@ -1,9 +1,9 @@
 classdef latency_selector < ...
-        pset.event.selector & ...
-        pset.event.itypes.setget
+        physioset.event.selector & ...
+        goo.abstract_setget
     % latency_selector - Class that selects events within a latency_selector range
     %
-    % import pset.event.*;
+    % import physioset.event.*;
     % mySelector = latency_selector(sr, latRange);
     % mySelector = latency_selector(sr, latRange, 'key', value, ...)
     %
@@ -80,7 +80,7 @@ classdef latency_selector < ...
         
     end
     
-    % pset.event.selector.selector interface
+    % physioset.event.selector.selector interface
     methods
         
         [evArray, idx] = select(obj, evArray)

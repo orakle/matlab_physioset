@@ -1,4 +1,4 @@
-classdef (Sealed) discontinuity < pset.event.event
+classdef (Sealed) discontinuity < physioset.event.event
     
     methods
         

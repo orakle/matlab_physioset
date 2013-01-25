@@ -1,7 +1,7 @@
 function ev = get_pnt_selection_events(obj, ev)
 
 
-import pset.event.std.epoch_begin;
+import physioset.event.std.epoch_begin;
 
 if nargin < 2 || isempty(ev), 
     ev = epoch_begin(NaN, 'Type', '__DataSelection'); 

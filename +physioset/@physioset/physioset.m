@@ -190,9 +190,9 @@ classdef physioset < ...
         function set.Event(obj, v)
             import exceptions.*
             
-            if ~all(isempty(v)) && ~isa(v, 'pset.event.event'),
+            if ~all(isempty(v)) && ~isa(v, 'physioset.event.event'),
                 throw(InvalidPropValue('Event', ...
-                    'Must be (an array of) pset.event.event object(s)'));
+                    'Must be (an array of) physioset.event.event object(s)'));
             end
             
             if ~isempty(v),

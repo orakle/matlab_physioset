@@ -1,5 +1,5 @@
 function disp(obj)
 
-disp@pset.event.itypes.setget(obj);
+disp@goo.abstract_setget(obj);
 
 end

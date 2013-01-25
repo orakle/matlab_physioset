@@ -10,7 +10,7 @@ import pset.globals;
 import mperl.split;
 import io.mff2.*
 import physioset.physioset;
-import pset.event.event;
+import physioset.event.event;
 import misc.sizeof;
 import misc.eta;
 import pset.file_naming_policy;

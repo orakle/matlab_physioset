@@ -16,7 +16,7 @@ function ev_out = select(ev, varargin)
 % Documentation: class_pset_event.txt
 % Description: Selects events that full criteria
 
-import pset.event.event;
+import physioset.event.event;
 import misc.process_varargin;
 import misc.struct2cell;
 

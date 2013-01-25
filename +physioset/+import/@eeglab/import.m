@@ -173,7 +173,7 @@ sampling_time = linspace(0, hdr.pnts/sr, hdr.pnts);
 
 rec_start_date = datestr(now, dateformat);
 rec_start_time = datestr(now, timeformat);
-event_obj = pset.event.from_struct(hdr.event);
+event_obj = physioset.event.from_struct(hdr.event);
 if obj.Verbose,
     fprintf('[done]\n');
 end

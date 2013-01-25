@@ -223,7 +223,7 @@ for groupItr = 1:numel(epochs)
         %% Plot only events within this epoch
         if ~isempty(get_event(data))
             
-            evSel = pset.event.sample_selector(firstSample:lastSample);
+            evSel = physioset.event.sample_selector(firstSample:lastSample);
             
             thisEvents = select(evSel, get_event(data));
             thisEvents = shift(thisEvents, -firstSample+1);

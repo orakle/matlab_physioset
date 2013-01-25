@@ -58,7 +58,7 @@ if ~isempty(setdiff(1:nb_pnt(obj), pntSel)),
     badSample    = badSample(pntSel);
     
     if ~isempty(event),
-        evSel = pset.event.sample_selector(pntSel);
+        evSel = physioset.event.sample_selector(pntSel);
         event = select(evSel, event);
     end
     

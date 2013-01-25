@@ -42,7 +42,7 @@ if isempty(pntSel),
     
 else
     
-    evSel = pset.event.sample_selector(pntSel);
+    evSel = physioset.event.sample_selector(pntSel);
     [evArray, rawIdx] = select(evSel, obj.Event);
     
     if isempty(evArray), return; end

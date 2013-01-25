@@ -1,4 +1,4 @@
-classdef (Sealed) analysis_window < pset.event.event
+classdef (Sealed) analysis_window < physioset.event.event
     
     methods
         

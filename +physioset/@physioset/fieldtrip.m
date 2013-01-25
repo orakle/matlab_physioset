@@ -15,7 +15,7 @@ function ftripStruct = fieldtrip(obj, varargin)
 % ## Notes:
 %
 % * This conversion method will assume that eventArray of the same type as
-%   pset.event.trial_begin should be used for defining trial boundaries.
+%   physioset.event.trial_begin should be used for defining trial boundaries.
 %
 % * As Fieldtrip expects single modality data, if you attempt to
 %   convert a physioset object that contains multiple modalities (e.g. EEG
@@ -35,7 +35,7 @@ function ftripStruct = fieldtrip(obj, varargin)
 % Documentation: class_physioset.txt
 % Description: Conversion to Fieldtrip structure
 
-import pset.event.event;
+import physioset.event.event;
 
 % Important to use method physioset.sensors.) here, instead of obj.Sensors. The
 % latter does not have into account "data selections" and would break the

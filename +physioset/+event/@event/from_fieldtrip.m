@@ -15,7 +15,7 @@ function ev = from_fieldtrip(str)
 % Description: Construction from Fieldtrip structure
 % Documentation: class_pset_event.txt
 
-import pset.event.event;
+import physioset.event.event;
 
 ev = event.from_struct(str);
 

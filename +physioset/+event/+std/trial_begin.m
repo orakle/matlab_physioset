@@ -1,4 +1,4 @@
-classdef (Sealed) trial_begin < pset.event.event
+classdef (Sealed) trial_begin < physioset.event.event
     
     methods
         

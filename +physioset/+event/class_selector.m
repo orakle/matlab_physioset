@@ -1,7 +1,7 @@
-classdef class_selector < pset.event.selector & pset.event.itypes.setget
+classdef class_selector < physioset.event.selector & goo.abstract_setget
     % CLASS_SELECTOR - Selects events of standard class(es)
     %
-    % import pset.event.*;
+    % import physioset.event.*;
     % mySelector = class_selector(evClass1, evClass2, ...);
     %
     % Where
@@ -10,7 +10,7 @@ classdef class_selector < pset.event.selector & pset.event.itypes.setget
     % selected.
     %
     %
-    % See also: event, physioset, selector, pset.event.std
+    % See also: event, physioset, selector, physioset.event.std
     
     % Description: Selects events of standard class(es)
     % Documentation: class_class_selector.txt
@@ -31,7 +31,7 @@ classdef class_selector < pset.event.selector & pset.event.itypes.setget
             
             if ~iscell(value), value = {value}; end
             
-            isEvent = cellfun(@(x) isa(x, 'pset.event.event'), value);
+            isEvent = cellfun(@(x) isa(x, 'physioset.event.event'), value);
             
             if any(isEvent),
                 regex = '^.*?([^\.])+$';
@@ -39,7 +39,7 @@ classdef class_selector < pset.event.selector & pset.event.itypes.setget
                     regex, '$1'), value(isEvent), 'UniformOutput', false);
             end
             
-            fullClassName = cellfun(@(x) ['pset.event.std.' x], value, ...
+            fullClassName = cellfun(@(x) ['physioset.event.std.' x], value, ...
                 'UniformOutput', false);            
           
            if ~all(cellfun(@(x) exist(x, 'class'), fullClassName)),
@@ -73,7 +73,7 @@ classdef class_selector < pset.event.selector & pset.event.itypes.setget
         
     end
     
-    % pset.event.selector.selector interface
+    % physioset.event.selector.selector interface
     methods
         
         function [evArray, idx] = select(obj, evArray)
@@ -81,7 +81,7 @@ classdef class_selector < pset.event.selector & pset.event.itypes.setget
             selected = true(size(evArray));
             
             if ~isempty(obj.EventClass), 
-            fullClassName = cellfun(@(x) ['pset.event.std.' x], ...
+            fullClassName = cellfun(@(x) ['physioset.event.std.' x], ...
                 obj.EventClass, 'UniformOutput', false);    
             
             af = @(x) ismember(class(x), fullClassName);

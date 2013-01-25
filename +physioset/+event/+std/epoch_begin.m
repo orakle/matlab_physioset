@@ -1,4 +1,4 @@
-classdef (Sealed) epoch_begin < pset.event.event
+classdef (Sealed) epoch_begin < physioset.event.event
     
      methods
         

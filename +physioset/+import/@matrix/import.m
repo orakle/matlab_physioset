@@ -24,7 +24,7 @@ function pObj = import(obj, varargin)
 
 import physioset.physioset;
 import pset.pset;
-import pset.event.std.trial_begin;
+import physioset.event.std.trial_begin;
 
 % Deal with the multi-filename case
 if nargin > 2

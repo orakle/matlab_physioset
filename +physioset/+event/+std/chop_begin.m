@@ -1,4 +1,4 @@
-classdef (Sealed) chop_begin < pset.event.event
+classdef (Sealed) chop_begin < physioset.event.event
     
      methods
         

@@ -1,4 +1,4 @@
-classdef (Sealed) qrs < pset.event.event
+classdef (Sealed) qrs < physioset.event.event
     
      methods
         

@@ -11,12 +11,12 @@ function obj = from_tal(talArray)
 % EVARRAY is an equivalent array of pset.event objects.
 %
 %
-% See also: pset.event.from_struct, pset.event
+% See also: physioset.event.from_struct, pset.event
 
 % Description: Construction from a cell array of TALs
 % Documentation: class_pset_event.txt
 
-import pset.event.event;
+import physioset.event.event;
 
 obj     = repmat(event, numel(talArray), 1);
 sample  = nan(numel(talArray), 1);

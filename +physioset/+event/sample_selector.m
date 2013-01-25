@@ -1,4 +1,4 @@
-classdef sample_selector < pset.event.selector & pset.event.itypes.setget
+classdef sample_selector < physioset.event.selector & goo.abstract_setget
     
     
    

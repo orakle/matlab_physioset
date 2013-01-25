@@ -11,7 +11,7 @@ function b = fieldtrip(a)
 % FSTRUCTARRAY is an array of Fieltrip event structures
 %
 %
-% See also: pset.event, pset.event.struct, pset.event.eeglab
+% See also: pset.event, physioset.event.struct, physioset.event.eeglab
 
 % Documentation: class_pset_event.txt
 % Description: Converts to Fieltrip structure

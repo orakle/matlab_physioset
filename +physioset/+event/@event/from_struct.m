@@ -15,7 +15,7 @@ function obj = from_struct(strArray)
 % Documentation: class_event.txt
 % Description: Construction from MATLAB struct
 
-import pset.event.event;
+import physioset.event.event;
 
 if isempty(strArray),
     obj = [];

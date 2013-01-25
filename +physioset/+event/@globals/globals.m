@@ -60,7 +60,7 @@ classdef (Sealed) globals < dynamicprops
             path = fileparts(mfilename('fullpath'));
             obj.File = [path filesep 'globals.txt'];
             
-            obj = pset.event.globals.read_file(obj);                          
+            obj = physioset.event.globals.read_file(obj);                          
             
             if exist(obj.UserFile, 'file'),
                 obj = eegpipe.globals.read_file(obj, obj.UserFile, false);
@@ -73,7 +73,7 @@ classdef (Sealed) globals < dynamicprops
 
             persistent localObj
             if isempty(localObj) || ~isvalid(localObj)
-                localObj = pset.event.globals;
+                localObj = physioset.event.globals;
             end
             singleObj = localObj;
         end
@@ -97,7 +97,7 @@ classdef (Sealed) globals < dynamicprops
                 % namespace, we have to be careful to avoid an infinite
                 % recursion (if the constructor of such an object uses
                 % some package specific global variable).
-                idx = regexpi(C{2}{i}, '^pset.event.');
+                idx = regexpi(C{2}{i}, '^physioset.event.');
                 if ~isempty(idx)
                     obj.(C{1}{i}) = strtrim(C{2}{i});
                 else

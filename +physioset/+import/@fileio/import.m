@@ -188,7 +188,7 @@ if obj.ReadEvents
         pause(0.001);
     end
     if ~isempty(eventStr), 
-        eventObj = pset.event.from_fieldtrip(eventStr); 
+        eventObj = physioset.event.from_fieldtrip(eventStr); 
     end
 else
     eventObj = [];    

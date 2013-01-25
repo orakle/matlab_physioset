@@ -60,9 +60,9 @@ function EEG = eeglab(obj, varargin)
 
 import misc.check_dependency;
 import misc.epoch_get;
-import pset.event.event;
-import pset.event.std.trial_begin;
-import pset.event.std.epoch_begin;
+import physioset.event.event;
+import physioset.event.std.trial_begin;
+import physioset.event.std.epoch_begin;
 import misc.process_arguments;
 
 check_dependency('eeglab');
@@ -150,7 +150,7 @@ else
     tmp.trials      = size(data, 3);
     
     % Sensor information
-    sArray = physioset.sensors.obj);
+    sArray = sensors(obj);
     if ~isempty(sArray),
         tmp.chanlocs = eeglab(sArray);
     end

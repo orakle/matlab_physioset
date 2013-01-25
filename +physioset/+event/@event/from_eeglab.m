@@ -15,7 +15,7 @@ function ev = from_eeglab(str)
 % Description: Construction from EEGLAB structure
 % Documentation: class_event.txt
 
-import pset.event.event;
+import physioset.event.event;
 
 ev = event.from_struct(str);
 

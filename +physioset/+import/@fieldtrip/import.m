@@ -34,7 +34,7 @@ function physioSet = import(obj, iFileName, varargin)
 % See also: physioset.import. physioset.from_fieldtrip
 
 import physioset.
-import pset.event.event;
+import physioset.event.event;
 import pset.file_naming_policy;
 import misc.process_arguments;
 import misc.sizeof;

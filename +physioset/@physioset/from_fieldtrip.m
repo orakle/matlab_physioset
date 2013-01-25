@@ -35,7 +35,7 @@ function obj = from_fieldtrip(fStruct, varargin)
 % Documentation: class_physioset.txt
 % Description: Converts Fieldtrip struct into a physioset object
 
-import pset.event.event;
+import physioset.event.event;
 import pset.pset;
 import physioset.
 import misc.process_arguments;

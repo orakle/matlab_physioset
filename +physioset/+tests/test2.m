@@ -39,7 +39,7 @@ try
    
     myImporter = physioset.import.matrix('Sensors', physioset.sensors.eeg.empty(5));
     data = import(myImporter, randn(5,10000));
-    add_event(data, pset.event.std.qrs(1:100:5000));
+    add_event(data, physioset.event.std.qrs(1:100:5000));
     eeglabStr = eeglab(data);
     
     ok(numel(eeglabStr.event)==50 & ...
@@ -59,8 +59,8 @@ try
    
     myImporter = physioset.import.matrix('Sensors', physioset.sensors.eeg.empty(5));
     data = import(myImporter, randn(5,10000));
-    add_event(data, pset.event.std.qrs(1:100:5000));
-    trialEvs = pset.event.std.trial_begin(1:100:10000);
+    add_event(data, physioset.event.std.qrs(1:100:5000));
+    trialEvs = physioset.event.std.trial_begin(1:100:10000);
     trialEvs = set_duration(trialEvs, 100);
     add_event(data, trialEvs );
     eeglabStr = eeglab(data);

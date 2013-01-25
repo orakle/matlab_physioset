@@ -41,7 +41,7 @@ import misc.is_valid_filename;
 import mperl.file.spec.catfile;
 import physioset.
 import pset.pset;
-import pset.event.eventl
+import physioset.event.eventl
 
 %% Error checking
 if ~isstruct(str) || ~isfield(str, 'data') || ...

@@ -11,7 +11,7 @@ function nbEvent = nb_event(obj)
 pntSel = pnt_selection(obj);
 if ~isempty(pntSel),
     
-    evSel = pset.event.sample_selector(pntSel);
+    evSel = physioset.event.sample_selector(pntSel);
     nbEvent = numel(select(evSel, obj.Event));
     
 else
