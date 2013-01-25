@@ -1,7 +1,6 @@
 function obj = set_method_config(obj, varargin)
 
 import eegpipe.exceptions.*;
-import misc.pkgisa;
 import mperl.join;
 
 if numel(varargin) == 1 && isa(varargin{1}, 'physioset.config'),
@@ -25,7 +24,7 @@ while i < numel(varargin)
     cfg    = varargin{i+1};
     i      = i + 2;
     
-    if pkgisa(cfg, 'hash'),
+    if pkgisa(cfg, 'mjava.hash'),
         cfg = cell(cfg);
     end
     

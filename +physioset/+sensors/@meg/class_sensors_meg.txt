@@ -1,0 +1,10 @@
+Class: eeg
+============
+
+[[Parent]]: pkg_sensors.txt
+
+The `sensors.eeg` class is used to store EEG sensors information.
+
+See [help sensors.eeg][sensors-eeg-m] for more information.
+
+[sensors-eeg-m]: ./eeg.m.htm

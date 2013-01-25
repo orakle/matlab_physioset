@@ -1,0 +1,11 @@
+Class: sensors.mixed
+============
+
+[[Parent]]: pkg_sensors.txt
+
+The `sensors.mixed` class is used to store the description of a set of
+sensors of (possibly) different types. 
+
+See [help sensors.mixed][sensors-mixed-m] for more information.
+
+[sensors-mixed-m]: ./mixed.m.htm

@@ -1,0 +1,11 @@
+Class: sensors.physiology
+============
+
+[[Parent]]: pkg_sensors.txt
+
+The `sensors.physiology` class is used to store the description of a set of
+physiological sensors.
+
+See [help sensors.physiology][sensors-physiology-m] for more information.
+
+[sensors-physiology-m]: ./physiology.m.htm
