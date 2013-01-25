@@ -20,9 +20,8 @@ function obj = subset(obj, varargin)
 % Description: Creates physioset from a subset of another physioset
 
 import physioset.physioset;
-import misc.pkgisa;
 
-if nargin == 2 && pkgisa(varargin{1}, 'data_selector'),
+if nargin == 2 && isa(varargin{1}, 'pset.selector.selector'),
     
     select(varargin{1}, obj);
     dimSel = obj.DimSelection;
