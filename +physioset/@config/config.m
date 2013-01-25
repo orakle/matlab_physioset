@@ -3,7 +3,7 @@ classdef config < goo.abstract_setget_handle
     %
     % ## Usage synopsis:
     %
-    % import pset.physioset.*;
+    % import physioset.*;
     % import eegpipe.*;
     %
     % % Set the configuration for method fprintf
@@ -21,7 +21,7 @@ classdef config < goo.abstract_setget_handle
     % parseDisp = get_method_config(cfg, 'fprintf', {'ParseDisp'});
     %
     % % Construct a physioset with the given method configuration
-    % myPset = import(pset.import.matrix, pset.pset.randn(10,10000));
+    % myPset = import(physioset.import.matrix, pset.pset.randn(10,10000));
     % myPset = set_method_config(myPset, cfg);
     %
     % % Or, alternatively:
@@ -52,9 +52,9 @@ classdef config < goo.abstract_setget_handle
     %   is that the latter take and return cell arrays, while the former
     %   return hashes.
     %
-    % See also: pset.physioset.physioset
+    % See also: physioset.physioset
     
-    % Documentation: class_pset_physioset.txt
+    % Documentation: class_physioset.txt
     % Description: Default method configuration options
     
     

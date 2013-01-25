@@ -2,7 +2,7 @@ function [status, MEh] = test2()
 % TEST2 - Conversion to/from EEGLAB and Fieldtrip structures
 
 import mperl.file.spec.*;
-import pset.physioset.*;
+import physioset.*;
 import test.simple.*;
 import eegpipe.session;
 import io.safefid;
@@ -37,7 +37,7 @@ try
     
     name = 'conversion to EEGLAB (continuous)';
    
-    myImporter = pset.import.matrix('Sensors', sensors.eeg.empty(5));
+    myImporter = physioset.import.matrix('Sensors', sensors.eeg.empty(5));
     data = import(myImporter, randn(5,10000));
     add_event(data, pset.event.std.qrs(1:100:5000));
     eeglabStr = eeglab(data);
@@ -57,7 +57,7 @@ try
     
     name = 'conversion to EEGLAB (epoched)';
    
-    myImporter = pset.import.matrix('Sensors', sensors.eeg.empty(5));
+    myImporter = physioset.import.matrix('Sensors', sensors.eeg.empty(5));
     data = import(myImporter, randn(5,10000));
     add_event(data, pset.event.std.qrs(1:100:5000));
     trialEvs = pset.event.std.trial_begin(1:100:10000);

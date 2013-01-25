@@ -3,7 +3,7 @@ function [figNames, captions, groups, extra, extraCap] = plot(obj, data, varargi
 %
 % import pset.plotter.psd;
 % session.instance('D:/tmp');
-% myData = import(pset.import.mff,'bcgs_0001.mff');
+% myData = import(physioset.import.mff,'bcgs_0001.mff');
 % myPlotter = pset.plotter.psd;
 % figNames = plot(myPlotter, myData);
 %

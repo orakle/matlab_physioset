@@ -6,7 +6,7 @@ function obj = equalize(obj, varargin)
 %
 % Where
 %
-% OBJ is a pset.physioset object where the variance ranges of different signal
+% OBJ is a physioset.object where the variance ranges of different signal
 % modalities might be very different from each other. For instance MEG data
 % might be measured in T and EEG data in mV resulting in vastly different
 % variance ranges between EEG and MEG data.

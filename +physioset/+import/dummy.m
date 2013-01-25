@@ -1,4 +1,4 @@
-classdef dummy < pset.import.abstract_physioset_import
+classdef dummy < physioset.import.abstract_physioset_import
     
     
     methods

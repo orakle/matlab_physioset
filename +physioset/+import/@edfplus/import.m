@@ -15,7 +15,7 @@ import pset.globals;
 import io.safefid;
 import misc.eta;
 import io.edfplus.labels2sensors;
-import pset.physioset.physioset;
+import physioset.physioset;
 
 if numel(varargin) == 1 && iscell(varargin{1}),
     varargin = varargin{1};

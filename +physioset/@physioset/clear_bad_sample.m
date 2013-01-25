@@ -6,7 +6,7 @@ function obj = clear_bad_sample(obj, idx)
 %
 % Where
 %
-% OBJ is a pset.physioset object
+% OBJ is a physioset.object
 %
 % IDX is the index or indices of the samples that are to be marked as good
 %
@@ -14,10 +14,10 @@ function obj = clear_bad_sample(obj, idx)
 % See also: clear_bad_channel, set_bad_sample, physioset
 
 % Description: Unmarks bad samples
-% Documentations: class_pset_physioset.txt
+% Documentations: class_physioset.txt
 
 import misc.isnatural;
-import pset.physioset;
+import physioset.
 
 if nargin < 2 || isempty(idx), idx = []; end
 

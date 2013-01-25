@@ -6,7 +6,7 @@ function eegset_obj = import(obj, ifilename, varargin)
 %
 % Where
 %
-% OBJ is an pset.import.eeglab object
+% OBJ is an physioset.import.eeglab object
 %
 % IFILENAME is the name of the EEGLAB file to be imported
 %
@@ -56,7 +56,7 @@ function eegset_obj = import(obj, ifilename, varargin)
 %
 %
 %
-% See also: pset.import
+% See also: physioset.import.
 
 
 % Deal with the multi-filename case
@@ -70,7 +70,7 @@ end
 
 import pset.file_naming_policy;
 import pset.eegset;
-import pset.import.globals;
+import physioset.import.globals;
 import pset.event;
 import misc.process_varargin;
 import misc.sizeof;

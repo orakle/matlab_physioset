@@ -6,7 +6,7 @@ function physiosetObj = import(obj, filenameIn, varargin)
 %
 % Where
 %
-% OBJ is an pset.import.fileio object
+% OBJ is an physioset.import.fileio object
 %
 % FILENAME is the name of the file to be imported. Alternatively, FILENAME
 % can be the name of a directory in which case all files within the
@@ -50,14 +50,14 @@ function physiosetObj = import(obj, filenameIn, varargin)
 %   import external.regexpdir.regexpdir;
 %   % Get names of all .mff files under the root directory dataFolder
 %   myFiles = regexpdir('C:/dataFolder', '.mff$', true);
-%   myObj = import(pset.import.fileio, myFiles);
+%   myObj = import(physioset.import.fileio, myFiles);
 %
 %
-% See also: pset.import
+% See also: physioset.import.
 
 
 % Description: Import data from disk file
-% Documentation: class_pset_import_fileio.txt
+% Documentation: class_physioset.import.fileio.txt
 
 if iscell(filenameIn),
     physiosetObj = cell(numel(filenameIn), 1);
@@ -67,8 +67,8 @@ if iscell(filenameIn),
     return;   
 end
 
-import pset.physioset;
-import pset.import.globals;
+import physioset.
+import physioset.import.globals;
 import pset.event;
 import pset.file_naming_policy;
 import misc.process_arguments;
@@ -215,7 +215,7 @@ end
 n_chunks = length(boundary) - 1;
 fid = fopen(opt.filename, 'w');
 if fid < 1,
-    ME = MException('pset:import:fileio:import', ...
+    ME = MException('physioset.import.fileio:import', ...
         'I could not open file %s for writing', opt.filename);
     throw(ME);
 end

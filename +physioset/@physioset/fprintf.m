@@ -27,7 +27,7 @@ function count = fprintf(fid, obj, varargin)
 % See also: physioset
 
 % Description: Print physioset information to report
-% Documentation: class_pset_physioset.txt
+% Documentation: class_physioset.txt
 
 import misc.process_arguments;
 import misc.fid2fname;

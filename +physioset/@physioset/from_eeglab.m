@@ -1,7 +1,7 @@
 function obj = from_eeglab(str, varargin)
 % FROM_EEGLAB - Construction from EEGLAB structure
 %
-% import pset.physioset;
+% import physioset.
 % obj = physioset.from_eeglab(str, 'key', value, ...)
 %
 % Where
@@ -39,7 +39,7 @@ function obj = from_eeglab(str, varargin)
 import misc.process_arguments;
 import misc.is_valid_filename;
 import mperl.file.spec.catfile;
-import pset.physioset;
+import physioset.
 import pset.pset;
 import pset.event.eventl
 

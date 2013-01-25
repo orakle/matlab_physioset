@@ -12,11 +12,11 @@ function value = is_bad_channel(obj, index)
 %
 % See also: is_bad_sample, set_bad_channel, physioset
 
-% Documentation: class_pset_physioset.txt
+% Documentation: class_physioset.txt
 % Description: Bad channel markings
 
 import misc.isnatural;
-import pset.physioset.physioset;
+import physioset.physioset;
 
 if nargin < 2 || isempty(index), index = 1:nb_dim(obj); end
 

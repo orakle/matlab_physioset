@@ -7,7 +7,7 @@ function winrej = eeglab_winrej(obj)
 %
 % Where
 %
-% OBJ is a pset.physioset object
+% OBJ is a physioset.object
 %
 % WINREJ is an epoch rejection definition matrix
 %

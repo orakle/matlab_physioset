@@ -6,14 +6,14 @@ function physObj = import(obj, ifilename, varargin)
 %
 % Where
 %
-% OBJ is an pset.import.eeglab object
+% OBJ is an physioset.import.eeglab object
 %
 % IFILENAME is the name of the .pset file to be imported. Alternatively,
 % IFILENAME can be a cell array containing multiple file names. In the
 % latter case, the output PHYSOBJ will be a cell array of physioset
 % objects.
 %
-% PHYSOBJ is a pset.physioset object (or a cell array, see above). 
+% PHYSOBJ is a physioset.object (or a cell array, see above). 
 %
 %
 % ## Most relevant key/value pairs:
@@ -38,16 +38,16 @@ function physObj = import(obj, ifilename, varargin)
 %
 %
 %
-% See also: pset.import
+% See also: physioset.import.
 
 import pset.file_naming_policy;
-import pset.import.globals;
+import physioset.import.globals;
 import pset.event;
 import misc.process_arguments;
 import misc.sizeof;
 import misc.regexpi_dir;
 import mperl.file.spec.*;
-import pset.import.physioset;
+import physioset.import.physioset;
 import pset.pset;
 
 % Deal with the multi-filename case using recursion

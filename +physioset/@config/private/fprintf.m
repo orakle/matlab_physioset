@@ -1,7 +1,7 @@
 function hashObj = fprintf(hashObj, varargin)
 % FPRINTF - Check configuration options for method fprintf
 %
-% See also: pset.physioset
+% See also: physioset.
 
 % Documentation: class_physioset_impl.txt
 % Description: Check configuration options for method fprintf

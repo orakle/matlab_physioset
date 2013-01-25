@@ -10,9 +10,9 @@ function obj = load(filename)
 % non-standard extension such as 'physioseth'. 
 %
 %
-% See also: pset.physioset, pset
+% See also: physioset. pset
 
-% Documentation: class_pset_physioset.txt
+% Documentation: class_physioset.txt
 % Description: Loads physioset from a mat file
 
 import mperl.file.spec.rel2abs;

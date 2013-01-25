@@ -1,6 +1,6 @@
-classdef neuromag < pset.import.abstract_physioset_import
+classdef neuromag < physioset.import.abstract_physioset_import
     
-    % Documentation: pkg_pset_import.txt
+    % Documentation: pkg_physioset.import.txt
     % Description: Neuromag MEG data importer
     
     methods (Static, Access = 'private')
@@ -9,18 +9,18 @@ classdef neuromag < pset.import.abstract_physioset_import
         
         % Exceptions that may be thrown by this class' methods
         function obj = InvalidFieldtrip
-           obj = MException('pset:import:neuromag:InvalidFieldtrip', ...
+           obj = MException('physioset.import.neuromag:InvalidFieldtrip', ...
                ['The Fieldtrip property must be a char array ' ...               
                'specifying the root location of the Fieldtrip toolbox']);           
         end
         function obj = InvalidTrigger2Type
-           obj = MException('pset:import:neuromag:InvalidTrigger2Type', ...
+           obj = MException('physioset.import.neuromag:InvalidTrigger2Type', ...
                'The Trigger2Type property must be of class mjava.hash');
         end
         
         function obj = InvalidFieldtripStruct
             obj = MException(...
-                'pset:import:neuromag:InvalidFieldtripStruct', ...
+                'physioset.import.neuromag:InvalidFieldtripStruct', ...
                 ['Invalid Fieldtrip structure. Try updating your ' ...
                 'Fieldtrip version']);
         end
@@ -62,7 +62,7 @@ classdef neuromag < pset.import.abstract_physioset_import
     methods
         function obj = neuromag(varargin)
             import misc.process_arguments;
-            obj = obj@pset.import.abstract_physioset_import(varargin{:});
+            obj = obj@physioset.import.abstract_physioset_import(varargin{:});
             
             opt.fieldtrip    = [];
             opt.trigger2type = [];
@@ -77,7 +77,7 @@ classdef neuromag < pset.import.abstract_physioset_import
             % If not directly provided, try to guess the location of the
             % Fieldtrip fileio module
             if isempty(obj.Fieldtrip),
-                locs = [pset.import.globals.evaluate.Fieldtrip;...
+                locs = [physioset.import.globals.evaluate.Fieldtrip;...
                     misc.split(':', path)];
                 for i = 1:numel(locs),
                     if exist(locs{i}, 'dir')
@@ -88,7 +88,7 @@ classdef neuromag < pset.import.abstract_physioset_import
             end
             
             if isempty(obj.Fieldtrip),
-                ME = MException('pset:import:neuromag:MissingDependency', ...
+                ME = MException('physioset.import.neuromag:MissingDependency', ...
                     ['Fieldtrip dependency is missing. Get it from: ' ...
                     'http://fieldtrip.fcdonders.nl']);
                 throw(ME);

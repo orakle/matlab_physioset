@@ -1,9 +1,9 @@
-classdef edfplus < pset.import.abstract_physioset_import
+classdef edfplus < physioset.import.abstract_physioset_import
     % EDFPLUS - Imports EDF+ files
     %
     % ## Usage synopsis:
     %
-    % import pset.import.edfplus;
+    % import physioset.import.edfplus;
     % importer = edfplus('SignalType', {'ECG', 'EEG'});
     % data = import(edfplus, 'myfile.edf');
     % 
@@ -98,7 +98,7 @@ classdef edfplus < pset.import.abstract_physioset_import
        
     end
     
-    % pset.import.import interface
+    % physioset.import.import interface
     methods
         eegset_obj = import(obj, ifilename, varargin);        
     end
@@ -110,7 +110,7 @@ classdef edfplus < pset.import.abstract_physioset_import
         function obj = edfplus(varargin)
            import exceptions.*
           
-           obj = obj@pset.import.abstract_physioset_import(varargin{:}); 
+           obj = obj@physioset.import.abstract_physioset_import(varargin{:}); 
            
            if (~isempty(obj.StartTime) || ~isempty(obj.EndTime)) && ...
                    (~isempty(obj.StartRec) || ~isempty(obj.EndRec)),

@@ -4,7 +4,7 @@ import eegpipe.exceptions.*;
 import misc.pkgisa;
 import mperl.join;
 
-if numel(varargin) == 1 && isa(varargin{1}, 'pset.physioset.config'),
+if numel(varargin) == 1 && isa(varargin{1}, 'physioset.config'),
     obj = varargin{1};
     return;
 elseif numel(varargin) == 1,

@@ -1,6 +1,6 @@
-classdef fileio < pset.import.abstract_physioset_import
+classdef fileio < physioset.import.abstract_physioset_import
     
-    % Documentation: pkg_pset_import.txt
+    % Documentation: pkg_physioset.import.txt
     % Description: Fieldtrip's fileio data importer
     
     properties
@@ -9,9 +9,9 @@ classdef fileio < pset.import.abstract_physioset_import
     
     methods
         function obj = fileio(varargin)
-           obj = obj@pset.import.abstract_physioset_import(varargin{:}); 
+           obj = obj@physioset.import.abstract_physioset_import(varargin{:}); 
             % Add the fieldtrip toolbox to the path  
-            locs = [pset.import.globals.evaluate.Fieldtrip;...
+            locs = [physioset.import.globals.evaluate.Fieldtrip;...
                 misc.split(':', path)];
             for i = 1:numel(locs),
                 if exist(locs{i}, 'dir')
@@ -20,7 +20,7 @@ classdef fileio < pset.import.abstract_physioset_import
                 end
             end
             if isempty(obj.Fieldtrip),
-                ME = MException('pset.import.@fileio:fileio:MissingDependency', ...
+                ME = MException('physioset.import.@fileio:fileio:MissingDependency', ...
                     'Fieldtrip dependency is missing. Get it from: http://fieldtrip.fcdonders.nl');
                 throw(ME);
             end

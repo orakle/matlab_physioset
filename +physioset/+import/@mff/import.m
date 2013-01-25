@@ -9,7 +9,7 @@ function physiosetObj = import(obj, varargin)
 import pset.globals;
 import mperl.split;
 import io.mff2.*
-import pset.physioset.physioset;
+import physioset.physioset;
 import pset.event.event;
 import misc.sizeof;
 import misc.eta;

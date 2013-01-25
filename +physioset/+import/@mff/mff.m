@@ -1,9 +1,9 @@
-classdef mff < pset.import.abstract_physioset_import
+classdef mff < physioset.import.abstract_physioset_import
     % MFF - Imports Netstation MFF files
     %
     % ## Usage synopsis:
     %
-    % import pset.import.mff;
+    % import physioset.import.mff;
     % importer = mff('FileName', 'myOutputFile');
     % data = import(mff, 'myMFFfile.mff');
     %
@@ -43,7 +43,7 @@ classdef mff < pset.import.abstract_physioset_import
     end
     
     
-    % pset.import.import interface
+    % physioset.import.import interface
     methods
         [eegsetObj, physiosetObj] = import(obj, filename, varargin);        
     end
@@ -53,7 +53,7 @@ classdef mff < pset.import.abstract_physioset_import
     methods
         
         function obj = mff(varargin)
-            obj = obj@pset.import.abstract_physioset_import(varargin{:});             
+            obj = obj@physioset.import.abstract_physioset_import(varargin{:});             
         end
         
     end

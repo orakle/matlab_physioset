@@ -6,7 +6,7 @@ function obj = pset(obj)
 % Where
 %
 % PSETOBJ is a pset.pset object that contains the same values as the
-% original pset.physioset object
+% original physioset.object
 %
 % See also: fieldtrip, pset
 

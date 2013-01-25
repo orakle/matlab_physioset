@@ -5,7 +5,7 @@ function obj = clear_bad_channel(obj, index)
 %
 % Where
 %
-% OBJ is a pset.physioset object
+% OBJ is a physioset.object
 %
 % IDX is the index or indices of the channel(s) whose bad channel mark has
 % to be removed
@@ -13,7 +13,7 @@ function obj = clear_bad_channel(obj, index)
 % 
 % See also: set_bad_channel, clear_bad_sample, physioset
 
-% Documentation: class_pset_physioset.txt
+% Documentation: class_physioset.txt
 % Description: Removes a bad channel marking
 
 import misc.isnatural;

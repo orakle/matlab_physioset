@@ -6,7 +6,7 @@ function obj = set_bad_channel(obj, index)
 %
 % Where
 %
-% OBJ is a pset.physioset object
+% OBJ is a physioset.object
 %
 % IDX is the index or indices of the channels that are to be marked as bad
 %
@@ -14,10 +14,10 @@ function obj = set_bad_channel(obj, index)
 % See also: clear_bad_channel, set_bad_sample, physioset
 
 % Description: Marks bad channels
-% Documentations: class_pset_physioset.txt
+% Documentations: class_physioset.txt
 
 import misc.isnatural;
-import pset.physioset.physioset;
+import physioset.physioset;
 
 if nargin < 2 || isempty(index), index = []; end
 

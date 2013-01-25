@@ -1,8 +1,8 @@
 function obj = from_pset(pObj, varargin)
 % FROM_PSET - Builds physioset from a pset object
 %
-% obj = pset.physioset.from_pset(pObj);
-% obj = pset.physioset.from_pset(pObj, 'key', value, ...)
+% obj = physioset.from_pset(pObj);
+% obj = physioset.from_pset(pObj, 'key', value, ...)
 %
 %
 % Where
@@ -18,7 +18,7 @@ function obj = from_pset(pObj, varargin)
 % 
 % ## Accepted key/value pairs:
 %
-% * All key/value pairs accepted by the contructor of the pset.physioset class
+% * All key/value pairs accepted by the contructor of the physioset.class
 %
 %
 % ## Notes:
@@ -33,7 +33,7 @@ function obj = from_pset(pObj, varargin)
 % Documentation: class_pset_eegset.txt
 % Description: Converts a pset object into an eegset object
 
-import pset.physioset.physioset;
+import physioset.physioset;
 
 obj = physioset(pObj, nb_dim(pObj), varargin{:});
 

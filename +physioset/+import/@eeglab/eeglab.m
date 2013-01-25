@@ -1,23 +1,23 @@
-classdef eeglab < pset.import.abstract_physioset_import
+classdef eeglab < physioset.import.abstract_physioset_import
     % EEGLAB - Class for importing EEGLAB files
     %
-    % obj = pset.import.eeglab('key', value, ...)
+    % obj = physioset.import.eeglab('key', value, ...)
     %
     %
     % ## Accepted key/value pairs:
     %
-    % See help pset.import.abstract_physioset_import
+    % See help physioset.import.abstract_physioset_import
     %
     %
     %
-    % See also: pset.import.abstract_physioset_import
+    % See also: physioset.import.abstract_physioset_import
     
-    % Documentation: pkg_pset_import.txt
+    % Documentation: pkg_physioset.import.txt
     % Description: Imports EEGLAB files
     
     methods
         function obj = eeglab(varargin)
-           obj = obj@pset.import.abstract_physioset_import(varargin{:}); 
+           obj = obj@physioset.import.abstract_physioset_import(varargin{:}); 
         end
     end
     

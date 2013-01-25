@@ -6,7 +6,7 @@ function obj = set_bad_sample(obj, idx)
 %
 % Where
 %
-% OBJ is a pset.physioset object
+% OBJ is a physioset.object
 %
 % IDX is the index or indices of the samples that are to be marked as bad
 %
@@ -14,7 +14,7 @@ function obj = set_bad_sample(obj, idx)
 % See also: clear_bad_sample, set_bad_channel, physioset
 
 % Description: Marks bad samples
-% Documentations: class_pset_physioset.txt
+% Documentations: class_physioset.txt
 
 import misc.isnatural;
 import eegpipe.exceptions.*;

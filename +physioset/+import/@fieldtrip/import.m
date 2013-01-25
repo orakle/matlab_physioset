@@ -6,11 +6,11 @@ function physioSet = import(obj, iFileName, varargin)
 %
 % Where
 %
-% OBJ is an pset.import.fieldtrip object
+% OBJ is an physioset.import.fieldtrip object
 %
 % IFILENAME is the name of the Fieldtrip file to be imported
 %
-% PHYSIOSETOBJ is a pset.physioset object containing the imported data
+% PHYSIOSETOBJ is a physioset.object containing the imported data
 %
 %
 % ## Optional arguments (as key/value pairs):
@@ -28,12 +28,12 @@ function physioSet = import(obj, iFileName, varargin)
 %   import external.regexpdir.regexpdir;
 %   % Get names of all .mff files under the root directory dataFolder
 %   myFiles = regexpdir('C:/dataFolder', '.mff$', true);
-%   myObj = import(pset.import.fileio, myFiles);
+%   myObj = import(physioset.import.fileio, myFiles);
 %
 %
-% See also: pset.import, pset.physioset.from_fieldtrip
+% See also: physioset.import. physioset.from_fieldtrip
 
-import pset.physioset;
+import physioset.
 import pset.event.event;
 import pset.file_naming_policy;
 import misc.process_arguments;
@@ -97,7 +97,7 @@ for i = 1:numel(fNames),
     end
 end
 if isempty(data),
-    ME = MException('pset:import:fieldtrip:MissingData', ...
+    ME = MException('physioset.import.fieldtrip:MissingData', ...
         'I could not find any M/EEG data structure in %s', iFileName);
     throw(ME);
 end

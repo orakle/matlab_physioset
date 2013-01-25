@@ -2,7 +2,7 @@ function [status, MEh] = test1()
 % TEST1 - Tests demo functionality
 
 import mperl.file.spec.*;
-import pset.physioset.*;
+import physioset.*;
 import test.simple.*;
 import eegpipe.session;
 import io.safefid;
@@ -78,7 +78,7 @@ try
     
     name = 'modify method config of physioset';
     warning('off', 'session:NewSession');
-    myPset = import(pset.import.matrix, randn(10,10000));
+    myPset = import(physioset.import.matrix, randn(10,10000));
     warning('on', 'session:NewSession');
     set_method_config(myPset, cfg);
     set_method_config(myPset, 'fprintf', {'ParseDisp', true});

@@ -59,7 +59,7 @@ myPlotter = set_config(myPlotter, 'Estimator', myEstimator, 'Folder', PATH);
 if INTERACTIVE, pause; clc; end
 
 %% Import some sample data and plot it
-myData = import(pset.import.matrix, randn(250, 10000));
+myData = import(physioset.import.matrix, randn(250, 10000));
 plot(myPlotter, myData);
 
 % See that the figures have been created in folder session.instance.Folder

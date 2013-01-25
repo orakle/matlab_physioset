@@ -13,10 +13,10 @@ function obj = concatenate(varargin)
 %
 % See also: physioset, pset
 
-% Documentation: class_pset_physioset.txt
+% Documentation: class_physioset.txt
 % Description: Concatenates physiosets
 
-import pset.physioset;
+import physioset.
 import pset.globals;
 import misc.process_arguments;
 
@@ -24,7 +24,7 @@ import misc.process_arguments;
 % to be concatenated
 optionalArguments = {};
 if nargin > 1,
-    isData = cellfun(@(x) isa(x, 'pset.physioset'), varargin);
+    isData = cellfun(@(x) isa(x, 'physioset.), varargin);
     idx = find(~isData(:), 1, 'first');
     if isempty(idx),
         optionalArguments = [];

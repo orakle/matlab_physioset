@@ -9,7 +9,7 @@ function obj    = add_event(obj, evArray)
 %
 % See also: event, physioset
 
-% Documentation: class_pset_physioset.txt
+% Documentation: class_physioset.txt
 % Description: Adds events to a physioset
 
 if isempty(evArray), return; end

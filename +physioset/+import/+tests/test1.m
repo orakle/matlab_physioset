@@ -2,7 +2,7 @@ function [status, MEh] = test1()
 % TEST1 - Test matrix importer
 
 import mperl.file.spec.*;
-import pset.import.matrix;
+import physioset.import.matrix;
 import test.simple.*;
 import eegpipe.session;
 import io.safefid;

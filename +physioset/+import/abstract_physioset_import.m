@@ -1,7 +1,7 @@
 classdef abstract_physioset_import < ...
-        pset.import.physioset_import & ...
-        pset.import.itypes.setget & ...
-        pset.import.itypes.verbose
+        physioset.import.physioset_import & ...
+        goo.abstract_setget & ...
+        goo.verbose
     % ABSTRACT_PHYSIOSET_IMPORT - Commonality among physioset_import classes
     %
     % The abstract_physioset_import class is an abstract class designed for
@@ -11,9 +11,9 @@ classdef abstract_physioset_import < ...
     % properties listed below can be set during construction of an object
     % of a child class using key/value pairs. For instance, the command:
     %
-    %   importObj = pset.import.eeglab('FileNaming', 'Temporary')
+    %   importObj = physioset.import.eeglab('FileNaming', 'Temporary')
     %
-    % will create an object of class pset.import.eeglab, which inherits
+    % will create an object of class physioset.import.eeglab, which inherits
     % from class abstract_physioset_import. The property 'FileNaming' (which
     % is defined by the abstract_physioset_import class) will be set to
     % 'Temporary'. 
@@ -46,9 +46,9 @@ classdef abstract_physioset_import < ...
     %                 also be imported. 
     %                 Default: true
     %  
-    % See also: pset.import.eegset_import
+    % See also: physioset.import.eegset_import
     
-    % Documentation: class_pset_import_abstract_physioset_import.txt
+    % Documentation: class_physioset.import.abstract_physioset_import.txt
     % Description: Commonality among eegset_import classes
  
     %% PROTECTED INTERFACE ................................................

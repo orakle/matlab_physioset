@@ -1,18 +1,18 @@
-classdef matrix < pset.import.abstract_physioset_import
+classdef matrix < physioset.import.abstract_physioset_import
     % MATRIX - Imports numeric MATLAB matrices
     %
     % ## Usage synopsis:
     % 
     % % Create a matrix importer with a sampling rate of 763 Hz
-    % myImporter = pset.import.matrix(763);
+    % myImporter = physioset.import.matrix(763);
     % obj = import(myImporter, randn(10,1000));
     %
     %
     % Where
     %
-    % MYIMPORTER is a pset.import.matrix object
+    % MYIMPORTER is a physioset.import.matrix object
     %
-    % OBJ is a pset.physioset object that contains that data values
+    % OBJ is a physioset.object that contains that data values
     % contained in matrix LFP.
     %
     % ## Optional construction arguments (as key/value pairs):
@@ -22,7 +22,7 @@ classdef matrix < pset.import.abstract_physioset_import
     %
     %
     %
-    % See also: abstract_physioset_import, pset.import
+    % See also: abstract_physioset_import, physioset.import.
     
     % Documentation: import.txt
     % Description: Imports a MATLAB matrix
@@ -92,7 +92,7 @@ classdef matrix < pset.import.abstract_physioset_import
         
     end
     
-    % pset.import.interface
+    % physioset.import.interface
     methods
         
         physObj = import(obj, filename, varargin);
@@ -113,7 +113,7 @@ classdef matrix < pset.import.abstract_physioset_import
                 sr = globals.get.SamplingRate;
             end
             
-            obj = obj@pset.import.abstract_physioset_import(varargin{:});            
+            obj = obj@physioset.import.abstract_physioset_import(varargin{:});            
            
             obj.SamplingRate = sr;            
             

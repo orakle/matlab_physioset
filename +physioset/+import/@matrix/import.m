@@ -7,7 +7,7 @@ function pObj = import(obj, varargin)
 %
 % M!, M2, ... are the numeric matrices to be imported
 %
-% POBJ is a pset.physioset object
+% POBJ is a physioset.object
 %
 % ## Notes:
 %
@@ -17,12 +17,12 @@ function pObj = import(obj, varargin)
 %   more than 3 dimensions are not supported.
 %
 %
-% See also: import, pset.physioset
+% See also: import, physioset.
 
 % Documentation: class_matrix.txt
 % Description: Imports a numeric data matrix
 
-import pset.import.itypes.physioset;
+import physioset.import.itypes.physioset;
 import pset.pset;
 import pset.event.std.trial_begin;
 

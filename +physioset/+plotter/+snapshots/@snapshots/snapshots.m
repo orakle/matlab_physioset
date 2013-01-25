@@ -19,7 +19,7 @@ classdef snapshots < pset.plotter.physioset_gallery_plotter
     %   myPlotter = set_config(myPlotter, 'WinLength', 10);
     %
     %   % Import some sample data and plot it
-    %   myData = import(pset.import.matrix, randn(250, 10000))
+    %   myData = import(physioset.import.matrix, randn(250, 10000))
     %
     %   % Do the plotting...
     %   plot(myPlotter, myData);

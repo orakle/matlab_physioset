@@ -10,7 +10,7 @@ units{'cm', 'mm', 'm'} = {1, 0.1, 100};
 
 factor = units(grad.unit);
 if isempty(factor),
-    error('pset:import:neuromag:change_unit:InvalidUnit', ...
+    error('physioset.import.neuromag:change_unit:InvalidUnit', ...
         'Unknown MEG sensor positions units: %s', grad.unit);
 end
 grad.chanpos = grad.chanpos*factor;

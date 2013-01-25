@@ -1,5 +1,5 @@
 function y = copy(obj, varargin)
-% COPY - Creates a copy of a pset.physioset object
+% COPY - Creates a copy of a physioset.object
 %
 % objNew = copy(obj)
 %
@@ -7,7 +7,7 @@ function y = copy(obj, varargin)
 %
 % Where
 %
-% OBJ and OBJNEW are two identical but otherwise independent pset.physioset
+% OBJ and OBJNEW are two identical but otherwise independent physioset.
 % objects.
 %
 % 
@@ -37,19 +37,19 @@ function y = copy(obj, varargin)
 %
 % ## Notes:
 %
-% * All key/value pairs accepted by the constructor of pset.physioset
+% * All key/value pairs accepted by the constructor of physioset.
 %   objects are also accepted. Those key/value pairs will be passed directly
 %   to the constructor.
 %
 %
 % See also: physioset
 
-% Documentation: class_pset_physioset.txt
+% Documentation: class_physioset.txt
 % Description: Copies physioset objects
 
 %% Preliminaries
 import misc.process_arguments;
-import pset.physioset.physioset;
+import physioset.physioset;
 import mperl.file.spec.catfile;
 import eegpipe.session;
 import pset.globals;

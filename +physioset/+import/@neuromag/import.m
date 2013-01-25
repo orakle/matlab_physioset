@@ -6,9 +6,9 @@ function physiosetObj = import(obj, fileNameIn, varargin)
 %
 % Where
 %
-% OBJ is an pset.import.fileio object
+% OBJ is an physioset.import.fileio object
 %
-% PHYSIOSETOBJ is a pset.physioset object
+% PHYSIOSETOBJ is a physioset.object
 %
 % IFILENAME is the name of the EDF+ file to be imported
 %
@@ -47,7 +47,7 @@ function physiosetObj = import(obj, fileNameIn, varargin)
 %                  Default: [], last recorded sample
 %
 % 'Folder'      : (string) If provided, all files in the specified folder
-%                 will be imported, i.e. a cell array of pset.physioset
+%                 will be imported, i.e. a cell array of physioset.
 %                 objects will be returned.
 %                 Default: []
 %
@@ -88,7 +88,7 @@ function physiosetObj = import(obj, fileNameIn, varargin)
 %   an event of type 'Target' and value matching the corresponding trigger
 %   value.
 %
-% See also: pset.import.
+% See also: physioset.import.
 
 % Deal with the multi-filename case
 if iscell(fileNameIn),
@@ -99,9 +99,9 @@ if iscell(fileNameIn),
     return;
 end
 
-import pset.import.neuromag;
-import pset.physioset;
-import pset.import.globals;
+import physioset.import.neuromag;
+import physioset.
+import physioset.import.globals;
 import pset.event;
 import pset.file_naming_policy;
 import misc.process_arguments;
@@ -240,7 +240,7 @@ end
 nbChunks = length(boundary) - 1;
 fid = fopen(opt.filename, 'w');
 if fid < 1,
-    ME = MException('pset:import:fileio:import', ...
+    ME = MException('physioset.import.fileio:import', ...
         'I could not open file %s for writing', opt.filename);
     throw(ME);
 end

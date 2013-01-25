@@ -6,7 +6,7 @@ function ftripStruct = fieldtrip(obj, varargin)
 %
 % Where
 %
-% OBJ is a pset.physioset object
+% OBJ is a physioset.object
 %
 % FTRIPSTRUCT is a Fieldtrip-compatible data structure
 %
@@ -32,7 +32,7 @@ function ftripStruct = fieldtrip(obj, varargin)
 %
 % See also: eeglab, physioset, event
 
-% Documentation: class_pset_physioset.txt
+% Documentation: class_physioset.txt
 % Description: Conversion to Fieldtrip structure
 
 import pset.event.event;

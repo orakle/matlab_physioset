@@ -93,7 +93,7 @@ end
 try
     
     name = 'plot sample data';
-    myData = import(pset.import.matrix, randn(250, 10000));
+    myData = import(physioset.import.matrix, randn(250, 10000));
     plot(myPlotter, myData);
     ok(true, name);
     

@@ -1,6 +1,6 @@
 function varargout = get_chunk(obj, varargin)
 
-import pset.physioset;
+import physioset.
 
 if nargout == 1,
     varargout{1} = get_chunk(obj.PointSet, varargin{:});

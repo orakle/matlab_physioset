@@ -1,7 +1,7 @@
 function obj = from_fieldtrip(fStruct, varargin)
 % FROM_FIELDTRIP - Construction from FIELDTRIP structure
 %
-% import pset.physioset;
+% import physioset.
 % obj = physioset.from_fieldtrip(fStruct);
 % obj = physioset.from_fieldtrip(fStruct, 'key', value, ...)
 %
@@ -30,14 +30,14 @@ function obj = from_fieldtrip(fStruct, varargin)
 %           objects is destructed?
 %
 %
-% See also: pset.physioset, pset.eegset.from_pset, pset.eegset.from_eeglab
+% See also: physioset. pset.eegset.from_pset, pset.eegset.from_eeglab
 
-% Documentation: class_pset_physioset.txt
+% Documentation: class_physioset.txt
 % Description: Converts Fieldtrip struct into a physioset object
 
 import pset.event.event;
 import pset.pset;
-import pset.physioset;
+import physioset.
 import misc.process_arguments;
 
 %% Error checking
@@ -64,7 +64,7 @@ if isfield(fStruct, 'grad'),
 elseif isfield(fStruct, 'elec'),
     sensorsObj = sensors.eeg.from_fieldtrip(fStruct.elec, fStruct.label);
 else
-    warning('pset:physioset:from_fieldtrip:MissingSensorInformation', ...
+    warning('physioset.from_fieldtrip:MissingSensorInformation', ...
         ['Fieldtrip structure does not contain sensor information:' ...
         'Assuming vanilla EEG sensors']);
     sensorsObj = sensors.eeg.empty();

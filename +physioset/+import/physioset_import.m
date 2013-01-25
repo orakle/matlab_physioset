@@ -3,9 +3,9 @@ classdef physioset_import
     %
     %
     %
-    % See also: pset.import.abstract_physioset_import, pset.import
+    % See also: physioset.import.abstract_physioset_import, pset.import
     
-    % Documentation: pkg_pset_import.txt
+    % Documentation: pkg_physioset.import.txt
     % Description: Interface for physioset importer classes
     
    methods (Abstract)

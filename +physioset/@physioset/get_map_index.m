@@ -1,6 +1,6 @@
 function varargout = get_map_index(obj, varargin)
 
-import pset.physioset;
+import physioset.
 
 if nargout == 1,
     varargout{1} = get_map_index(obj.PointSet, varargin{:});

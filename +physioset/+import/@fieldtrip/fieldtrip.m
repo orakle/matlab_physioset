@@ -1,23 +1,23 @@
-classdef fieldtrip < pset.import.abstract_physioset_import
+classdef fieldtrip < physioset.import.abstract_physioset_import
     % FIELTRIP - Class for importing FIELTRIP files
     %
-    % obj = pset.import.fieldtrip('key', value, ...)
+    % obj = physioset.import.fieldtrip('key', value, ...)
     %
     %
     % ## Accepted key/value pairs:
     %
-    %   * See: help pset.import.abstract_physioset_import
+    %   * See: help physioset.import.abstract_physioset_import
     %
-    % See also: pset.import, pset.physioset.from_fieldtrip
+    % See also: physioset.import. physioset.from_fieldtrip
     
-    % Documentation: pkg_pset_import.txt
+    % Documentation: pkg_physioset.import.txt
     % Description: Imports FIELDTRIP files
     
     
     
     methods
         function obj = fieldtrip(varargin)
-           obj = obj@pset.import.abstract_physioset_import(varargin{:}); 
+           obj = obj@physioset.import.abstract_physioset_import(varargin{:}); 
         end
     end
     

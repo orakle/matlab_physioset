@@ -5,7 +5,7 @@ function obj = subset(obj, varargin)
 %
 % Where
 %
-% OBJ is a pset.physioset object
+% OBJ is a physioset.object
 %
 % ROWIDX is a numeric array of channel indices
 %
@@ -14,12 +14,12 @@ function obj = subset(obj, varargin)
 % OBJNEW is the newly created physioset object
 %
 %
-% See also: pset.physioset, pset
+% See also: physioset. pset
 
 % Documentation: class_physioset.txt
 % Description: Creates physioset from a subset of another physioset
 
-import pset.physioset.physioset;
+import physioset.physioset;
 import misc.pkgisa;
 
 if nargin == 2 && pkgisa(varargin{1}, 'data_selector'),

@@ -1,19 +1,19 @@
 classdef physioset < ...
-        pset.physioset.itypes.mmappset & ...
-        pset.physioset.itypes.printable_handle & ...
-        pset.physioset.itypes.verbose_handle
+        physioset.itypes.mmappset & ...
+        physioset.itypes.printable_handle & ...
+        physioset.itypes.verbose_handle
     % PHYSIOSET - Memory-mapped Physiological dataset
     %
     %
     % ## Construction:
     %
-    % obj = pset.physioset.physioset
-    % obj = pset.physioset.physioset('key', value, ...)
+    % obj = physioset.physioset
+    % obj = physioset.physioset('key', value, ...)
     %
     %
     % Where
     %
-    % OBJ is a pset.physioset.physioset object
+    % OBJ is a physioset.physioset object
     %
     %
     % ## Optional construction arguments (as key/value pairs):
@@ -39,9 +39,9 @@ classdef physioset < ...
     % ## Usage synopsis:
     %
     % % Import data from a disk file (see <a href="matlab:help
-    % pset.import">pset.import</a>)
+    % physioset.import.>physioset.import./a>)
     % session.instance('D:/tmp');
-    % myPhysioset = import(pset.import.mff, 'myrec.mff')
+    % myPhysioset = import(physioset.import.mff, 'myrec.mff')
     %
     % % Identify and mark bad channels
     % idx = find_bad_channels(myPhysioset);
@@ -62,7 +62,7 @@ classdef physioset < ...
     % myFtripStruct = fieldtrip(myPhysioset);
     %
     % % Construct back a physioset object from Fieldtrip struct
-    % myPhysioset2 = pset.physioset.physioset.from_fieldtrip(myFtripStruct);
+    % myPhysioset2 = physioset.physioset.from_fieldtrip(myFtripStruct);
     %
     % % Filter the physioset
     % filtObj = filter.lpfilt('fc', 0.5) % A low pass filter
@@ -72,7 +72,7 @@ classdef physioset < ...
     % filtObj = filter(filtObj, myPhysioset2);
     %
     % % In both cases, the data values contained in myPhysioset2 WILL be
-    % % modified. This is because class pset.physioset.physioset is a <a
+    % % modified. This is because class physioset.physioset is a <a
     % href="matlab:help handle">handle</a> class.
     % % If you want to pass a physioset object by value, you need to
     % % explicitely create a copy of the object:
@@ -107,7 +107,7 @@ classdef physioset < ...
         Event;              % One or more pset.event objects
         Sensors;            % A sensors.physiology object
         SamplingTime;       % Sampling instants relative to StartTime
-        Config = pset.physioset.config;     % Method configuration options
+        Config = physioset.config;     % Method configuration options
         ProcHistory = {};   
         
     end
@@ -529,7 +529,7 @@ classdef physioset < ...
         function obj        = minus(varargin)
             
             for i = 1:nargin
-                if isa(varargin{i}, 'pset.physioset.physioset'),
+                if isa(varargin{i}, 'physioset.physioset'),
                     obj = varargin{i};
                     varargin{i} = obj.PointSet;
                 end
@@ -539,7 +539,7 @@ classdef physioset < ...
         
         function obj        = mrdivide(varargin)
             for i = 1:nargin
-                if isa(varargin{i}, 'pset.physioset.physioset'),
+                if isa(varargin{i}, 'physioset.physioset'),
                     varargin{i} = varargin{i}.PointSet;
                 end
             end
@@ -548,7 +548,7 @@ classdef physioset < ...
         
         function obj        = mtimes(varargin)
             for i = 1:nargin
-                if isa(varargin{i}, 'pset.physioset.physioset'),
+                if isa(varargin{i}, 'physioset.physioset'),
                     varargin{i} = varargin{i}.PointSet;
                 end
             end
@@ -561,7 +561,7 @@ classdef physioset < ...
         
         function obj        = plus(varargin)
             for i = 1:nargin
-                if isa(varargin{i}, 'pset.physioset.physioset'),
+                if isa(varargin{i}, 'physioset.physioset'),
                     obj = varargin{i};
                     varargin{i} = obj.PointSet;
                 end
@@ -575,7 +575,7 @@ classdef physioset < ...
         
         function obj        = rdivide(varargin)
             for i = 1:nargin
-                if isa(varargin{i}, 'pset.physioset.physioset'),
+                if isa(varargin{i}, 'physioset.physioset'),
                     obj = varargin{i};
                     varargin{i} = obj.PointSet;
                 end
@@ -619,7 +619,7 @@ classdef physioset < ...
         
         function obj        = times(varargin)
             for i = 1:nargin
-                if isa(varargin{i}, 'pset.physioset.physioset'),
+                if isa(varargin{i}, 'physioset.physioset'),
                     obj = varargin{i};
                     varargin{i} = obj.PointSet;
                 end

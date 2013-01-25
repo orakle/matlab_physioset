@@ -3,11 +3,11 @@ function disp(obj)
 import misc.join;
 
 if usejava('Desktop'),
-    disp(['<a href="matlab:help pset.physioset">pset.physioset</a> ' ...
+    disp(['<a href="matlab:help physioset.>physioset./a> ' ...
         '<a href="matlab:help handle">handle</a>']);
     disp('Package: <a href="matlab: help pset">pset</a>');
 else
-    disp('pset.physioset handle');
+    disp('physioset.handle');
     disp('Package: pset');
 end
 
