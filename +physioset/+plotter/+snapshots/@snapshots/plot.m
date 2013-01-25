@@ -41,9 +41,9 @@ import mperl.join;
 import misc.unique_filename;
 import goo.pkgisa;
 import pset.plotter.snapshots.snapshots;
-import eegpipe.session;
+import pset.session;
 import inkscape.svg2png;
-import external.jan_simon.DataHash;
+import datahash.DataHash;
 import plotter.cell2ticks;
 
 %% Error checking

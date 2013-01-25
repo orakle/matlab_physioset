@@ -1,7 +1,7 @@
 function name = default_name(obj)
 % DEFAULT_NAME - Default physioset object name
 
-import external.jan_simon.DataHash;
+import datahash.DataHash;
 
 dataFile = get_datafile(obj);
 

@@ -41,7 +41,7 @@ import plotter.driver2format;
 import external.plot2svg.plot2svg;
 import goo.pkgisa;
 import eegpipe.globals;
-import eegpipe.session;
+import pset.session;
 import misc.legend2location;
 import inkscape.svg2png;
 

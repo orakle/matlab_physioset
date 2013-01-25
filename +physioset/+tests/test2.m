@@ -4,9 +4,9 @@ function [status, MEh] = test2()
 import mperl.file.spec.*;
 import physioset.*;
 import test.simple.*;
-import eegpipe.session;
-import io.safefid;
-import external.jan_simon.DataHash;
+import pset.session;
+import safefid.safefid;
+import datahash.DataHash;
 import misc.rmdir;
 
 MEh     = [];

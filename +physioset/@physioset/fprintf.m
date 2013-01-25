@@ -6,7 +6,7 @@ function count = fprintf(fid, obj, varargin)
 %
 % Where
 %
-% FID is a file handle or a io.safefid object
+% FID is a file handle or a safefid.safefid object
 %
 % OBJ is a physioset object
 %

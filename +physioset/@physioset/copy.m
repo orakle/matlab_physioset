@@ -51,7 +51,7 @@ function y = copy(obj, varargin)
 import misc.process_arguments;
 import physioset.physioset;
 import mperl.file.spec.catfile;
-import eegpipe.session;
+import pset.session;
 import pset.globals;
 
 dataExt             = globals.get.DataFileExt;

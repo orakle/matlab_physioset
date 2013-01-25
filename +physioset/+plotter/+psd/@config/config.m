@@ -390,7 +390,7 @@ classdef config < goo.abstract_setget_handle
         
         function obj = config(varargin)
             
-            import eegpipe.session;
+            import pset.session;
             
             obj = obj@goo.abstract_setget_handle(varargin{:});
             

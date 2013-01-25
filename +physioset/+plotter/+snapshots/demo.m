@@ -10,9 +10,9 @@
 %
 % See also: snapshots, make_test
 
-import eegpipe.session;
+import pset.session;
 import mperl.file.find.regexpdir;
-import external.jan_simon.DataHash;
+import datahash.DataHash;
 import mperl.file.spec.catdir;
 
 if ~exist('VISIBLE', 'var') || isempty(VISIBLE), %#ok<*NODEF>

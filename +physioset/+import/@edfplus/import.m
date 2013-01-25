@@ -12,7 +12,7 @@ import io.edfplus.isedfplus;
 import io.edfplus.read;
 import pset.file_naming_policy;
 import pset.globals;
-import io.safefid;
+import safefid.safefid;
 import misc.eta;
 import io.edfplus.labels2sensors;
 import physioset.physioset;
