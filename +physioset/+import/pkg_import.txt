@@ -1,0 +1,116 @@
+Package: import
+============
+
+[[Parent]]: pkg_pset.txt
+
+The `pset.import` package contains classes that implement the 
+[pset.import.eegset_import][eegset_import-ifc] interface. Below we refer to
+such classes as _data importer_ classes. These classes
+can be used to generate [eegset][class_eegset] objects from disk files
+ containing EEG data.
+
+[eegset_import-ifc]: ./eegset_import.m.htm
+[class_eegset]: [[Ref: class_pset_eegset.txt]]
+
+## The pset.import interface
+
+The `pset.import` interface defines only one the following method:
+
+### eegsetObj = import(obj, filename, 'key', value, ...)
+
+`obj` is an object of a class that implements the `pset.import` interface.
+
+`filename` is the name of the file to be imported. 
+
+`eegsetObj` is an [eegset][class_eegset] object that contains the imported 
+EEG data. 
+
+Optional arguments can be provided as key/value pairs. These optional 
+arguments are not defined in any way by the interface, but may be defined
+by the final classes implementing the interface. 
+
+## Importing EEG from a disk file
+
+Few examples of this operation can be found below. See `help pset.import`
+for a list of all available data importers. 
+
+
+### Importing from EGI's raw data format
+
+You can import data in [EGI][egi]'s .raw data format, or in any other 
+format supported by [Fieldtrip's fileio module][fileio], using the 
+`pset.import.fileio` class: 
+
+    % An importer object that uses Fieldtrip's fileio functionality
+    importObj = pset.import.fileio; 
+
+    % Import data from an EGI .raw file
+    eegsetObj = import(importObj, 'D:/data1/SleepWM.S003.100426.ECRS1.raw')
+
+
+[egi]: http://www.egi.com/
+[fileio]: http://fieldtrip.fcdonders.nl/development/fileio
+
+[import-pkg]: [[Ref:pkg_pset_import.txt]]
+
+### From EEGLAB .set files
+
+An `eegset` object can be generated from an [EEGLAB][eeglab] .set file:
+
+[eeglab]: http://sccn.ucsd.edu/eeglab/
+
+    eegsetObj = import(pset.import.eeglab, 'myeeg.set');
+
+
+### From Fieldtrip .mat files
+
+An `eegset` object can be generated from a 
+[Fieldtrip raw data structure][fieldtrip-ds] that has been saved in a `.mat` 
+file:
+
+    myFieldtripStr;                 % A Fieldtrip raw data structure
+    save myfile.mat myFieldtripStr; % We save it in a .mat file
+    eegsetObj = import(pset.import.fieldtrip, 'myfile.mat');
+
+[fieldtrip-ds]: http://fieldtrip.fcdonders.nl/faq/how_are_the_various_data_structures_defined
+
+Of course, if the Fieldtrip structure is already available in MATLAB's 
+workspace, construction of an equivalent `eegset` object can be 
+directly done using a suitable static contructor:
+
+    
+    myFtripStr;                 % A Fieldtrip raw data structure
+    eegsetObj = pset.eegset.from_fieldtrip(myFtripStr);
+
+See the documentation of the [eegset class][class_eegset] for more 
+information on available static contructors. 
+
+
+### Modifying the data import process
+
+The behavior of any data importer modified during construction of the
+ corresponding data importer object. For instance:
+
+    myImporter = pset.import.fileio('FileNaming', 'Inherit');
+    eegsetObj = import(myImporter, 'myfile.raw');
+
+will generate an `eegset` object whose memory mapped file inherits its 
+path from the path of the input file name, which is not the default 
+behavior of the `pset.import.fileio` class. This change in behavior takes 
+place by modifying the `FileNaming` property of the object `myImporter`.
+
+Data importer properties may be 
+defined at the level of the final class (in the example above they could 
+have been defined by the `pset.import.fileio` class), and, therefore, they
+are not necessarily shared between different importer classes. However, 
+all data importer classes inherit few standard properties from
+[class abstract_eegset_import][class_abstract_eegset_import], which is an
+ [abstract class][abstract_class] designed for inheritance only. In 
+particular, the property `FileNaming` is one of such standard properties. 
+See the documentation of the documentation of the 
+[class abstract_eegset_import][class_abstract_eegset_import] for information
+on this and other standard properties. 
+
+[abstract_class]: http://www.mathworks.nl/help/techdoc/matlab_oop/brgxk22-1.html
+[class_abstract_eegset_import]: [[Ref:class_pset_import_abstract_eegset_import.txt]]
+

@@ -1,0 +1,60 @@
+classdef physioset < pset.import.abstract_physioset_import
+    % PHYSIOSET - Class for importing .pset files
+    %
+    % obj = pset.import.eeglab('key', value, ...)
+    %
+    %
+    % ## Accepted key/value pairs:
+    %
+    % See help pset.import.abstract_physioset_import
+    %
+    %
+    %
+    % See also: pset.import.abstract_physioset_import
+    
+    % Documentation: pkg_pset_import.txt
+    % Description: Imports .pset files
+    
+    % Exceptions that may thrown by methods of this class
+    methods (Static, Access = private)
+        function obj = InvalidConcatenate
+           obj = MException('pset:import:physioset:InvalidConcatenate', ...
+               'The Concatenate property must be a logical scalar');
+        end
+        function obj = InvalidInput(msg)
+           obj = MException('pset:import:physioset:InvalidInput', ...
+               msg);
+        end
+    end
+    
+    % BEGIN PUBLIC INTERFACE ##############################################
+    properties 
+       Concatenate; 
+    end
+    
+    methods
+        function obj = physioset(varargin)
+           obj = obj@pset.import.abstract_physioset_import(varargin{:}); 
+        end       
+    end
+    
+    % pset.import.interface
+    methods
+        eegset_obj = import(obj, ifilename, varargin);        
+    end
+    
+    % consistency checks
+    methods
+        function obj = set.Concatenate(obj, value)
+           import pset.import.physioset;
+           if ~isempty(value) && ~islogical(value) || numel(value)~=1,
+               throw(physioset.InvalidConcatenate);
+           end
+           obj.Concatenate = value;
+        end
+    end
+    % END PUBLIC INTERFACE ##############################################
+    
+    
+    
+end
