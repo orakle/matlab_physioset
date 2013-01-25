@@ -22,7 +22,7 @@ function pObj = import(obj, varargin)
 % Documentation: class_matrix.txt
 % Description: Imports a numeric data matrix
 
-import physioset.import.itypes.physioset;
+import physioset.physioset;
 import pset.pset;
 import pset.event.std.trial_begin;
 

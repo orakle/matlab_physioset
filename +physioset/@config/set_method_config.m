@@ -24,7 +24,7 @@ while i < numel(varargin)
     cfg    = varargin{i+1};
     i      = i + 2;
     
-    if pkgisa(cfg, 'mjava.hash'),
+    if isa(cfg, 'mjava.hash'),
         cfg = cell(cfg);
     end
     

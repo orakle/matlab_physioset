@@ -1,4 +1,4 @@
-classdef physioset.sensors.
+classdef sensors
     % SENSORS - Interface for sensor array description classes
     %
     %

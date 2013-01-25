@@ -710,7 +710,7 @@ classdef physioset < ...
             [~, opt] = process_arguments(opt, varargin);
             
             if isempty(opt.sensors),
-                opt.sensors= physioset.sensors.dummy(size(obj.PointSet,1));
+                opt.sensors = physioset.sensors.dummy(size(obj.PointSet,1));
             end
             
             % physioset name

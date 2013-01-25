@@ -79,7 +79,7 @@ classdef matrix < physioset.import.abstract_physioset_import
                 return;
             end
             
-            if ~pkgisa(value, 'physioset.sensors.),
+            if ~isa(value, 'physioset.sensors.sensors'),
                
                 throw(InvalidPropValue('Sensors', ...
                     'Must be a physioset.sensors.object'));
