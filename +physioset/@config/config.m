@@ -1,4 +1,4 @@
-classdef config < pset.physioset.itypes.abstract_config
+classdef config < goo.abstract_setget_handle
     % CONFIG - Default configuration options for class physioset
     %
     % ## Usage synopsis:

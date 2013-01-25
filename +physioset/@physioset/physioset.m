@@ -265,7 +265,7 @@ classdef physioset < ...
         
     end
     
-    % report.printable_handle interface
+    % goo.printable_handle interface
     methods
         
         count = fprintf(fid, obj);

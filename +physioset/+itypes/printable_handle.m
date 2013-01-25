@@ -1,4 +1,4 @@
-classdef printable_handle < report.printable_handle
+classdef printable_handle < goo.printable_handle
     
     
     

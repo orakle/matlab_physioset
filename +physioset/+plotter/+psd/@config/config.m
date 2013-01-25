@@ -1,4 +1,4 @@
-classdef config < pset.plotter.itypes.abstract_config
+classdef config < goo.abstract_setget_handle
     % CONFIG - Configuration for class psd
     %
     % ## Usage synopsis:
@@ -392,7 +392,7 @@ classdef config < pset.plotter.itypes.abstract_config
             
             import eegpipe.session;
             
-            obj = obj@pset.plotter.itypes.abstract_config(varargin{:});
+            obj = obj@goo.abstract_setget_handle(varargin{:});
             
             if nargin < 2,
                 % Copy constructor
