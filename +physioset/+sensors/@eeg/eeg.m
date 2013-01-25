@@ -79,7 +79,7 @@ classdef eeg < physioset.sensors.physiology
             if ~isempty(obj.Label) && length(obj.Label) ~= nb_sensors(obj),
                 if isempty(obj.Label)
                     throw(abstract_physioset.sensors.InvalidPropValue('Label', ...
-                        'Does not match number of physioset.sensors.));
+                        'Does not match number of sensors'));
                 end
             end
         end
@@ -198,10 +198,10 @@ classdef eeg < physioset.sensors.physiology
         
     end
     
-    % From physioset.sensors.sensorsinterface (redefinitions)
+    % From physioset.sensors.sensors interface (redefinitions)
     methods
         
-        physioset.sensors.= subset(physioset.sensors. idx);
+        sensObj = subset(sensObj, idx);
         
     end
     
@@ -236,7 +236,7 @@ classdef eeg < physioset.sensors.physiology
                 @(x) io.edfplus.is_valid_label(x, 'EEG'), ...
                 obj.Label);
             if ~all(isValid),
-                warning('physioset.sensors.InvalidLabel', ...
+                warning('sensors:InvalidLabel', ...
                     ['Sensor labels are not EDF+ compatible. \n' ...
                     'Automatically creating compatible EEG labels: ' ...
                     'EEG 1, EEG 2, ...']),
@@ -251,7 +251,7 @@ classdef eeg < physioset.sensors.physiology
             
             %% Ensure valid PhysDims
             if isempty(obj.PhysDim),
-                warning('physioset.sensors.MissingPhysDim', ...
+                warning('sensors:MissingPhysDim', ...
                     'Physical dimensions not provided: assuming uV');
                 obj.PhysDim = repmat({'uV'}, size(obj.Label, 1), 1);
             end

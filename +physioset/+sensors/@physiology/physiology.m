@@ -61,12 +61,12 @@ classdef physiology < physioset.sensors.abstract_sensors
             
             if numel(obj.TransducerType)~= obj.NbSensors,
                 throw(InvalidPropValue('TransducerType', ...
-                    'Must match number of physioset.sensors.));
+                    'Must match number of sensors'));
             end
             
             if numel(obj.PhysDim)~= obj.NbSensors,
                 throw(InvalidPropValue('PhysDim', ...
-                    'Must match the number of physioset.sensors.));
+                    'Must match the number of sensors'));
             end
             
             isValid = is_valid_dim(obj.Type, opt.physdim);
@@ -254,7 +254,7 @@ classdef physiology < physioset.sensors.abstract_sensors
             obj.PhysDim = value;
         end
         
-        physioset.sensors.= subset(physioset.sensors. idx);
+        sensObj = subset(sensObj, idx);
     end
     
     % Static constructors
