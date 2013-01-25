@@ -6,7 +6,7 @@ function hashObj = fprintf(hashObj, varargin)
 % Documentation: class_physioset_impl.txt
 % Description: Check configuration options for method fprintf
 
-import eegpipe.exceptions.*;
+import exceptions.*
 
 i = 1;
 while i < numel(varargin)

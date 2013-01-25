@@ -38,7 +38,7 @@ classdef edfplus < physioset.import.abstract_physioset_import
     
     properties
         
-        Sensors;        % A sensors.sensors object
+        Sensors;        % A physioset.sensors.sensorsobject
         SignalType;        
         Channels;
         StartTime;
@@ -60,9 +60,9 @@ classdef edfplus < physioset.import.abstract_physioset_import
                return;
            end
            
-           if ~isa(value, 'sensors.sensors'),
+           if ~isa(value, 'physioset.sensors.sensors),
                throw(InvalidPropValue('Sensors', ...
-                   'Must be a sensors.sensors object'));
+                   'Must be a physioset.sensors.sensorsobject'));
            end
            
            obj.Sensors = value;

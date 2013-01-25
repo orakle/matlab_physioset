@@ -1,7 +1,7 @@
 function obj = guess_from_labels(inputLabels)
 % GUESS_FROM_LABELS - Attempt to build sensor array from sensor labels
 %
-% obj = sensors.eeg.guess_from_labels(inputLabels)
+% obj = physioset.sensors.eeg.guess_from_labels(inputLabels)
 %
 % Where
 %
@@ -17,16 +17,16 @@ function obj = guess_from_labels(inputLabels)
 %
 % * This static constructor will scan all the templates available within
 %   the templates directory and pick the first template: (1) whose number
-%   of EEG sensors matches the number of provided labels, and (2) whose
+%   of EEG physioset.sensors.matches the number of provided labels, and (2) whose
 %   sensor labels approximately match the provided labels.
 %
 %
-% See also: sensors.eeg, sensors.eeg.from_template
+% See also: physioset.sensors.eeg, physioset.sensors.eeg.from_template
 
 import misc.dir;
 import mperl.file.spec.catdir;
-import sensors.root_path;
-import sensors.eeg;
+import physioset.sensors.root_path;
+import physioset.sensors.eeg;
 
 % List of available templates
 templList = dir(catdir(root_path, 'templates'), '.hpts$');
@@ -45,7 +45,7 @@ for i = 1:numel(templList)
     
 end
 
-obj = sensors.dummy(numel(inputLabels), 'Label', inputLabels);
+obj = physioset.sensors.dummy(numel(inputLabels), 'Label', inputLabels);
 
 end
 

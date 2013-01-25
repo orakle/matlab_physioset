@@ -3,11 +3,11 @@ classdef coils < setget
     %
     % ## Construction
     %
-    % obj = sensors.coils('key', value, ...)
+    % obj = physioset.sensors.coils('key', value, ...)
     %
     % Where
     %
-    % OBJ is a sensors.coils object
+    % OBJ is a physioset.sensors.coils object
     %
     %
     % ## Accepted key/value pairs:
@@ -41,18 +41,18 @@ classdef coils < setget
     %
     % ## Usage examples:
     %
-    % % Create an array of empty sensors.coils objects:
-    % myArray = repmat(sensors.coils, 1, 100)
+    % % Create an array of empty physioset.sensors.coils objects:
+    % myArray = repmat(physioset.sensors.coils, 1, 100)
     %
-    % % Create a fully qualified sensors.coils object:
-    % myCoils = sensors.coils('Cartesian', M, 'Orientation', V, ...
+    % % Create a fully qualified physioset.sensors.coils object:
+    % myCoils = physioset.sensors.coils('Cartesian', M, 'Orientation', V, ...
     %    'Weights', W);
     %
     % % It is very unlikely that you may want to construct an instance of
     % % this class in other way than the two examples shown above.
     %
     %
-    % See also: sensors.meg, sensors
+    % See also: physioset.sensors.meg, physioset.sensors.
     
     properties (SetAccess = 'private')
         Cartesian;
@@ -64,38 +64,38 @@ classdef coils < setget
     methods (Static, Access = private)
         function obj = InvalidOrientation
             obj = MException(...
-                'sensors:coils:InvalidOrientation', ...
+                'physioset.sensors.coils:InvalidOrientation', ...
                 'Invalid coils orientations');
         end
         
         function obj = InvalidCoordinates
             obj = MException(...
-                'sensors:coils:InvalidCoordinates', ...
+                'physioset.sensors.coils:InvalidCoordinates', ...
                 'Invalid coils coordinates');
         end
         
         function obj = InvalidWeights
             obj = MException(...
-                'sensors:coils:InvalidWeights', ...
+                'physioset.sensors.coils:InvalidWeights', ...
                 'Invalid sensor weights');
         end
         
         function obj = MissingCoordinates
             obj = MException(...
-                'sensors:coils:MissingCoordinates', ...
+                'physioset.sensors.coils:MissingCoordinates', ...
                 'Missing coils coordinates');
         end
         
         function obj = MissingOrientation
             obj = MException(...
-                'sensors:coils:MissingOrientations', ...
+                'physioset.sensors.coils:MissingOrientations', ...
                 'Missing coils orientations');
         end
     end
     
     methods (Access = private)
         function obj = check(obj)
-            import sensors.coils;
+            import physioset.sensors.coils;
             
             if ~isempty(obj.Cartesian) && isempty(obj.Orientation),
                 throw(coils.MissingOrientation);
@@ -161,7 +161,7 @@ classdef coils < setget
         % Set/Get methods
         function obj = set.Cartesian(obj, value)
             InvalidCoordinates =  ...
-                MException('sensors:eeg:InvalidCoordinates', ...
+                MException('physioset.sensors.eeg:InvalidCoordinates', ...
                 'Invalid sensor coordinates');
             if (~isnumeric(value) || any(value(:)>=Inf) || ...
                     any(value(:)<=-Inf)) ...
@@ -172,7 +172,7 @@ classdef coils < setget
         end     
     end
     
-    % So that method subset works for sensors of class sensors.meg
+    % So that method subset works for physioset.sensors.of class physioset.sensors.meg
     methods
         obj = subset(obj, idx);
     end

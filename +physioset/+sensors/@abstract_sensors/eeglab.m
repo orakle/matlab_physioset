@@ -5,14 +5,14 @@ function outStr = eeglab(obj)
 %
 % where
 %
-% OBJ is a sensors.physiology object
+% OBJ is a physioset.sensors.physiology object
 %
 % STR is a struct array that complies with EEGLAB's conventions
 %
 %
-% See also: sensors.physiology
+% See also: physioset.sensors.physiology
 
-% Documentation: class_sensors_physiology.txt
+% Documentation: class_physioset.sensors.physiology.txt
 % Description: Conversion to EEGLAB structure
 
 if nb_sensors(obj) < 1,

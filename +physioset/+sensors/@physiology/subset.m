@@ -1,16 +1,16 @@
 function obj = subset(obj, idx)
-% SUBSET - Creates a sensors.physiology object as a subset of another
+% SUBSET - Creates a physioset.sensors.physiology object as a subset of another
 %
 % objSubset = subset(obj, idx)
 %
 % Where
 %
-% OBJSUBSET object is a sensors.physiology object that contains the sensors
+% OBJSUBSET object is a physioset.sensors.physiology object that contains the physioset.sensors.
 % with indices IDX in object OBJ
 %
-% See also: sensors.physiology
+% See also: physioset.sensors.physiology
 
-% Description: class_sensors_physiology.txt
+% Description: class_physioset.sensors.physiology.txt
 % Documentation: Subset of a sensor array
 
 if isempty(idx),

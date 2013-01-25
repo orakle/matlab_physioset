@@ -1,31 +1,31 @@
-classdef mixed < sensors.abstract_sensors
+classdef mixed < physioset.sensors.abstract_sensors
     % SENSORS.MIXED - Describes a sensor array with mixed sensor types
     %
     % ## Construction
     %
-    % obj = sensors.mixed;
-    % obj = sensors.mixed(obj1, obj2, ...)
+    % obj = physioset.sensors.mixed;
+    % obj = physioset.sensors.mixed(obj1, obj2, ...)
     %
     % Where
     %
-    % OBJ is a sensors.mixed object
+    % OBJ is a physioset.sensors.mixed object
     %
-    % OBJ1, OBJ2, ... are sensors.sensors objects describing sensor arrays
+    % OBJ1, OBJ2, ... are physioset.sensors.sensorsobjects describing sensor arrays
     % of (possibly) different types
     %
     %
-    % See also: sensors.sensors, sensors
+    % See also: physioset.sensors.sensors physioset.sensors.
     
     
-    % Documentation: class_sensors_mixed.txt
+    % Documentation: class_physioset.sensors.mixed.txt
     % Description: Class definition
     
     % Exceptions that may be thrown by methods of this class
     methods (Static, Access = 'private')
         function obj = InvalidSensors
-            obj = MException('sensors:mixed:InvalidSensors', ...
+            obj = MException('physioset.sensors.mixed:InvalidSensors', ...
                 ['The ''Sensors'' property must be set to a cell array ' ...
-                'of sensors.sensor objects']);
+                'of physioset.sensors.sensor objects']);
         end
     end
     
@@ -45,8 +45,8 @@ classdef mixed < sensors.abstract_sensors
             if ~iscell(value),
                 value = {value};
             end
-            InvalidSensors = sensors.mixed.InvalidSensors;
-            cellcheck(@(x) isa(x, 'sensors.sensors'), InvalidSensors, value);
+            InvalidSensors = physioset.sensors.mixed.InvalidSensors;
+            cellcheck(@(x) isa(x, 'physioset.sensors.sensors), InvalidSensors, value);
             obj.Sensor = value;
         end
     end
@@ -63,7 +63,7 @@ classdef mixed < sensors.abstract_sensors
         end
     end
     
-    % sensors.sensors interface
+    % physioset.sensors.sensorsinterface
     methods
         labelsArray     = labels(obj)        
         nbSensors       = nb_sensors(obj)        
@@ -74,7 +74,7 @@ classdef mixed < sensors.abstract_sensors
         obj             = subset(obj, idx)             
     end
     
-    % sensors.abstract_sensors
+    % physioset.sensors.abstract_sensors
     methods
        pDim = get_physdim(obj)       
        obj  = set_physdim(obj, value)

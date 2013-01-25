@@ -1,41 +1,41 @@
 function outStr = eeglab(obj, what)
-% EEGLAB - Converts a sensors.eeg object to an EEGLAB-compatible structure
+% EEGLAB - Converts a physioset.sensors.eeg object to an EEGLAB-compatible structure
 %
 % str = eeglab(obj)
 % str = eeglab(obj, what)
 %
 % where
 %
-% OBJ is a sensors.eeg object
+% OBJ is a physioset.sensors.eeg object
 %
 % WHAT is string identifying what is to be converted to EEGLAB format,
-% either 'sensors', 'fiducial' or 'extra'.
+% either 'physioset.sensors., 'fiducial' or 'extra'.
 %
 % STR is a struct array with sensor locations and labels, that complies
 % with EEGLAB's standards
 %
 %
-% See also: sensors.eeg
+% See also: physioset.sensors.eeg
 
-% Documentation: class_sensors_eeg.txt
+% Documentation: class_physioset.sensors.eeg.txt
 % Description: Conversion to EEGLAB structure
 
-import sensors.abstract_sensors;
+import physioset.sensors.abstract_sensors
 
 if nargin < 2 || isempty(what),
-    what = 'sensors';
+    what = 'physioset.sensors.;
 end
 
 if isempty(obj.Label), outStr = []; return; end
 
-outStr = eeglab@sensors.physiology(obj);
+outStr = eeglab@physioset.sensors.physiology(obj);
 
 radius    = head_radius(obj);
 
-if strcmpi(what, 'sensors') && isempty(obj.Cartesian) || ...
+if strcmpi(what, 'physioset.sensors.) && isempty(obj.Cartesian) || ...
         all(isnan(obj.Cartesian(:))),
     outStr = [];
-elseif strcmpi(what, 'sensors')
+elseif strcmpi(what, 'physioset.sensors.)
     isMissing = any(isnan(obj.Cartesian),2);
     coords    = obj.Cartesian(~isMissing,:);   
     
@@ -43,7 +43,7 @@ elseif strcmpi(what, 'sensors')
         % EEGLAB expects a head radius of 0.5
         coords = coords.*(0.5/radius);
     end
-    str = sensors.cart2eeglab(coords);
+    str = physioset.sensors.cart2eeglab(coords);
     fnames = setdiff(fieldnames(str), 'labels');
     
     sensLabels = orig_labels(obj);
@@ -68,7 +68,7 @@ elseif strcmpi(what, 'fiducials')
         % EEGLAB expects a head radius of 0.5
         coords = coords.*(0.5/radius);
     end    
-    outStr = sensors.cart2eeglab(coords);
+    outStr = physioset.sensors.cart2eeglab(coords);
     for i = 1:numel(outStr),
         outStr(i).labels = labels{i};
     end
@@ -84,7 +84,7 @@ elseif strcmpi(what, 'extra')
         % EEGLAB expects a head radius of 0.5
         coords = coords.*(0.5/radius);
     end    
-    outStr = sensors.cart2eeglab(coords);
+    outStr = physioset.sensors.cart2eeglab(coords);
     for i = 1:numel(outStr),
         outStr(i).labels = labels{i};
     end

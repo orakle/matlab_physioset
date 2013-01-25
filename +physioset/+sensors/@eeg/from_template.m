@@ -1,32 +1,32 @@
 function obj = from_template(name, varargin)
 % FROM_TEMPLATE - Predefined EEG sensor arrays
 %
-% obj = sensors.eeg.from_template(name)
+% obj = physioset.sensors.eeg.from_template(name)
 %
 % Where
 %
 % NAME is the name of the template (a string). 
 %
-% OBJ is a sensors.eeg object
+% OBJ is a physioset.sensors.eeg object
 %
 %
 % See also: from_eeglab, from_fieldtrip, from_file
 
-% Documentation: class_sensors_eeg.txt
+% Documentation: class_physioset.sensors.eeg.txt
 % Description: Predefined EEG sensor arrays
 
 import misc.is_string;
-import sensors.abstract_sensors;
-import sensors.root_path;
+import physioset.sensors.abstract_sensors
+import physioset.sensors.root_path;
 import mperl.file.spec.catfile;
 
 if isempty(name),
-    obj = sensors.eeg;
+    obj = physioset.sensors.eeg;
     return;
 end
 
 if ~is_string(name),
-    throw(abstract_sensors.InvalidArgValue('Name', ...
+    throw(abstract_physioset.sensors.InvalidArgValue('Name', ...
         'Must be a string'));
 end
 
@@ -49,11 +49,11 @@ if isempty(file),
     obj = [];
 else
     
-    warning('off', 'sensors:MissingPhysDim');
-    warning('off', 'sensors:InvalidLabel');
-    obj = sensors.eeg.from_file(file, varargin{:});   
-    warning('on', 'sensors:MissingPhysDim');
-    warning('on', 'sensors:InvalidLabel');
+    warning('off', 'physioset.sensors.MissingPhysDim');
+    warning('off', 'physioset.sensors.InvalidLabel');
+    obj = physioset.sensors.eeg.from_file(file, varargin{:});   
+    warning('on', 'physioset.sensors.MissingPhysDim');
+    warning('on', 'physioset.sensors.InvalidLabel');
     
 end
 

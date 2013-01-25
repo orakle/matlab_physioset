@@ -1,11 +1,11 @@
-classdef dummy < sensors.abstract_sensors
+classdef dummy < physioset.sensors.abstract_sensors
     
     properties (SetAccess = protected)
         Label = [];
     end
     
     properties (Dependent)
-        NbSensors;          % Number of sensors/signals
+        NbSensors;          % Number of physioset.sensors.signals
     end
     
     methods
@@ -18,16 +18,16 @@ classdef dummy < sensors.abstract_sensors
     methods
         function obj = set.Label(obj, value)
             import io.edfplus.valid_label;
-            import sensors.abstract_sensors;
+            import physioset.sensors.abstract_sensors
             if ischar(value) && isvector(value), value = {value(:)'}; end
             if isempty(value) || ~iscell(value) || ...
                     ~all(cellfun(@(x) ischar(x), value)),
-                throw(abstract_sensors.InvalidPropValue('Label', ...
+                throw(abstract_physioset.sensors.InvalidPropValue('Label', ...
                     'Must be a cell array of strings'));
             end
             
             if numel(unique(value)) ~= numel(value),
-                throw(abstract_sensors.InvalidPropValue('Label', ...
+                throw(abstract_physioset.sensors.InvalidPropValue('Label', ...
                     'Must be unique'));
             end
             
@@ -35,7 +35,7 @@ classdef dummy < sensors.abstract_sensors
         end
     end
     
-    % sensors.sensors interface
+    % physioset.sensors.sensorsinterface
     methods
         function labelsArray = labels(obj)
             labelsArray = obj.Label;
@@ -88,7 +88,7 @@ classdef dummy < sensors.abstract_sensors
     % Constructor
     methods
         function obj = dummy(nbSensors, varargin)
-            import sensors.abstract_sensors;
+            import physioset.sensors.abstract_sensors
             import misc.process_arguments;
             
             if nargin < 1 || nbSensors < 1, return; end            

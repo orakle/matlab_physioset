@@ -1,21 +1,21 @@
 function dist = euclidean_dist(obj)
-% EUCLIDEAN_DIST - Euclidean distance between EEG sensors
+% EUCLIDEAN_DIST - Euclidean distance between EEG physioset.sensors.
 %
 % dist = euclidean_dist(obj)
 %
 %
 % Where
 %
-% OBJ is a sensors.eeg object containing the especifications of K sensors
+% OBJ is a physioset.sensors.eeg object containing the especifications of K physioset.sensors.
 %
 % DIST is a KxK matrix with the Euclidean distances between each pair of
-% sensors
+% physioset.sensors.
 %
 %
-% See also: sensors.eeg
+% See also: physioset.sensors.eeg
 
-% Documentation: class_sensors_eeg.txt
-% Description: Euclidean distance between EEG sensors
+% Documentation: class_physioset.sensors.eeg.txt
+% Description: Euclidean distance between EEG physioset.sensors.
 
 import misc.euclidean_dist;
 

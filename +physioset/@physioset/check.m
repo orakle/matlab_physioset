@@ -1,7 +1,7 @@
 function check(obj)
 % CHECK - Global consistency checks for class physioset
 
-import eegpipe.exceptions.*;
+import exceptions.*
 
 if ~isempty(obj.SamplingTime) && ...
         ~isempty(obj.PointSet.NbPoints) && ...
@@ -18,7 +18,7 @@ end
 if ~isempty(obj.Sensors) && nb_sensors(obj.Sensors) ~= obj.NbDims,
     
         ME = Inconsistent(...
-            ['The number of sensors does not match the ' ...
+            ['The number of physioset.sensors.does not match the ' ...
             'number of data dimensions']);
         throw(ME);
     

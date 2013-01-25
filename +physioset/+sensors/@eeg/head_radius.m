@@ -5,13 +5,13 @@ function radius = head_radius(obj)
 %
 % Where
 %
-% OBJ is a sensors.eeg object
+% OBJ is a physioset.sensors.eeg object
 %
 % RADIUS is the estimated head radius (a scalar)
 %
 % See also: layout2d_radius
 
-import sensors.abstract_sensors;
+import physioset.sensors.abstract_sensors
 import misc.process_arguments;
 
 distance = @(x,y) misc.euclidean_dist(x,y);

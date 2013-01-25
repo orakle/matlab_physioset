@@ -1,11 +1,11 @@
-classdef sensors
+classdef physioset.sensors.
     % SENSORS - Interface for sensor array description classes
     %
     %
-    % See also: sensors
+    % See also: physioset.sensors.
     
-    % Documentation: ifc_sensors.txt
-    % Description: Interface for sensors classes
+    % Documentation: ifc_physioset.sensors.txt
+    % Description: Interface for physioset.sensors.classes
     
     methods (Abstract)
         
@@ -28,7 +28,7 @@ classdef sensors
         
         obj                 = subset(obj, idx);
         
-        %% Implemented by abstract_sensors:
+        %% Implemented by abstract_physioset.sensors.
         
         obj                 = set_physdim_prefix(obj, prefix);
         

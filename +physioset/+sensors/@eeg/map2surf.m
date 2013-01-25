@@ -1,5 +1,5 @@
 function [sensorNew, M, distProj] = map2surf(sensor, scalp, varargin)
-% MAP2SURF - Maps EEG sensors onto the scalp surface
+% MAP2SURF - Maps EEG physioset.sensors.onto the scalp surface
 %
 % [sensorNew, M] = map2surf(sensor, scalp)
 %
@@ -14,7 +14,7 @@ function [sensorNew, M, distProj] = map2surf(sensor, scalp, varargin)
 % file in .tri format. If SCALP is a directory name, MAP2SURF will scan the
 % directory and process all the .tri files that it contains
 %
-% SENSORNEW is an Nx3 matrix with the coordinates of the sensors after
+% SENSORNEW is an Nx3 matrix with the coordinates of the physioset.sensors.after
 % being projected onto the scalp surface
 %
 % M is the NxN projection matrix from the old sensorCoord coordinates to the new
@@ -26,10 +26,10 @@ function [sensorNew, M, distProj] = map2surf(sensor, scalp, varargin)
 %
 %
 %
-% See also: sensors.eeg
+% See also: physioset.sensors.eeg
 
-% Documentation: class_sensors.eeg.txt
-% Description: Maps sensors to scalp surface
+% Documentation: class_physioset.sensors.eeg.txt
+% Description: Maps physioset.sensors.to scalp surface
 
 
 import misc.process_arguments;
@@ -41,7 +41,7 @@ import misc.plot_mesh;
 import io.hpts.write;
 import external.icp.ICP_finite;
 
-verboseLabel = '(sensors.eeg:map2surf) ';
+verboseLabel = '(physioset.sensors.eeg:map2surf) ';
 
 % Some constants
 EDGE_ALPHA = 0;%1;
@@ -53,7 +53,7 @@ opt.reIcp       = false;
 opt.icpPoints   = 30;
 opt.hpts        = [];
 opt.fig         = true;
-opt.fig         = 'sensors';
+opt.fig         = 'physioset.sensors.;
 opt.verbose     = true;
 [~, opt] = process_arguments(opt, varargin);
 
@@ -96,7 +96,7 @@ scalpIdx    = 1:nScalpVertices;
 sensorNew   = nan(size(sensorCoord));
 distProj    = nan(size(sensorCoord,1), 1);
 if opt.verbose && nSensors > 0,
-    fprintf([verboseLabel 'Projecting %d sensors onto the skin surface...'] ...
+    fprintf([verboseLabel 'Projecting %d physioset.sensors.onto the skin surface...'] ...
         , nSensors);
 end
 tinit = tic;
@@ -136,7 +136,7 @@ if opt.verbose && (runs <= opt.icpPoints || ~opt.reIcp),
     fprintf('\n');
 end
 
-sensorNew = sensors.eeg('Cartesian', sensorNew, 'label', sensor.Label);
+sensorNew = physioset.sensors.eeg('Cartesian', sensorNew, 'label', sensor.Label);
 
 if ~isempty(opt.hpts),
     [~, ~, ext] = fileparts(opt.hpts);

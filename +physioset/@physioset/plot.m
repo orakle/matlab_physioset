@@ -15,7 +15,7 @@ if opt.PlotEvents,
 else
     ev = [];
 end
-sens = sensors(data);
+sens = physioset.sensors.data);
 
 if ~isempty(sens),
     sens = eeglab(sens);

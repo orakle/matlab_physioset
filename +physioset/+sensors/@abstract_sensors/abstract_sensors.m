@@ -1,11 +1,11 @@
-classdef abstract_sensors < sensors.sensors & goo.setget
-    % ABSTRACT_SENSORS - Common methods accross sensors.sensors classes
+classdef abstract_physioset.sensors.< physioset.sensors.sensors& goo.setget
+    % ABSTRACT_SENSORS - Common methods accross physioset.sensors.sensorsclasses
     %
     %
     %
-    % See also: sensors
+    % See also: physioset.sensors.
     
-    % Documentation: class_abstract_sensors.txt
+    % Documentation: class_abstract_physioset.sensors.txt
     % Description: Class definition
     
     

@@ -1,11 +1,11 @@
 function grad = fieldtrip(obj)
-% FIELDTRIP - Converts a sensors.meg object to a Fieldtrip "grad" structure
+% FIELDTRIP - Converts a physioset.sensors.meg object to a Fieldtrip "grad" structure
 %
 % str = fieldtrip(obj)
 %
-% See also: eeglab, sensors.meg
+% See also: eeglab, physioset.sensors.meg
 
-% Documentation: class_sensors_meg.txt
+% Documentation: class_physioset.sensors.meg.txt
 % Description: Conversion to Fieldtrip structure
 
 grad = get(obj, 'Fieldtrip_grad');

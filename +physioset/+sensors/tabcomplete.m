@@ -18,7 +18,7 @@ function tabcomplete(operation)
 %
 % See also: external.tabcomplete
 
-% Documentation: pkg_sensors.txt
+% Documentation: pkg_physioset.sensors.txt
 % Description: Sets up MATLAB tab completion
 
 import external.tabcomplete.tabcomplete;

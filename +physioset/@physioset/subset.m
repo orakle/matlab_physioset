@@ -67,7 +67,7 @@ end
 %% Fix the BadChan and Sensors properties
 
 badChan  = is_bad_channel(obj, 1:nb_dim(obj));
-sensObj  = sensors(obj);
+sensObj  = physioset.sensors.obj);
 
 if ~isempty(setdiff(1:nb_dim(obj), dimSel)),    
     

@@ -2,7 +2,7 @@ function y = cart2eeglab(x)
 % CART2EEGLAB - Conversion from Cartesian coordinates to EEGLAB struct
 %
 %
-% See also: sensors.eeg
+% See also: physioset.sensors.eeg
 
 import misc.check_dependency;
 

@@ -1,29 +1,29 @@
 function obj = from_fieldtrip(elec, label)
 % FROM_FIELDTRIP - Construction from field elec of a Fieldtrip structure
 %
-% obj = sensors.eeg.from_fieldtrip(elec, label)
+% obj = physioset.sensors.eeg.from_fieldtrip(elec, label)
 %
 % Where
 %
 % elec is a Fieldtrip struct with EEG electrodes/channels information, i.e.
 % the contents of field 'elec' of a standard Fieldtrip dataset structure.
 %
-% LABEL are the labels of the used sensors, i.e. the contents of the field
+% LABEL are the labels of the used physioset.sensors. i.e. the contents of the field
 % 'label'of a standard Fieldtrip dataset structure. This second input
 % arguments is required whenever a Fieldtrip dataset contains data from a
-% sub-set of the sensors described in field 'elec'.
+% sub-set of the physioset.sensors.described in field 'elec'.
 %
-% OBJ is the generated sensors.eeg object
+% OBJ is the generated physioset.sensors.eeg object
 %
 % See also: from_eeglab, from_file
 
-% Documentation: class_sensors_eeg.txt
+% Documentation: class_physioset.sensors.eeg.txt
 % Description:  Construction from Fieldtrip struct
 
 import mjava.hash;
 
 if ~isstruct(elec) || (~isfield(elec, 'pnt') && ~isfield(elec, 'elecpos')),
-    ME = MException('sensors:eeg:from_fieldtrip:InvalidInput', ...
+    ME = MException('physioset.sensors.eeg:from_fieldtrip:InvalidInput', ...
         'The input argument is not a valid Fieldtrip struct with channel information');
     throw(ME);
 end
@@ -35,7 +35,7 @@ end
 [isValid, selection] = ismember(label, elec.label);
 
 if ~all(isValid),
-    ME = MException('sensors:eeg:from_fieldtrip:InvalidElec', ...
+    ME = MException('physioset.sensors.eeg:from_fieldtrip:InvalidElec', ...
         'The electrode labels are not consistent with the data channel labels');
     throw(ME);
 end
@@ -65,7 +65,7 @@ else
     fiducials = [];
 end
 
-obj = sensors.eeg(...
+obj = physioset.sensors.eeg(...
     'Cartesian',    coords, ...
     'Label',        elec.label(selection), ...
     'OrigLabel',    elec.label(selection), ...

@@ -1,43 +1,43 @@
-classdef meg < sensors.physiology
-    % SENSORS.MEG - MEG sensors class
+classdef meg < physioset.sensors.physiology
+    % SENSORS.MEG - MEG physioset.sensors.class
     %
     % ## Construction:
     %
-    % obj = sensors.meg
-    % obj = sensors.meg('Cartesian', matrix, 'Labels', cellArray);
-    % obj = sensors.meg('key', value, ...)
+    % obj = physioset.sensors.meg
+    % obj = physioset.sensors.meg('Cartesian', matrix, 'Labels', cellArray);
+    % obj = physioset.sensors.meg('key', value, ...)
     %
     % Where
     %
-    % OBJ is a sensors.meg object
+    % OBJ is a physioset.sensors.meg object
     %
     %
     % ## Accepted key/value pairs:
     %
-    %       Coils: A sensors.coil object. Default: []
+    %       Coils: A physioset.sensors.coil object. Default: []
     %           A description of the geometry of the M coils at each of
-    %           the N sensors.
+    %           the N physioset.sensors.
     %
     %       Cartesian: A numeric Nx3 matrix. Default: []
-    %           The Cartesian coordinates of the N MEG sensors. Sensor
+    %           The Cartesian coordinates of the N MEG physioset.sensors. Sensor
     %           coordinates can also be provided in spherical or polar
     %           coordinates. See below for more information.
     %
     %       Spherical: An Nx3 numeric matrix. Default: []
-    %           Spherical coordinates of the N MEG sensors.
+    %           Spherical coordinates of the N MEG physioset.sensors.
     %
     %       Polar: An Nx3 numeric matrix. Default: []
-    %           Polar coordinates of the N MEG sensors
+    %           Polar coordinates of the N MEG physioset.sensors.
     %
     %       Label: A cell array of strings. Default: MEG 1, MEG 2, ...
-    %           Labels of the MEG sensors. These labels must follow the
+    %           Labels of the MEG physioset.sensors. These labels must follow the
     %           EDF+ guidelines [1].
     %
     %       PhysDim: A cell array of strings or a string. Default: 'T/m'
     %           The physical dimensions recorded by each sensor. These
     %           texts must also be according to EDF+ guidelines [1]. If
     %           PhysDim is a string rather than a cell array of strings,
-    %           the same physical dimension will be assumed for all sensors.
+    %           the same physical dimension will be assumed for all physioset.sensors.
     %
     %       Orientation: An Nx3 numeric matrix. Default: []
     %           Sensor orientation vectors.
@@ -54,10 +54,10 @@ classdef meg < sensors.physiology
     % ## Public Interface Synopsis:
     %
     % % Construct from Fieldtrip struct
-    % obj = sensors.eeg.from_fieldtrip(str);
+    % obj = physioset.sensors.eeg.from_fieldtrip(str);
     %
     % % Construct from EEGLAB struct
-    % obj = sensors.eeg.from_eeglab(str);
+    % obj = physioset.sensors.eeg.from_eeglab(str);
     %
     % str = eeglab(obj)                 % Convert to EEGLAB format
     %
@@ -70,17 +70,17 @@ classdef meg < sensors.physiology
     %       http://www.edfplus.info/specs/edftexts.html
     %
     %
-    % See also: sensors
+    % See also: physioset.sensors.
     
-    % Documentation: class_sensors_meg.txt
+    % Documentation: class_physioset.sensors.meg.txt
     % Description:Class definition
     
     
     %% IMPLEMENTATION .....................................................
     
     properties (SetAccess = 'private')
-        Cartesian;     % Cartesian coordinates of the MEG sensors
-        Orientation;   % Orientation of the MEG sensors
+        Cartesian;     % Cartesian coordinates of the MEG physioset.sensors.
+        Orientation;   % Orientation of the MEG physioset.sensors.
         Coils;
         Extra;         % Hash with additional head surface points
     end
@@ -89,12 +89,12 @@ classdef meg < sensors.physiology
     methods (Access = private)
         
         function obj = check(obj)
-            import eegpipe.exceptions.*;
+            import exceptions.*
             
             if ~isempty(obj.TransducerType) || ~isempty(obj.PhysDim),
                 
                 if isempty(obj.Label)
-                    throw(abstract_sensors.InvalidPropValue('Label', ...
+                    throw(abstract_physioset.sensors.InvalidPropValue('Label', ...
                         'Must be unique non-empty labels (strings)'));
                 end
                
@@ -107,14 +107,14 @@ classdef meg < sensors.physiology
             if ~isempty(obj.Label) && length(obj.Label) ~= obj.NbSensors,
                 
                 throw(InvalidPropValue('Label', ...
-                    'Not consistent with number of sensors'));
+                    'Not consistent with number of physioset.sensors.));
                 
             end
             
             if ~isempty(obj.Coils) && obj.Coils.NbSensors ~= obj.NbSensors,
                 
                 throw(InvalidPropValue('Coils', ...
-                    'Not consistent with number of sensors'));
+                    'Not consistent with number of physioset.sensors.));
                 
             end
             
@@ -159,7 +159,7 @@ classdef meg < sensors.physiology
         % Set/Get methods
         function obj = set.Cartesian(obj, value)
             
-            import eegpipe.exceptions.*;
+            import exceptions.*
             if ~isnumeric(value) || any(value(:)>=Inf) || ...
                     any(value(:)<=-Inf) ...
                     || size(value,2)~=3,
@@ -173,7 +173,7 @@ classdef meg < sensors.physiology
         
         function obj = set.Orientation(obj, value)
             
-            import eegpipe.exceptions.*;
+            import exceptions.*
             if (~isnumeric(value) || any(value(:)>=Inf) || ...
                     any(value(:)<=-Inf)) ...
                     || (~isempty(value) && size(value,2)~=3),
@@ -187,11 +187,11 @@ classdef meg < sensors.physiology
         
         function obj = set.Coils(obj, value)
             
-            import eegpipe.exceptions.*;
+            import exceptions.*
             
-            if ~isempty(value) && ~isa(value, 'sensors.coils'),
+            if ~isempty(value) && ~isa(value, 'physioset.sensors.coils'),
                 ME = InvalidPropValue('Coils', ...
-                    'Must be of class sensors.coils');
+                    'Must be of class physioset.sensors.coils');
                 throw(ME);
             end
             obj.Coils = value;
@@ -200,7 +200,7 @@ classdef meg < sensors.physiology
         
         function obj = set.Extra(obj, value)
             
-            import eegpipe.exceptions.*;
+            import exceptions.*
             
             if isempty(value),
                 obj.Extra = [];
@@ -234,10 +234,10 @@ classdef meg < sensors.physiology
         
     end
     
-    % sensors.sensors interface (redefinitions)
+    % physioset.sensors.sensorsinterface (redefinitions)
     methods
         
-        sensors = subset(sensors, idx);
+        physioset.sensors.= subset(physioset.sensors. idx);
         
     end
     
@@ -263,11 +263,11 @@ classdef meg < sensors.physiology
         function obj = meg(varargin)
             
             import misc.process_arguments;
-            import eegpipe.exceptions.*;
+            import exceptions.*
             import misc.cartesian;
             
             %% Call parent constructor
-            obj = obj@sensors.physiology(varargin{:});
+            obj = obj@physioset.sensors.physiology(varargin{:});
             
             if nargin < 1, return; end
             
@@ -276,7 +276,7 @@ classdef meg < sensors.physiology
                 @(x) io.edfplus.is_valid_label(x, 'MEG'), ...
                 obj.Label);
             if ~all(isValid),
-                warning('sensors:InvalidLabel', ...
+                warning('physioset.sensors.InvalidLabel', ...
                     ['Sensor labels are not EDF+ compatible. \n' ...
                     'Automatically creating compatible MEG labels: ' ...
                     'MEG 1, MEG 2, ...']),
@@ -291,13 +291,13 @@ classdef meg < sensors.physiology
             
             %% Ensure valid PhysDims
             if isempty(obj.PhysDim),
-                warning('sensors:meg:meg:MissingPhysDim', ...
+                warning('physioset.sensors.meg:meg:MissingPhysDim', ...
                     ['Physical dimensions not provided: assuming ' ...
-                    'gradiometric sensors (T/m)']);
+                    'gradiometric physioset.sensors.(T/m)']);
                 obj.PhysDim = repmat({'T/m'}, size(obj.Label, 1), 1);
             end
             
-            %% Properties specific to MEG sensors
+            %% Properties specific to MEG physioset.sensors.
             opt.Coils       = [];
             opt.Orientation = [];
             opt.Extra       = [];

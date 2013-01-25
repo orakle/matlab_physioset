@@ -1,13 +1,13 @@
 function obj = from_file(filename, varargin)
-% FROM_FILE - Reads EEG sensors information from a file
+% FROM_FILE - Reads EEG physioset.sensors.information from a file
 %
-% obj = sensors.eeg.from_file(filename)
+% obj = physioset.sensors.eeg.from_file(filename)
 %
-% obj = sensors.eeg.from_file(filename, 'key', value, ...)
+% obj = physioset.sensors.eeg.from_file(filename, 'key', value, ...)
 %
 % where
 %
-% OBJ is a eeg.sensors object
+% OBJ is a eeg.physioset.sensors.object
 %
 % FILENAME is the full path to a .sfp or .hpts file with sensor locations
 %
@@ -15,13 +15,13 @@ function obj = from_file(filename, varargin)
 % ## Accepted (optional) key/value pairs:
 %
 % 'Fiducials', <FID>
-%       The coordinates of the sensors with indices FID will be considered
-%       to correspond to Fiducials and not to real sensors. Note that this
+%       The coordinates of the physioset.sensors.with indices FID will be considered
+%       to correspond to Fiducials and not to real physioset.sensors. Note that this
 %       option is ignored for .hpts files. Default: []
 %
 % See also: from_eeglab, from_fieldtrip, from_template
-% Documentation: class_sensors_eeg.txt
-% Description: Reads sensors information from a file
+% Documentation: class_physioset.sensors.eeg.txt
+% Description: Reads physioset.sensors.information from a file
 
 
 import misc.process_arguments;
@@ -32,7 +32,7 @@ opt.fiducials = [];
 
 [~, ~, ext] = fileparts(filename);
 
-InvalidFormat = MException('sensors:eeg:read:InvalidFormat', ...
+InvalidFormat = MException('physioset.sensors.eeg:read:InvalidFormat', ...
     'Format %s is not supported', ext);
 
 switch lower(ext)
@@ -69,7 +69,7 @@ else
     extra = [];
 end
 
-obj = sensors.eeg(...
+obj = physioset.sensors.eeg(...
     'Cartesian', xyz, ...
     'OrigLabel', id, ...
     'Fiducials', fiducials, ...

@@ -17,7 +17,7 @@ function obj = set_bad_sample(obj, idx)
 % Documentations: class_physioset.txt
 
 import misc.isnatural;
-import eegpipe.exceptions.*;
+import exceptions.*
 
 if nargin < 2 || isempty(idx), idx = []; end
 

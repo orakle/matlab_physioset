@@ -1,6 +1,6 @@
 function obj = from_fieldtrip(hdr)
 
-import sensors.*;
+import physioset.sensors.*;
 
 if isfield(hdr, 'grad'),
     obj = meg.from_fieldtrip(hdr);

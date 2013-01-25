@@ -1,29 +1,29 @@
 function obj = from_fieldtrip(grad, label)
 % FROM_FIELDTRIP - Construction from field grad of a Fieldtrip structure
 %
-% obj = sensors.meg.from_fieldtrip(grad, label)
+% obj = physioset.sensors.meg.from_fieldtrip(grad, label)
 %
 % Where
 %
 % GRAD is a Fieldtrip struct with EEG channels information, i.e.
 % the contents of field 'grad' of a standard Fieldtrip dataset structure.
 %
-% LABEL are the labels of the used sensors, i.e. the contents of the field
+% LABEL are the labels of the used physioset.sensors. i.e. the contents of the field
 % 'label'of a standard Fieldtrip dataset structure. This second input
 % arguments is required whenever a Fieldtrip dataset contains data from a
-% sub-set of the sensors described in field 'grad'.
+% sub-set of the physioset.sensors.described in field 'grad'.
 %
-% OBJ is the generated sensors.meg object
+% OBJ is the generated physioset.sensors.meg object
 %
 % See also: from_eeglab, from_file
 
-% Documentation: class_sensors_eeg.txt
+% Documentation: class_physioset.sensors.eeg.txt
 % Description:  Construction from Fieldtrip struct
 
 import mjava.hash;
 
 if ~isstruct(grad) || (~isfield(grad, 'chanori') && ~isfield(grad, 'chanpos')),
-    ME = MException('sensors:meg:from_fieldtrip:InvalidInput', ...
+    ME = MException('physioset.sensors.meg:from_fieldtrip:InvalidInput', ...
         'Input is not a valid Fieldtrip struct with channel information');
     throw(ME);
 end
@@ -35,12 +35,12 @@ end
 [isValid, selection] = ismember(label, grad.label);
 
 if ~all(isValid),
-    ME = MException('sensors:meg:from_fieldtrip:InvalidElec', ...
+    ME = MException('physioset.sensors.meg:from_fieldtrip:InvalidElec', ...
         'Sensor labels are not consistent with the data channel labels');
     throw(ME);
 end
 
-% Extra "sensors"
+% Extra "physioset.sensors.
 if numel(selection) ~= numel(grad.label),
     idx = setdiff(1:numel(grad.label), selection);
     extraLabels = grad.label(idx);
@@ -52,12 +52,12 @@ else
     extra = [];
 end
 
-coilArray = sensors.coils(...
+coilArray = physioset.sensors.coils(...
     'Cartesian',    grad.coilpos, ...
     'Orientation',  grad.coilori, ...
     'Weights',      grad.tra(selection,:));
 
-obj = sensors.meg(...
+obj = physioset.sensors.meg(...
     'Cartesian',    grad.chanpos(selection, :), ...
     'Unit',         grad.unit, ...
     'Label',        grad.label(selection), ...

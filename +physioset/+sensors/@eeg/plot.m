@@ -5,13 +5,13 @@ function h = plot(obj)
 %
 % Where
 %
-% OBJ is a sensors.eeg object
+% OBJ is a physioset.sensors.eeg object
 % 
 %
-% See also: sensors.eeg
+% See also: physioset.sensors.eeg
 
-% Documentation: class_sensors_eeg.txt
-% Description: Plots sensors locations
+% Documentation: class_physioset.sensors.eeg.txt
+% Description: Plots physioset.sensors.locations
 
 h = scatter3(obj.Cartesian(:,1), obj.Cartesian(:,2), obj.Cartesian(:,3), 'r', 'filled');
 

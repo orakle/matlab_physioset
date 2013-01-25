@@ -1,23 +1,23 @@
 function obj = write(obj, filename)
-% WRITE - Writes EEG sensors information to a file
+% WRITE - Writes EEG physioset.sensors.information to a file
 %
 % obj = write(obj, filename)
 %
 % where
 %
-% OBJ is a eeg.sensors object
+% OBJ is a eeg.physioset.sensors.object
 %
 % FILENAME is a full path name (with file extension .hpts or .sfp)
 %
 %
-% See also: sensors.eeg
+% See also: physioset.sensors.eeg
 
-% Documentation: class_sensors_eeg.txt
-% Description: Writes sensors information to a file
+% Documentation: class_physioset.sensors.eeg.txt
+% Description: Writes physioset.sensors.information to a file
 
 [~, ~, ext] = fileparts(filename);
 
-InvalidFormat = MException('sensors:eeg:read:InvalidFormat', ...
+InvalidFormat = MException('physioset.sensors.eeg:read:InvalidFormat', ...
     'Format %s is not supported', ext);
 
 switch lower(ext)

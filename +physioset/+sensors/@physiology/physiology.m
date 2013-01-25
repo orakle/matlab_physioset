@@ -1,15 +1,15 @@
-classdef physiology < sensors.abstract_sensors
-    % PHYSIOLOGY - Physiological sensors class
+classdef physiology < physioset.sensors.abstract_sensors
+    % PHYSIOLOGY - Physiological physioset.sensors.class
     %
     % ## Construction
     %
-    % obj = sensors.physiology
-    % obj = sensors.physiology('Label', sensLabels);
-    % obj = sensors.physiology('key', value, ...)
+    % obj = physioset.sensors.physiology
+    % obj = physioset.sensors.physiology('Label', sensLabels);
+    % obj = physioset.sensors.physiology('key', value, ...)
     %
     % Where
     %
-    % OBJ is a sensors.physiology
+    % OBJ is a physioset.sensors.physiology
     %
     % SENSLABELS is a cell array with sensor labels
     %
@@ -17,14 +17,14 @@ classdef physiology < sensors.abstract_sensors
     % ## Accepted key/value pairs:
     %
     %       Label: A cell array of strings. Default: MEG 1, MEG 2, ...
-    %           Labels of the MEG sensors. These labels must follow the
+    %           Labels of the MEG physioset.sensors. These labels must follow the
     %           EDF+ guidelines [1].
     %
     %       PhysDim: A cell array of strings or a string. Default: []
     %           The physical dimensions recorded by each sensor. These
     %           texts must also be according to EDF+ guidelines [1]. If
     %           PhysDim is a string rather than a cell array of strings,
-    %           the same physical dimension will be assumed for all sensors.
+    %           the same physical dimension will be assumed for all physioset.sensors.
     %
     %       TransducerType: A cell array of strings. Default: []
     %           The type of transducer for each sensor.
@@ -37,10 +37,10 @@ classdef physiology < sensors.abstract_sensors
     %       http://www.edfplus.info/specs/edftexts.html
     %
     %
-    % See also: sensors
+    % See also: physioset.sensors.
     
     % Description: Class definition
-    % Documentation: class_sensors_physiology.txt
+    % Documentation: class_physioset.sensors.physiology.txt
     
     properties (GetAccess = private, SetAccess = private)
         OrigLabel = []; % Original labels (e.g. as read from a disk file)
@@ -56,17 +56,17 @@ classdef physiology < sensors.abstract_sensors
     % Global consistency check
     methods (Access = private)
         function check(obj)
-            import eegpipe.exceptions.*;
+            import exceptions.*
             import io.edfplus.is_valid_dim;
             
             if numel(obj.TransducerType)~= obj.NbSensors,
                 throw(InvalidPropValue('TransducerType', ...
-                    'Must match number of sensors'));
+                    'Must match number of physioset.sensors.));
             end
             
             if numel(obj.PhysDim)~= obj.NbSensors,
                 throw(InvalidPropValue('PhysDim', ...
-                    'Must match the number of sensors'));
+                    'Must match the number of physioset.sensors.));
             end
             
             isValid = is_valid_dim(obj.Type, opt.physdim);
@@ -86,7 +86,7 @@ classdef physiology < sensors.abstract_sensors
     properties (Dependent)
         Type;               % Signal type, e.g. EEG, Resp, ...
         Specification;      % Signal specifation, e.g. 246, abdomen, ...
-        NbSensors;          % Number of sensors/signals
+        NbSensors;          % Number of physioset.sensors.signals
     end
     
     % Dependent properties
@@ -133,7 +133,7 @@ classdef physiology < sensors.abstract_sensors
         function obj = set.Label(obj, value)
             
             import io.edfplus.valid_label;
-            import eegpipe.exceptions.*;
+            import exceptions.*
             if ischar(value) && isvector(value), value = {value(:)'}; end
             if isempty(value) || ~iscell(value) || ...
                     ~all(cellfun(@(x) ischar(x), value)),
@@ -153,7 +153,7 @@ classdef physiology < sensors.abstract_sensors
         
         function obj = set.OrigLabel(obj, value)
             
-            import eegpipe.exceptions.*;
+            import exceptions.*
             if isempty(value),
                 obj.OrigLabel = [];
                 return;
@@ -175,7 +175,7 @@ classdef physiology < sensors.abstract_sensors
         
         function obj = set.TransducerType(obj, value)
             
-            import eegpipe.exceptions.*;
+            import exceptions.*
             if isempty(value),
                 obj.TransducerType = [];
                 return;
@@ -193,7 +193,7 @@ classdef physiology < sensors.abstract_sensors
         
         function obj = set.PhysDim(obj, value)
             
-            import eegpipe.exceptions.*;
+            import exceptions.*
             if isempty(value),
                 obj.PhysDim = [];
                 return;
@@ -211,7 +211,7 @@ classdef physiology < sensors.abstract_sensors
         end
     end
     
-    % sensors.sensors interface
+    % physioset.sensors.sensorsinterface
     methods
         function labelsArray = labels(obj)
             labelsArray = obj.Label;
@@ -254,7 +254,7 @@ classdef physiology < sensors.abstract_sensors
             obj.PhysDim = value;
         end
         
-        sensors = subset(sensors, idx);
+        physioset.sensors.= subset(physioset.sensors. idx);
     end
     
     % Static constructors
@@ -267,7 +267,7 @@ classdef physiology < sensors.abstract_sensors
     % Constructor
     methods
         function obj = physiology(varargin)
-            import eegpipe.exceptions.*;
+            import exceptions.*
             import misc.process_arguments;
             
             if nargin < 1, return; end

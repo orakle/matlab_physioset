@@ -1,30 +1,30 @@
-classdef eeg < sensors.physiology
-    % SENSORS.EEG - EEG sensors class
+classdef eeg < physioset.sensors.physiology
+    % SENSORS.EEG - EEG physioset.sensors.class
     %
     % ## Construction:
     %
-    % obj = sensors.eeg;
-    % obj = sensors.eeg('Cartesian', coord);
-    % obj = sensors.eeg('key', value, ...);
+    % obj = physioset.sensors.eeg;
+    % obj = physioset.sensors.eeg('Cartesian', coord);
+    % obj = physioset.sensors.eeg('key', value, ...);
     %
     % Where
     %
-    % OBJ is a sensors.eeg object
+    % OBJ is a physioset.sensors.eeg object
     %
     %
     % ## Accepted key/value pairs:
     %
     %       Cartesian: Kx3 double array. Default: []
-    %           Cartesian coordinates of the sensors.
+    %           Cartesian coordinates of the physioset.sensors.
     %
     %       Spherical: A Kx3 double array. Default: []
-    %           Spherical coordinates of the sensors.
+    %           Spherical coordinates of the physioset.sensors.
     %
     %       Polar: Kx3 double array. Default: []
     %           Polar coordinates.
     %
     %       * All key/value pairs accepted by the constructor of class
-    %         sensors.physiology
+    %         physioset.sensors.physiology
     %
     %
     % ## Notes:
@@ -38,48 +38,48 @@ classdef eeg < sensors.physiology
     % ## Public Interface Synopsis:
     %
     % % Construct from Fieldtrip struct
-    % obj = sensors.meg.from_fieldtrip(str);
+    % obj = physioset.sensors.meg.from_fieldtrip(str);
     %
     % % Construct from EEGLAB struct
-    % obj = sensors.meg.from_eeglab(str);
+    % obj = physioset.sensors.meg.from_eeglab(str);
     %
     % str = eeglab(obj)                 % Convert to EEGLAB format
     %
     % str = fieldtrip(obj)              % Convert to Fieldtrip format
     %
-    % obj = read(obj, 'sensors.sfp');   % Read locations from file
+    % obj = read(obj, 'physioset.sensors.sfp');   % Read locations from file
     %
-    % obj = map2surf(obj, surface);     % Map sensors onto a surface
+    % obj = map2surf(obj, surface);     % Map physioset.sensors.onto a surface
     %
     %
-    % See also: sensors.meg, sensors
+    % See also: physioset.sensors.meg, physioset.sensors.
     
-    % Documentation: class_sensors_eeg.txt
+    % Documentation: class_physioset.sensors.eeg.txt
     % Description: Class definition
     
     
     methods (Access=private)
         
         function obj = check(obj)
-            import sensors.eeg;
-            import sensors.abstract_sensors;
+            import physioset.sensors.eeg;
+            import physioset.sensors.abstract_sensors
             
             if ~isempty(obj.TransducerType) || ~isempty(obj.PhysDim) || ...
                     ~isempty(obj.Fiducials),
                 if isempty(obj.Label)
-                    throw(abstract_sensors.InvalidPropValue('Label', ...
+                    throw(abstract_physioset.sensors.InvalidPropValue('Label', ...
                         'Must be unique non-empty labels (strings)'));
                 end
             elseif isempty(obj.Label) && ~isempty(obj.Cartesian),
                 if isempty(obj.Label)
-                    throw(abstract_sensors.InvalidPropValue('Label', ...
+                    throw(abstract_physioset.sensors.InvalidPropValue('Label', ...
                         'Must be unique non-empty labels (strings)'));
                 end
             end
             if ~isempty(obj.Label) && length(obj.Label) ~= nb_sensors(obj),
                 if isempty(obj.Label)
-                    throw(abstract_sensors.InvalidPropValue('Label', ...
-                        'Does not match number of sensors'));
+                    throw(abstract_physioset.sensors.InvalidPropValue('Label', ...
+                        'Does not match number of physioset.sensors.));
                 end
             end
         end
@@ -88,7 +88,7 @@ classdef eeg < sensors.physiology
     
     %% Public interface ....................................................
     properties (SetAccess = 'private')
-        Cartesian;          % Cartesian coordinates of the EEG sensors
+        Cartesian;          % Cartesian coordinates of the EEG physioset.sensors.
         Fiducials;          % Hash with the cartesian coordinates of the fiducials
         Extra;              % Hash with additional head surface points
     end
@@ -126,7 +126,7 @@ classdef eeg < sensors.physiology
         
         function obj = set.Cartesian(obj, value)
             
-            import eegpipe.exceptions.*;
+            import exceptions.*
             if ~isnumeric(value) || any(value(:)>=Inf) || ...
                     any(value(:)<=-Inf) ...
                     || size(value,2)~=3,
@@ -138,7 +138,7 @@ classdef eeg < sensors.physiology
         
         function obj = set.Fiducials(obj, value)
             
-            import eegpipe.exceptions.*;
+            import exceptions.*
             if isempty(value),
                 obj.Fiducials = [];
                 return;
@@ -153,7 +153,7 @@ classdef eeg < sensors.physiology
             
             if ~all(isValid),
                 throw(InvalidPropValue('Fiducials', ...
-                    sprintf('Invalid coordinates for sensors %s', ...
+                    sprintf('Invalid coordinates for physioset.sensors.%s', ...
                     regexprep(num2str(find(~isValid)), '\s+', ', '))));
             end
             
@@ -162,7 +162,7 @@ classdef eeg < sensors.physiology
         
         function obj = set.Extra(obj, value)
             
-            import eegpipe.exceptions.*;
+            import exceptions.*
             if isempty(value),
                 obj.Extra = [];
                 return;
@@ -198,10 +198,10 @@ classdef eeg < sensors.physiology
         
     end
     
-    % From sensors.sensors interface (redefinitions)
+    % From physioset.sensors.sensorsinterface (redefinitions)
     methods
         
-        sensors = subset(sensors, idx);
+        physioset.sensors.= subset(physioset.sensors. idx);
         
     end
     
@@ -224,10 +224,10 @@ classdef eeg < sensors.physiology
         function obj = eeg(varargin)
             import misc.process_arguments;
             import misc.cartesian;
-            import sensors.abstract_sensors;
+            import physioset.sensors.abstract_sensors
             
             %% Call parent constructor
-            obj = obj@sensors.physiology(varargin{:});
+            obj = obj@physioset.sensors.physiology(varargin{:});
             
             if nargin < 1, return; end
             
@@ -236,7 +236,7 @@ classdef eeg < sensors.physiology
                 @(x) io.edfplus.is_valid_label(x, 'EEG'), ...
                 obj.Label);
             if ~all(isValid),
-                warning('sensors:InvalidLabel', ...
+                warning('physioset.sensors.InvalidLabel', ...
                     ['Sensor labels are not EDF+ compatible. \n' ...
                     'Automatically creating compatible EEG labels: ' ...
                     'EEG 1, EEG 2, ...']),
@@ -251,12 +251,12 @@ classdef eeg < sensors.physiology
             
             %% Ensure valid PhysDims
             if isempty(obj.PhysDim),
-                warning('sensors:MissingPhysDim', ...
+                warning('physioset.sensors.MissingPhysDim', ...
                     'Physical dimensions not provided: assuming uV');
                 obj.PhysDim = repmat({'uV'}, size(obj.Label, 1), 1);
             end
             
-            %% Properties specific to EEG sensors
+            %% Properties specific to EEG physioset.sensors.
             opt.Fiducials           = [];
             opt.Extra               = [];
             [~, opt] = process_arguments(opt, varargin);

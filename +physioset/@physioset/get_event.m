@@ -19,7 +19,7 @@ function [evArray, rawIdx] = get_event(obj, idx)
 % Description: Get event(s)
 % Documentation: class_physioset.txt
 
-import eegpipe.exceptions.*;
+import exceptions.*
 
 if nargin < 2 || isempty(idx), idx = []; end
 

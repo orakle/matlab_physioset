@@ -1,6 +1,6 @@
 function obj = set_method_config(obj, varargin)
 
-import eegpipe.exceptions.*;
+import exceptions.*
 import mperl.join;
 
 if numel(varargin) == 1 && isa(varargin{1}, 'physioset.config'),

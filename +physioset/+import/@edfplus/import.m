@@ -14,7 +14,7 @@ import pset.file_naming_policy;
 import pset.globals;
 import safefid.safefid;
 import misc.eta;
-import io.edfplus.labels2sensors;
+import io.edfplus.labels2physioset.sensors.
 import physioset.physioset;
 
 if numel(varargin) == 1 && iscell(varargin{1}),
@@ -79,7 +79,7 @@ sr = max(hdr.sr(channels));
 
 % Sensors information
 if isempty(obj.Sensors)
-    sensorArray = labels2sensors(hdr.label(channels));
+    sensorArray = labels2physioset.sensors.hdr.label(channels));
 else
     sensorArray = obj.Sensors;
 end

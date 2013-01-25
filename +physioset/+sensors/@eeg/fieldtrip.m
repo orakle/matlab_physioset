@@ -1,11 +1,11 @@
 function elec = fieldtrip(obj)
-% FIELDTRIP - Converts a sensors.eeg object to a Fieldtrip "elec" structure
+% FIELDTRIP - Converts a physioset.sensors.eeg object to a Fieldtrip "elec" structure
 %
 % elec = fieldtrip(obj)
 %
-% See also: eeglab, sensors.eeg
+% See also: eeglab, physioset.sensors.eeg
 
-% Documentation: class_sensors_eeg.txt
+% Documentation: class_physioset.sensors.eeg.txt
 % Description: Conversion to Fieldtrip structure
 
 

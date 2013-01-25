@@ -17,7 +17,7 @@ function obj = clear_bad_channel(obj, index)
 % Description: Removes a bad channel marking
 
 import misc.isnatural;
-import eegpipe.exceptions.*;
+import exceptions.*
 import misc.str2multiline;
 
 if nargin < 2 || isempty(index), index = []; end

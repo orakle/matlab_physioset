@@ -3,7 +3,7 @@ function [prefix, power] = get_physdim_prefix(obj)
 
 import io.edfplus.signal_types;
 import io.edfplus.dimension_prefixes;
-import sensors.abstract_sensors;
+import physioset.sensors.abstract_sensors
 
 % Valid prefixes and corresponding powers
 [validPrefix, validPower] = dimension_prefixes;
@@ -31,7 +31,7 @@ for sensorItr = 1:nb_sensors(obj)
             msg = sprintf(['Prefix %s in physical dimension %s is not ' ...
                 'valid'], tmp{1}, physDim{sensorItr});
             InvalidPrefix = ...
-                abstract_sensors.InvalidPropValue('Prefix', msg);
+                abstract_physioset.sensors.InvalidPropValue('Prefix', msg);
             throw(InvalidPrefix);
         end
         

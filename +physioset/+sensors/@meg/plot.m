@@ -5,13 +5,13 @@ function h = plot(obj)
 %
 % Where
 %
-% OBJ is a sensors.meg object
+% OBJ is a physioset.sensors.meg object
 % 
 %
-% See also: sensors.meg
+% See also: physioset.sensors.meg
 
-% Documentation: class_sensors_meg.txt
-% Description: Plots sensors locations
+% Documentation: class_physioset.sensors.meg.txt
+% Description: Plots physioset.sensors.locations
 
 h = scatter3(obj.Cartesian(:,1), obj.Cartesian(:,2), obj.Cartesian(:,3), 'r', 'filled');
 

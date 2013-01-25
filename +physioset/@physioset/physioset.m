@@ -24,8 +24,8 @@ classdef physioset < ...
     %       SamplingRate : An integer scalar. Default: 250
     %           The data sampling rate.
     %
-    %       Sensors : A sensors.sensors object. Default: []
-    %           Description of the physiological sensors.
+    %       Sensors : A physioset.sensors.sensorsobject. Default: []
+    %           Description of the physiological physioset.sensors.
     %
     %       Event : An array of pset.event objects. Default: []
     %
@@ -86,7 +86,7 @@ classdef physioset < ...
     %
     %
     %
-    % See also: pset.pset, pset.event, sensors.sensors
+    % See also: pset.pset, pset.event, physioset.sensors.sensors
     
     % Documentation: class_physioset.txt
     % Description: Container for multichannel physiological datasets
@@ -105,7 +105,7 @@ classdef physioset < ...
         BadChan;            % Indicates whether a channel is bad
         BadSample;          % Indicates whether a sample is bad
         Event;              % One or more pset.event objects
-        Sensors;            % A sensors.physiology object
+        Sensors;            % A physioset.sensors.physiology object
         SamplingTime;       % Sampling instants relative to StartTime
         Config = physioset.config;     % Method configuration options
         ProcHistory = {};   
@@ -188,7 +188,7 @@ classdef physioset < ...
     methods
         
         function set.Event(obj, v)
-            import eegpipe.exceptions.*;
+            import exceptions.*
             
             if ~all(isempty(v)) && ~isa(v, 'pset.event.event'),
                 throw(InvalidPropValue('Event', ...
@@ -203,16 +203,16 @@ classdef physioset < ...
         end
         
         function set.Sensors(obj, v)
-            import eegpipe.exceptions.*;
+            import exceptions.*
             
             if isempty(v),
                 obj.Sensors = [];
                 return;
             end
             
-            if ~isa(v, 'sensors.sensors'),
+            if ~isa(v, 'physioset.sensors.sensors'),
                 throw(InvalidPropValue('Sensors', ...
-                    'Must be of class sensors.sensors'));
+                    'Must be of class physioset.sensors.sensors'));
             end
             obj.Sensors = v;
         end
@@ -220,7 +220,7 @@ classdef physioset < ...
         function set.SamplingRate(obj, v)
             
             import misc.isnatural;
-            import eegpipe.exceptions.*;
+            import exceptions.*
             
             if ~isempty(v) && (numel(v) > 1 || ~isnatural(v)),
                 throw(InvalidPropValue('SamplingRate', ...
@@ -231,7 +231,7 @@ classdef physioset < ...
         end
         
         function set.StartDate(obj, v)
-            import eegpipe.exceptions.*;
+            import exceptions.*
             
             if ~isempty(v) && ~ischar(v),
                 throw(InvalidPropValue('Date', ...
@@ -242,7 +242,7 @@ classdef physioset < ...
         end
         
         function set.StartTime(obj, v)
-            import eegpipe.exceptions.*;
+            import exceptions.*
             
             if ~isempty(v) && ~ischar(v),
                 throw(InvalidPropValue('Time', ...
@@ -254,7 +254,7 @@ classdef physioset < ...
         
         function set.SamplingTime(obj, v)
             import misc.isnatural;
-            import eegpipe.exceptions.*;
+            import exceptions.*
             
             if ~isempty(v) && ~all(v > -eps),
                 throw(InvalidPropValue('SamplingTime', ...
@@ -710,7 +710,7 @@ classdef physioset < ...
             [~, opt] = process_arguments(opt, varargin);
             
             if isempty(opt.sensors),
-                opt.sensors = sensors.dummy(size(obj.PointSet,1));
+                opt.sensors= physioset.sensors.dummy(size(obj.PointSet,1));
             end
             
             % physioset name

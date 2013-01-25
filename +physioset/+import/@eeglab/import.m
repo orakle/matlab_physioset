@@ -238,7 +238,7 @@ end
 fclose(fid_in);
 fclose(fid);
 
-thisSensors = sensors.eeg.from_eeglab(hdr.chanlocs);
+thisSensors = physioset.sensors.eeg.from_eeglab(hdr.chanlocs);
 
 % Generate the output eegset object
 % =========================================================================

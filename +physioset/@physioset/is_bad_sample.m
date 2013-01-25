@@ -16,7 +16,7 @@ function value = is_bad_sample(obj, idx)
 % Description: Bad sample markings
 
 import misc.isnatural;
-import eegpipe.exceptions.*;
+import exceptions.*
 
 if nargin < 2 || isempty(idx), idx = 1:nb_pnt(obj); end
 

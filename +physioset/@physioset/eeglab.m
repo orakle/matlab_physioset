@@ -150,7 +150,7 @@ else
     tmp.trials      = size(data, 3);
     
     % Sensor information
-    sArray = sensors(obj);
+    sArray = physioset.sensors.obj);
     if ~isempty(sArray),
         tmp.chanlocs = eeglab(sArray);
     end

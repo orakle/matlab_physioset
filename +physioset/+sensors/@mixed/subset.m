@@ -22,7 +22,7 @@ notValid = ~ismember(idx, cell2mat(keys(sensorClass)));
 
 if any(notValid),
     idx = regexprep(num2str(idx(notValid)), '\s+', ', ');
-    error('Some sensors indices are not valid: %s', idx);
+    error('Some physioset.sensors.indices are not valid: %s', idx);
 end
 
 allClasses = sensorClass(idx);
@@ -46,7 +46,7 @@ sensorGroups(groupCount+1:end) = [];
 if groupCount == 1,
     obj = sensorGroups{1};
 else
-    obj = sensors.mixed(sensorGroups{:});
+    obj = physioset.sensors.mixed(sensorGroups{:});
 end
     
 
