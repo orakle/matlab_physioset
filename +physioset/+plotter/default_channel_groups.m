@@ -44,7 +44,7 @@ chanGroups  = [];
 chanClasses = [];
 chanTypes   = [];
 
-[cArray, cArrayIdx] = sensor_groups(sensors.data));
+[cArray, cArrayIdx] = sensor_groups(sensors(data));
 
 for grpItr = 1:numel(cArrayIdx),
     % Discard channels of the wrong class

@@ -34,13 +34,13 @@ function [figNames, captions, groupNames, extra, extraCap] = ...
 % Description: Plots summary snapshots of a physioset
 
 import mperl.file.spec.catfile;
-import pset.plotter.default_channel_groups;
+import physioset.plotter.default_channel_groups;
 import plotter.driver2format;
-import external.plot2svg.plot2svg;
+import plot2svg.plot2svg;
 import mperl.join;
 import misc.unique_filename;
 import goo.pkgisa;
-import pset.plotter.snapshots.snapshots;
+import physioset.plotter.snapshots.snapshots;
 import pset.session;
 import inkscape.svg2png;
 import datahash.DataHash;

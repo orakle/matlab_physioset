@@ -34,13 +34,13 @@ function [figNames, captions, groups, extra, extraCap] = plot(obj, data, varargi
 % Documentation: class_pset_plotter_psd.txt
 % Description: Plot PSDs
 
-import pset.plotter.default_channel_groups;
+import physioset.plotter.default_channel_groups;
 import mperl.file.spec.catfile;
 import mperl.join;
 import plotter.driver2format;
-import external.plot2svg.plot2svg;
+import plot2svg.plot2svg;
 import goo.pkgisa;
-import eegpipe.globals;
+import goo.globals;
 import pset.session;
 import misc.legend2location;
 import inkscape.svg2png;

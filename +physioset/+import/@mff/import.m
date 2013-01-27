@@ -36,8 +36,8 @@ fileName = varargin{1};
 % Default values of optional input arguments
 verbose      = is_verbose(obj);
 verboseLabel = get_verbose_label(obj);
-origVerboseLabel = eegpipe.globals.get.VerboseLabel;
-eegpipe.globals.set('VerboseLabel', verboseLabel);
+origVerboseLabel = goo.globals.get.VerboseLabel;
+goo.globals.set('VerboseLabel', verboseLabel);
 
 % Determine the names of the generated (imported) files
 if isempty(obj.FileName),
@@ -288,7 +288,7 @@ if any(mustRemove),
 end
 
 % Unset the global verbose
-eegpipe.globals.set('VerboseLabel', origVerboseLabel);
+goo.globals.set('VerboseLabel', origVerboseLabel);
 
 end
 

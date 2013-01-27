@@ -61,9 +61,7 @@ classdef config < goo.abstract_setget_handle
     %           A string that will precede every status messages.
     %
     % See also: snapshots
-    
-    % Description: Configuration for class snapshots
-    % Documentation: class_config.txt
+   
     
     
     %% IMPLEMENTATION .....................................................
@@ -113,9 +111,9 @@ classdef config < goo.abstract_setget_handle
         Folder          = '';        
         Plotter         = ...
             plotter.eegplot.eegplot(...
-            'Visible', eegpipe.globals.get.VisibleFigures ...
+            'Visible', goo.globals.get.VisibleFigures ...
             );
-        Resolution      = eegpipe.globals.get.ImageResolution;
+        Resolution      = goo.globals.get.ImageResolution;
         
     end
     
@@ -250,16 +248,9 @@ classdef config < goo.abstract_setget_handle
         
         function obj = config(varargin)
             
-            import pset.session;
-            
+          
             obj = obj@goo.abstract_setget_handle(varargin{:});
             
-            if nargin < 2,
-                % Copy constructor
-                return;
-            end
-           
-            obj = set(obj, varargin{:});
   
             check(obj);
             

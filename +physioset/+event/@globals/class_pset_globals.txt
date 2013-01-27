@@ -1,9 +1,0 @@
-Class: globals
-============
-
-[[Parent]]: pkg_pset.txt
-
-
-See [help pset.globals][pset-globals-m].
-
-[pset-globals-m]: ./globals.m.htm

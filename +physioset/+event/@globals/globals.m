@@ -63,7 +63,7 @@ classdef (Sealed) globals < dynamicprops
             obj = physioset.event.globals.read_file(obj);                          
             
             if exist(obj.UserFile, 'file'),
-                obj = eegpipe.globals.read_file(obj, obj.UserFile, false);
+                obj = goo.globals.read_file(obj, obj.UserFile, false);
             end
             
         end

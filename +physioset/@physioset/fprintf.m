@@ -35,8 +35,8 @@ import mperl.file.spec.*;
 import misc.code2multiline;
 import pset.globals;
 
-origVerbose = eegpipe.globals.get.Verbose;
-eegpipe.globals.set('Verbose', false);
+origVerbose = goo.globals.get.Verbose;
+goo.globals.set('Verbose', false);
 
 opt.ParseDisp   = get_method_config(obj, 'fprintf', 'ParseDisp');
 opt.SaveBinary  = get_method_config(obj, 'fprintf', 'SaveBinary');
@@ -103,6 +103,6 @@ if opt.SaveBinary,
     
 end
 
-eegpipe.globals.set('Verbose', origVerbose);
+goo.globals.set('Verbose', origVerbose);
 
 end

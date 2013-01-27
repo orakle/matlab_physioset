@@ -2,7 +2,7 @@ function [status, MEh] = test1()
 % TEST1 - Tests demo functionality
 
 import mperl.file.spec.*;
-import pset.plotter.snapshots.*;
+import physioset.plotter.snapshots.*;
 import test.simple.*;
 import pset.session;
 import safefid.safefid;

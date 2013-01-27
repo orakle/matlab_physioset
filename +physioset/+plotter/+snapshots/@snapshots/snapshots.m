@@ -1,4 +1,4 @@
-classdef snapshots < pset.plotter.physioset_gallery_plotter
+classdef snapshots < physioset.plotter.abstract_gallery_plotter
     % SNAPSHOTS - Plots physioset snapshots
     %
     % ## Usage synopsis
@@ -66,7 +66,7 @@ classdef snapshots < pset.plotter.physioset_gallery_plotter
     methods
         function obj = snapshots(varargin)
             
-            obj = obj@pset.plotter.physioset_gallery_plotter(varargin{:});
+            obj = obj@physioset.plotter.abstract_gallery_plotter(varargin{:});
             
         end
     end

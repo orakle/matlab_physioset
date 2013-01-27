@@ -390,17 +390,9 @@ classdef config < goo.abstract_setget_handle
         
         function obj = config(varargin)
             
-            import pset.session;
-            
+           
             obj = obj@goo.abstract_setget_handle(varargin{:});
-            
-            if nargin < 2,
-                % Copy constructor
-                return;
-            end
-            
-            obj = set(obj, varargin{:});
-            
+       
         end
         
     end
