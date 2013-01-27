@@ -1,4 +1,0 @@
-Class: abstract_sensors
-============
-
-[[Parent]]: pkg_sensors.txt
