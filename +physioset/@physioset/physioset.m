@@ -24,8 +24,8 @@ classdef physioset < ...
     %       SamplingRate : An integer scalar. Default: 250
     %           The data sampling rate.
     %
-    %       Sensors : A physioset.sensors.sensorsobject. Default: []
-    %           Description of the physiological physioset.sensors.
+    %       Sensors : A sensors.sensorsobject. Default: []
+    %           Description of the physiological sensors.
     %
     %       Event : An array of pset.event objects. Default: []
     %
@@ -86,7 +86,7 @@ classdef physioset < ...
     %
     %
     %
-    % See also: pset.pset, pset.event, physioset.sensors.sensors
+    % See also: pset.pset, pset.event, sensors.sensors
     
     % Documentation: class_physioset.txt
     % Description: Container for multichannel physiological datasets
@@ -105,7 +105,7 @@ classdef physioset < ...
         BadChan;            % Indicates whether a channel is bad
         BadSample;          % Indicates whether a sample is bad
         Event;              % One or more pset.event objects
-        Sensors;            % A physioset.sensors.physiology object
+        Sensors;            % A sensors.physiology object
         SamplingTime;       % Sampling instants relative to StartTime
         Config = physioset.config;     % Method configuration options
         ProcHistory = {};   
@@ -210,9 +210,9 @@ classdef physioset < ...
                 return;
             end
             
-            if ~isa(v, 'physioset.sensors.sensors'),
+            if ~isa(v, 'sensors.sensors'),
                 throw(InvalidPropValue('Sensors', ...
-                    'Must be of class physioset.sensors.sensors'));
+                    'Must be of class sensors.sensors'));
             end
             obj.Sensors = v;
         end
@@ -710,7 +710,7 @@ classdef physioset < ...
             [~, opt] = process_arguments(opt, varargin);
             
             if isempty(opt.sensors),
-                opt.sensors = physioset.sensors.dummy(size(obj.PointSet,1));
+                opt.sensors = sensors.dummy(size(obj.PointSet,1));
             end
             
             % physioset name

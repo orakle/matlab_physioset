@@ -107,9 +107,8 @@ classdef event < goo.abstract_setget & ...
         end
         
         function obj = set.Offset(obj, v)            
-           
-            import pset.globals;
-            import exceptions.*
+   
+            import exceptions.*;
             
             if isempty(v), v = 0; end % Fieldtrip convention
             
@@ -124,8 +123,7 @@ classdef event < goo.abstract_setget & ...
         
         function obj = set.Dims(obj, v)
             import misc.isinteger;
-            import pset.globals;
-            import exceptions.*
+            import exceptions.*;
             
             if ~isinteger(v) || any(v < 0),
                 throw(InvalidPropValue('Dims', ...
@@ -201,7 +199,6 @@ classdef event < goo.abstract_setget & ...
         function obj = set_sample(obj, v)
             
             import misc.isnatural;
-            import pset.globals;
             import exceptions.*
             
             if numel(v) == 1, v = repmat(v, 1, numel(obj)); end

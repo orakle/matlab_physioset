@@ -96,6 +96,6 @@ for i = 1:nbGroups
     obj.PhysDimPrefixOrig(idx{i}) = physDimPrefixOrig;    
 end
 
-obj.Sensors = physioset.sensors.mixed(sensorGroups{:});
+obj.Sensors = sensors.mixed(sensorGroups{:});
 
 end

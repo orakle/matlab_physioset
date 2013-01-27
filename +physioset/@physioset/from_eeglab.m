@@ -19,7 +19,7 @@ function obj = from_eeglab(str, varargin)
 %
 %       SensorType : A cell array of strings. 
 %           Default: repmat({'eeg', str.nbchan, 1)
-%           The types of the data physioset.sensors. Valid types are: eeg, meg,
+%           The types of the data sensors. Valid types are: eeg, meg,
 %           physiology
 %
 %       Precision : A string. Default: pset.globals.evaluate.Precision
@@ -84,7 +84,7 @@ opt.filename = catfile(path, [name fileExt]);
 %% Sensor information
 uTypes = unique(opt.sensortype);
 
-% We need to ensure that same-type physioset.sensors.are correlative
+% We need to ensure that same-type sensors.are correlative
 count = 0;
 for i = 1:numel(uTypes)
    idx = find(ismember(opt.sensortype, uTypes{i}));
@@ -97,20 +97,20 @@ if ~isempty(str.chanlocs),
     for i = 1:numel(uTypes)
         chans = str.chanlocs(ismember(opt.sensortype, uTypes{i}));
         sensorGroups{i} = ...
-            eval(sprintf('physioset.sensors.%s.from_eeglab(%s);', ...
+            eval(sprintf('sensors.%s.from_eeglab(%s);', ...
             lower(uTypes{i}), chans));
     end
 else
     for i = 1:numel(uTypes)
         nbSensors = numel(find(ismember(opt.sensortype, uTypes{i})));
-        sensorGroups{i} = eval(sprintf('physioset.sensors.%s.empty(%d);', ...
+        sensorGroups{i} = eval(sprintf('sensors.%s.empty(%d);', ...
             uTypes{i}, nbSensors));
     end
 end
 if numel(sensorGroups) > 1,
-    physioset.sensors.bj = physioset.sensors.mixed(sensorGroups{:});
+    sensors.bj = sensors.mixed(sensorGroups{:});
 else
-    physioset.sensors.bj = sensorGroups{1};
+    sensors.bj = sensorGroups{1};
 end
 
 
@@ -144,7 +144,7 @@ obj = physioset(opt.filename, str.nbchan, ...
     'SamplingRate',     str.srate, ...
     'StartDate',        datestr(now, dateformat), ...
     'StartTime',        datestr(now, timeformat), ...
-    'Sensors',          physioset.sensors.bj, ...
+    'Sensors',          sensors.bj, ...
     'Event',            eventsObj, ...
     'SamplingTime',     samplingTime);
 

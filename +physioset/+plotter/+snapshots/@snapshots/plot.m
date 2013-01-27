@@ -116,7 +116,7 @@ if iscell(config.Channels),
     extraCap    = [];
     for grpItr = 1:numel(config.Channels),
         
-        thisSensors = subset(physioset.sensors.data), config.Channels{grpItr});
+        thisSensors = subset(sensors(data), config.Channels{grpItr});
         if isempty(config.ChannelClass),
             tmpGrp = sensor_groups(thisSensors);
             thisChannelClass = ...
@@ -167,9 +167,9 @@ else
 end
 
 %% Convert sensObj to EEGLAB's format
-if ~isempty(physioset.sensors.data)) && ...
-        ismember(class(physioset.sensors.data)), {'physioset.sensors.eeg', 'physioset.sensors.meg'}),
-    sensObj = eeglab(physioset.sensors.data));
+if ~isempty(sensors(data)) && ...
+        ismember(class(sensors(data)), {'sensors.eeg', 'sensors.meg'}),
+    sensObj = eeglab(sensors(data));
     sensObj = sensObj(chanIdx);
 else
     sensObj = [];
@@ -237,7 +237,7 @@ for groupItr = 1:numel(epochs)
         
         tmp = get_config(obj, 'Plotter');
         eegplotObj = plot(clone(tmp), thisEpoch{:}, thisArguments{:}, varargin{:});
-        sensLabels = labels(physioset.sensors.data));
+        sensLabels = labels(sensors(data));
         set_sensor_labels(eegplotObj, [], sensLabels(chanIdx));
         scaleFactor = get_config(obj, 'ScaleFactor');
         set_scale(eegplotObj, [], get_scale(eegplotObj).*scaleFactor);
@@ -266,7 +266,7 @@ for groupItr = 1:numel(epochs)
         set(gcf, 'Color', 'white');
         
         % Set the time properly
-        epochDur  = (lastSample - firstSample + 1)/data.SamplingRate;
+        
         tInit     = firstSample/data.SamplingRate;
         firstTime = ceil(firstSample/data.SamplingRate);
         lastTime  = floor(lastSample/data.SamplingRate);

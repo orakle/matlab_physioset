@@ -31,11 +31,11 @@ if ~isempty(selChanClasses) && ~iscell(selChanClasses),
     selChanClasses = {selChanClasses};
 end
 
-% Channels classes must be fully specified classes, e.g. physioset.sensors.eeg
+% Channels classes must be fully specified classes, e.g. sensors.eeg
 if ~isempty(selChanClasses),
-    selChanClasses = cellfun(@(x) regexprep(x, 'physioset.sensors.', ''), ...
+    selChanClasses = cellfun(@(x) regexprep(x, 'sensors.', ''), ...
         selChanClasses, 'UniformOutput', false);
-    selChanClasses = cellfun(@(x) ['physioset.sensors.' lower(x)], selChanClasses, ...
+    selChanClasses = cellfun(@(x) ['sensors.' lower(x)], selChanClasses, ...
         'UniformOutput', false);
 end
 
@@ -44,7 +44,7 @@ chanGroups  = [];
 chanClasses = [];
 chanTypes   = [];
 
-[cArray, cArrayIdx] = sensor_groups(physioset.sensors.data));
+[cArray, cArrayIdx] = sensor_groups(sensors.data));
 
 for grpItr = 1:numel(cArrayIdx),
     % Discard channels of the wrong class
@@ -72,7 +72,7 @@ for grpItr = 1:numel(cArrayIdx),
     if ~isempty(chanIdx),
         chanGroups    = [chanGroups;{chanIdx}];  %#ok<*AGROW>
         thisChanClass = class(cArray{grpItr});
-        thisChanClass = regexprep(thisChanClass, '^physioset.sensors.', '');
+        thisChanClass = regexprep(thisChanClass, '^sensors.', '');
         chanClasses   = [chanClasses; {thisChanClass}];
         thisChanTypes = unique(types(cArray{grpItr}));
         thisChanTypes = join(', ', thisChanTypes);

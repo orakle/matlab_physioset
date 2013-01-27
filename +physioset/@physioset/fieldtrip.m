@@ -22,7 +22,7 @@ function ftripStruct = fieldtrip(obj, varargin)
 %   and MEG), multiple fieltrip structures will be generated, each of which
 %   will contain data from a single modality.
 %
-% * Note that the format in which Fieldtrip structures store MEG physioset.sensors.
+% * Note that the format in which Fieldtrip structures store MEG sensors.
 %   information changed in September 23, 2011. This conversion script will
 %   use the new format. For more information visit the URL below:
 %
@@ -37,10 +37,10 @@ function ftripStruct = fieldtrip(obj, varargin)
 
 import physioset.event.event;
 
-% Important to use method physioset.sensors.) here, instead of obj.Sensors. The
+% Important to use method sensors.) here, instead of obj.Sensors. The
 % latter does not have into account "data selections" and would break the
 % code below.
-sensorArray = physioset.sensors.obj);
+sensorArray = sensors.obj);
 if ~isempty(sensorArray),
     [group, groupIdx] = sensor_groups(sensorArray);
     if numel(group) > 1,
@@ -56,15 +56,15 @@ if ~isempty(sensorArray),
         end
         return;
     end   
-    if isa(sensorArray, 'physioset.sensors.eeg'),        
+    if isa(sensorArray, 'sensors.eeg'),        
         ftripStruct.elec  = fieldtrip(sensorArray);
         ftripStruct.label = orig_labels(sensorArray);
-    elseif isa(sensorArray, 'physioset.sensors.meg'),
+    elseif isa(sensorArray, 'sensors.meg'),
         ftripStruct.grad  = fieldtrip(sensorArray);
         ftripStruct.label = orig_labels(sensorArray);
     else
         warning(['Cannot convert %s data to Fieldtrip format. ' ...
-            'Only MEG or EEG physioset.sensors.are supported.'], class(obj.Sensors));
+            'Only MEG or EEG sensors.are supported.'], class(obj.Sensors));
         ftripStruct = [];
         return;
     end
