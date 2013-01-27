@@ -29,9 +29,13 @@ fnames = fieldnames(strArray(1));
 fnamesU = cellfun(@(x) [upper(x(1)) x(2:end)], fnames, ...
     'UniformOutput', false);
 
+builtinFields = fieldnames(event);
+
+builtinFields = setdiff(builtinFields, {'Type', 'Latency', 'Meta'});
+
 for i = 1:length(fnames)
     
-    switch lower(fnames{i}),
+    switch lower(fnamesU{i}),
         
         case 'type',
             for j = 1:length(strArray)
@@ -53,16 +57,23 @@ for i = 1:length(fnames)
                     metaNamesU = cellfun(@(x) [upper(x(1)) x(2:end)], ...
                         metaNames, 'UniformOutput', false);
                     for k = 1:numel(metaNames)
-                        obj(j) = set(obj(j), metaNamesU{k}, ...
+                        obj(j) = set_meta(obj(j), metaNamesU{k}, ...
                             strArray(j).(fnames{i}).(metaNames{k}));
                     end
                 end
                 
-            end            
+            end 
+            
+        case lower(builtinFields),
+            
+            for j = 1:length(strArray)
+                obj(j) = set(obj(j), fnamesU{i}, strArray(j).(fnames{i}));
+            end
+            
             
         otherwise,
             for j = 1:length(strArray)
-                obj(j) = set(obj(j), fnamesU{i}, strArray(j).(fnames{i}));
+                obj(j) = set_meta(obj(j), fnames{i}, strArray(j).(fnames{i}));
             end
     end
     

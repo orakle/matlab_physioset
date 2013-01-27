@@ -1,5 +1,5 @@
-function [a,b,c] = fieldnames(obj)
+function [setNames, getNames] = fieldnames(obj)
 
-[a,b,c] = fieldnames@goo.abstract_setget(obj);
+[setNames, getNames] = fieldnames@goo.abstract_setget(obj);
 
 end

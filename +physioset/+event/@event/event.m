@@ -88,7 +88,6 @@ classdef event < goo.abstract_setget & ...
         Value;          % A numeric property of the event.
         Offset   = 0;   % Beginning of the event relative to Sample.
         Duration = 1;   % The duration of the event (used to specify trials).
-        TimeSpan = 0;   % Time span of the event.
         Dims;           % The data dimensions to which the event applies.
         
     end

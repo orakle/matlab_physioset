@@ -246,8 +246,10 @@ try
     keyVals = {'Type', 'QRS', 'Offset', -40, 'Duration', 100};
     
     ev = event(1:100, keyVals{:}); 
+   
+    ev(5) = set(ev(5), 'Offset', -10);
     
-    ev(5) = set(ev(5), 'MetaInfo', 10, 'position', 'top');
+    ev(5) = set_meta(ev(5), 'MetaInfo', 10, 'Position', 'top');
     
     eStr = eeglab(ev);
     
@@ -275,7 +277,7 @@ try
     
     ev = event(1:100, keyVals{:}); 
     
-    ev(5) = set(ev(5), 'MetaInfo', 10, 'position', 'top');
+    ev(5) = set_meta(ev(5), 'MetaInfo', 10, 'position', 'top');
     
     fStr = fieldtrip(ev);
     
