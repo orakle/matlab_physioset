@@ -11,10 +11,9 @@ function obj = add_processing_history(obj, item)
 %
 % See also: physioset
 
-% Documentation: class_physioset.txt
-% Description: Add processing node to processing history
+import exceptions.*;
 
-if isa(item, 'pset.node.node'),
+if isa(item, 'meegpipe.node.node'),
     item = clone(item);
 elseif ~ischar(item) || (ischar(item) && ~exist(item, 'file')),
     throw(InvalidArgValue('item', ...

@@ -43,17 +43,8 @@ elseif isa(b, 'physioset.event.event'),
        
         y(i) = strcmpi(a(i).Type, b(i).Type);
         
-        y(i) = y(i) && strcmp(class(a(i)), class(b(i)));
-        
-        
-        if ~isempty(a(i).Value) || ~isempty(b(i).Value),
-            y(i) = y(i) & (a(i).Value == b(i).Value);
-        end
-        
-        if ~isempty(a(i).Dims) || ~isempty(b(i).Dims),
-            y(i) = y(i) & ((length(a(i).Dims) == length(b(i).Dims)) && ...
-            (all(a(i).Dims == b(i).Dims)));
-        end
+        y(i) = y(i) && strcmp(class(a(i)), class(b(i)));        
+   
     end    
 else
     error('Attempted comparison between incompatible types.');

@@ -78,10 +78,9 @@ didSelection = deal_with_bad_data(obj, opt.BadChannels);
 % Convert data selection into events
 selectionEv = epoch_begin(NaN, 'Type', '__DataSelection');
 selectionEv = get_pnt_selection_events(obj, selectionEv);
+add_event(obj, selectionEv);
 
 % Reconstruct trials, if necessary. This complicates things...
-hasEpochs = false;
-    
 evArray = get_event(obj);
     
 if isempty(evArray),
@@ -99,29 +98,9 @@ else
         
     else
         
-        hasEpochs = true;
-        [data, trialEvsNew, ~, origPos] = epoch_get(obj, trialEvs);
-     
-        % Remove any non-complete trials
-        epochEvs = selectionEv;
-        
-        if ~isempty(epochEvs),
-            epochPos = get_sample(epochEvs);
-
-            first = origPos;
-            last  = first + size(data,2);
-            
-            isBad = false(1, numel(trialEvsNew));
-            for i = 1:numel(trialEvsNew)
-
-                isBad(i) = any(epochPos > first(i) & epochPos <=last(i));
-                
-            end
-            
-            trialEvsNew(isBad) = [];
-            data(:,:,isBad) = [];
-        end
-        
+      
+        [data, ev] = epoch_get(obj, trialEvs);
+       
         evArray(evArray == trial_begin) = [];
         evArray = [evArray;trialEvsNew];
         

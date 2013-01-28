@@ -30,9 +30,6 @@ classdef sample_selector < physioset.event.selector & goo.abstract_setget
                
            end
            
-           
-           inRange = ismember(sample, obj.Sample);
-           
            evArray = evArray(inRange);    
            
            idx = find(inRange);

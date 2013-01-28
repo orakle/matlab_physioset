@@ -441,6 +441,8 @@ classdef physioset < ...
         
         windows = default_window_selection(data, varargin);
         
+        [y, evNew, samplIdx, evOrig, trialEv] = epoch_get(x, trialEv, base);
+        
     end
     
     % Mutable public methods

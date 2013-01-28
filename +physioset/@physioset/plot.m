@@ -1,6 +1,7 @@
 function h = plot(data, varargin)
 
 import misc.process_arguments;
+import misc.epoch_get;
 
 opt.PlotEvents  = true;
 opt.Interactive = true;
@@ -15,7 +16,7 @@ if opt.PlotEvents,
 else
     ev = [];
 end
-sens = sensors.data);
+sens = sensors(data);
 
 if ~isempty(sens),
     sens = eeglab(sens);
@@ -23,14 +24,14 @@ end
 
 if ~isempty(ev),
     
-    [ev, epochDur] = eeglab(ev);
+    [ev, epochDur, trialBeginEv] = eeglab(ev);
     
-    X = data.PointSet(:,:);
-    if ~isnan(epochDur),
-        nbEpochs = size(X,2)/epochDur;
-        X = reshape(X, [size(X,1), epochDur, nbEpochs]);
+    if isnan(epochDur),
+        X = data.PointSet(:,:);
+    else
+        X = epoch_get(data, trialBeginEv);
     end
-    
+  
     if opt.Interactive,
         eegplot(X, 'events', ev, 'eloc_file', sens, ...
             'srate', data.SamplingRate);

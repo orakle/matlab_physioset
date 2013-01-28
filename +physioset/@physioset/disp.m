@@ -20,7 +20,7 @@ fprintf('%20s : %s\n', 'Name',           get_name(obj));
 % sample times). This works because get_msg_event does not display any info
 % on the sample positions of the events.
 fprintf('%20s : %s\n', 'Event',          get_msg_event(obj.Event));
-fprintf('%20s : %s\n', 'Sensors',        get_msg_sensors.obj.Sensors));
+fprintf('%20s : %s\n', 'Sensors',        get_msg_sensors(obj.Sensors));
 fprintf('%20s : %d Hz\n', 'SampingRate', obj.SamplingRate);
 fprintf('%20s : %s\n', 'Samples',        get_msg_nbpoints(obj));
 
@@ -97,14 +97,14 @@ end
 
 
 
-function msgSensors = get_msg_sensors.sensors
+function msgSensors = get_msg_sensors(sensObj)
 
-if isempty(sensors.,
+if isempty(sensObj),
     msgSensors = '[]';
     return;
 end
 
-[grps, idx] = sensor_groups(sensors.;
+[grps, idx] = sensor_groups(sensObj);
 
 msgSensors = '';
 for grpIdx = 1:numel(grps)

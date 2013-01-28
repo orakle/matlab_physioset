@@ -9,7 +9,10 @@ end
 
 idx = obj.PntSelection;
 
-if isempty(idx), return; end
+if isempty(idx), 
+    ev = [];
+    return; 
+end
 
 idxDiff = diff(idx);
 

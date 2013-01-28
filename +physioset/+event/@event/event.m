@@ -145,7 +145,7 @@ classdef event < goo.abstract_setget & ...
         
         b           = fieldtrip(a);
         
-        [ev, ur_ev] = eeglab(a);
+        [ev, dur, trialBeginEv] = eeglab(a);
         
         y           = eq(a,b);
         

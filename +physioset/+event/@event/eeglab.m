@@ -1,4 +1,4 @@
-function [ev, epochDur] = eeglab(a)
+function [ev, epochDur, trialBeginEv] = eeglab(a)
 % EEGLAB - Conversion to EEGLAB events
 %
 % sArray = eeglab(eArray);
