@@ -30,9 +30,12 @@ if ~isempty(pntSel),
 end
 
 if ~isempty(obj.Event),
-    obj.Event = [obj.Event(:); evArray(:)];
-else
-    obj.Event = evArray;
+    evArray = [obj.Event(:); evArray(:)];
 end
+
+% [~, I] = unique(evArray, 'Sample');
+% evArray = evArray(I);
+
+obj.Event = evArray;
 
 end

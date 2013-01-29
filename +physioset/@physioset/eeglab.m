@@ -59,7 +59,6 @@ function EEG = eeglab(obj, varargin)
 % Description: Conversion to an EEGLAB structure
 
 import misc.check_dependency;
-import misc.epoch_get;
 import physioset.event.event;
 import physioset.event.std.trial_begin;
 import physioset.event.std.epoch_begin;
@@ -76,9 +75,9 @@ opt.EpochRejTh  = 25;
 didSelection = deal_with_bad_data(obj, opt.BadChannels);
 
 % Convert data selection into events
-selectionEv = epoch_begin(NaN, 'Type', '__DataSelection');
-selectionEv = get_pnt_selection_events(obj, selectionEv);
-add_event(obj, selectionEv);
+%selectionEv = epoch_begin(NaN, 'Type', '__DataSelection');
+%selectionEv = get_pnt_selection_events(obj, selectionEv);
+%add_event(obj, selectionEv);
 
 % Reconstruct trials, if necessary. This complicates things...
 evArray = get_event(obj);
@@ -97,19 +96,12 @@ else
         data = obj.PointSet(:,:);
         
     else
-        
       
-        [data, ev] = epoch_get(obj, trialEvs);
+        [data, evArray] = epoch_get(obj, trialEvs);
        
-        evArray(evArray == trial_begin) = [];
-        evArray = [evArray;trialEvsNew];
-        
-        
     end
     
 end
-
-
 
 savedStr = get_meta(obj, 'eeglab');
 if ~isempty(savedStr),

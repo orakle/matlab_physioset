@@ -30,6 +30,8 @@ function [y, evNew, samplIdx, evOrig, trialEv] = epoch_get(x, trialEv, base)
 %
 % See also: physioset
 
+import physioset.event.std.trial_begin;
+
 if nargin < 3 || isempty(base), base = false; end
 
 dur = unique(get_duration(trialEv));
@@ -45,6 +47,8 @@ end
 pos = get_sample(trialEv);
 outOfRange = (pos + off) < 1 | (pos + off + dur -1) > size(x,2);
 trialEv(outOfRange) = [];
+pos(outOfRange)     = [];
+off(outOfRange)     = [];
 
 if isempty(trialEv),
     y = [];
@@ -55,7 +59,7 @@ if isempty(trialEv),
 end
 
 % Indices of the picked samples
-idx = repmat(pos+off, 1, dur) + repmat(1:dur, numel(pos), 1);
+idx = repmat(pos+off, 1, dur) + repmat(0:dur-1, numel(pos), 1);
 idx = idx';
 y   = reshape(x.PointSet(:, idx(:)), [size(x, 1), dur, numel(pos)]);
 
@@ -72,14 +76,23 @@ end
 
 % Reject physioset events that do not fall in any trial
 ev = get_event(x);
+% isTrialEv = (ev == trial_begin);
+% ev(isTrialEv) = [];
+% if isempty(ev),
+%     evNew       = [];
+%     samplIdx    = idx;
+%     evOrig      = [];
+%     return;
+% end
+
 pos = get_sample(ev);
 dur = get_duration(ev);
 off = get_offset(ev);
 reject = false(1, numel(ev));
 for i = 1:numel(ev)
    
-    thisIdx = (pos(i)+off(i)):(pos(i)+off(i)+dur-1);
-    reject(i) = ~all(ismember(thisIdx, idx));
+    thisIdx = (pos(i)+off(i)):(pos(i)+off(i)+dur(i)-1);
+    reject(i) = ~all(ismember(thisIdx(:)', idx(:)'));
     
 end
 ev(reject) = [];
@@ -94,8 +107,9 @@ end
 
 % Mapping between original and new time frame of physioset events
 [~, orig2new] = ismember(get_sample(ev), idx);
-evNew = set_position(ev, orig2new);
+evNew = set_sample(ev, orig2new);
 evOrig = ev;
+samplIdx = idx;
 
 
 end

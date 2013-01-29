@@ -186,7 +186,7 @@ classdef event < goo.abstract_setget & ...
         
         evArray = sort(evArray, varargin);
         
-        evArray = unique(evArray, property)
+        [y, ca, cb] = unique(evArray, property)
         
         ev = resample(ev, p, q);
         

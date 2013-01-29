@@ -1,7 +1,6 @@
 function h = plot(data, varargin)
 
 import misc.process_arguments;
-import misc.epoch_get;
 
 opt.PlotEvents  = true;
 opt.Interactive = true;
@@ -22,39 +21,20 @@ if ~isempty(sens),
     sens = eeglab(sens);
 end
 
-if ~isempty(ev),
-    
-    [ev, epochDur, trialBeginEv] = eeglab(ev);
-    
-    if isnan(epochDur),
-        X = data.PointSet(:,:);
-    else
-        X = epoch_get(data, trialBeginEv);
-    end
-  
-    if opt.Interactive,
-        eegplot(X, 'events', ev, 'eloc_file', sens, ...
-            'srate', data.SamplingRate);
-        h = gcf;
-    else
-        h  = plot(plotter.eegplot.eegplot.eegplot(varargin{:}), ...
-            data.PointSet(:,:), 'events', ev, 'eloc_file', sens, ...
-            'srate', data.SamplingRate);
-    end
-    
+warning('off', 'event:OutOfRange');
+EEG = eeglab(data);
+warning('on', 'event:OutOfRange');
+ 
+if opt.Interactive,
+    eegplot(EEG.data, 'events', EEG.event, 'eloc_file', sens, ...
+        'srate', data.SamplingRate);
+    h = gcf;
 else
-    
-    if opt.Interactive,
-        eegplot(data.PointSet(:,:), 'eloc_file', sens, ...
-            'srate', data.SamplingRate);
-        h = gcf;
-    else
-        h  = plot(plotter.eegplot.eegplot(varargin{:}), ...
-            data.PointSet(:,:), 'eloc_file', sens, ...
-            'srate', data.SamplingRate);
-    end
-    
+    h  = plot(plotter.eegplot.eegplot.eegplot(varargin{:}), ...
+        EEG.data, 'events', EEG.event, 'eloc_file', sens, ...
+        'srate', data.SamplingRate);
 end
+
 
 % Remove annoying callbacks
 set(gcf, ...

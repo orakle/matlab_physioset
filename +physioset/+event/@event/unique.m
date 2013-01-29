@@ -1,4 +1,4 @@
-function y = unique(x, property)
+function [y, ca, cb] = unique(x, property)
 % UNIQUE - Returns unique event property values
 %
 % values = unique(eventArray, property)
@@ -15,9 +15,6 @@ function y = unique(x, property)
 %
 % See also: pset.event
 
-% Description: Gets unique property values
-% Documentation: class_pset_event.txt
-
 if nargin < 2 || isempty(property),
     property = 'Type';
 end
@@ -30,19 +27,19 @@ if ischar(value) || numel(value) == 1,
 end
 
 if isnumeric(value),
-    y = unique(value);
+    [y, ca, cb] = unique(value);
     return;
 end
 
 if iscell(value) && all(cellfun(@(x) isnumeric(x), value)),
     value = cell2mat(value);    
-    y = unique(value);
+    [y, ca, cb] = unique(value);
     return;
 end
 
 if iscell(value) && all(cellfun(@(x) ischar(x), value)) || ...
         all(cellfun(@(x) isnumeric(x) && numel(x)==1, value)),
-    y = unique(value); 
+    [y, ca, cb] = unique(value); 
     return;
 end
 
@@ -54,7 +51,7 @@ for i = 1:numel(idx)
 end
 
 if all(cellfun(@(x) ischar(x), value)),
-    y = unique(value);
+    [y, ca, cb] = unique(value);
 else
     error('Event types must be strings or numeric scalars');
 end
