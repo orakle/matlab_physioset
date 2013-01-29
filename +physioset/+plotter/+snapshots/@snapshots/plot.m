@@ -45,6 +45,7 @@ import pset.session;
 import inkscape.svg2png;
 import datahash.DataHash;
 import plotter.cell2ticks;
+import misc.num2strcell;
 
 %% Error checking
 if ~pkgisa(data, 'physioset'),

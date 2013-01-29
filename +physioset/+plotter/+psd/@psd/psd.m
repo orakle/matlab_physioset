@@ -1,4 +1,4 @@
-classdef psd < physioset.plotter.abstract_gallery_plotter
+classdef psd < report.abstract_gallery_plotter
     % PSD - Plots Power Spectral Densities from a physioset
     %
     % ## Usage synopsis:
@@ -52,7 +52,7 @@ classdef psd < physioset.plotter.abstract_gallery_plotter
         
         function obj = psd(varargin)
             
-            obj = obj@physioset.plotter.abstract_gallery_plotter(varargin{:});
+            obj = obj@report.abstract_gallery_plotter(varargin{:});
             
         end
         
