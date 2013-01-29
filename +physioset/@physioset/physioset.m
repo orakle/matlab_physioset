@@ -87,9 +87,7 @@ classdef physioset < ...
     %
     %
     % See also: pset.pset, pset.event, sensors.sensors
-    
-    % Documentation: class_physioset.txt
-    % Description: Container for multichannel physiological datasets
+
     
     
     %% IMPLEMENTATION .....................................................
