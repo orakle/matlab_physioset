@@ -155,8 +155,8 @@ eegSensors = sensors.eeg(...
 
 % Read calibrations for eeg sensors
 [gcal, ical] = read_cal(fileName);
-eegSensors = set(eegSensors, 'gcal', gcal);
-eegSensors = set(eegSensors, 'ical', ical);
+eegSensors = set_meta(eegSensors, 'gcal', gcal);
+eegSensors = set_meta(eegSensors, 'ical', ical);
 
 % Take care of additional physiological sensors
 if numel(hdr.signal) > 1,    
@@ -267,7 +267,7 @@ startDate = [mat.day '-' mat.month '-' mat.year];
 
 
 physiosetArgs = construction_args_physioset(obj);
-physiosetObj = physioset(newFileName, nb_sensors(sensorsixed), ...
+physiosetObj = physioset(newFileName, nb_sensors(sensorsMixed), ...
     physiosetArgs{:}, ...
     'SamplingRate',     sampleRate, ...
     'Sensors',          sensorsMixed, ...
