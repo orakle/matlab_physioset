@@ -12,10 +12,7 @@ classdef mff < physioset.import.abstract_physioset_import
     % * All key/values accepted by abstract_physioset_import constructor
     %
     % See also: abstract_physioset_import
-    
-    % Documentation: pkg_import.txt
-    % Description: Imports EGI .mff files
-    
+ 
     properties
        
         Channels;

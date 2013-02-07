@@ -12,8 +12,6 @@ function obj = load(filename)
 %
 % See also: physioset. pset
 
-% Documentation: class_physioset.txt
-% Description: Loads physioset from a mat file
 
 import mperl.file.spec.rel2abs;
 
@@ -24,7 +22,7 @@ tmp = load(filename, '-mat');
 
 obj = tmp.obj;
 [path, name] = fileparts(filename);
-[~, ~, extOld] = fileparts(obj.DataFile);
+[~, ~, extOld] = fileparts(get_datafile(obj));
 newDataFile = [path '/' name extOld];
 if exist(newDataFile, 'file'),    
     fid = fopen(newDataFile);

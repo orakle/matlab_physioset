@@ -10,7 +10,7 @@ function physiosetObj = import(obj, fileNameIn, varargin)
 %
 % PHYSIOSETOBJ is a physioset.object
 %
-% IFILENAME is the name of the EDF+ file to be imported
+% IFILENAME is the name of the Neuromag file to be imported
 %
 %
 % ## Most commonly used key/value pairs:
@@ -56,17 +56,7 @@ function physiosetObj = import(obj, fileNameIn, varargin)
 %                 is relevant only if the Folder key is also provided.
 %                 Default: '([^.]+)'
 %
-% 'Equalize'    : (logical) If set to true, the data from different
-%                 modalities (EEG, MEG, Physiology) will be scaled in such
-%                 a way that they have similar variances. This means for
-%                 instance that MEG data in T, which has much smaller scale
-%                 than EEG data in V, might result in MEG data to be
-%                 transformed to a smaller scale (e.g. pT instead of T).
-%                 Additionally, the modality with the highest variance will
-%                 be scaled so that its variance is in the range of 100
-%                 physical units. This means that EEG data originally
-%                 expressed in V is very likely to be transformed to mV.
-%                 Default: true
+
 %
 %
 % Notes:
@@ -442,7 +432,7 @@ if any(isPhys),
         'PhysDim',  hdr.unit(physIdx));
 end
 
-sensors.ixed = sensors.mixed(gradSensors, magSensors, eegSensors, physSensors);
+sensorsMixed = sensors.mixed(gradSensors, magSensors, eegSensors, physSensors);
 
 if opt.verbose,
     pause(0.0001);
@@ -466,7 +456,7 @@ physiosetObj = physioset(opt.filename, n_dims, ...
     'StartTime',        recStartTime, ...
     'Continuous',       true, ...
     'Event',            events, ...
-    'Sensors',          sensors.ixed, ...
+    'Sensors',          sensorsMixed, ...
     'SamplingTime',     samplingTime, ...
     'Compact',          obj.Compact);
 
