@@ -40,7 +40,7 @@ import physioset.event.event;
 % Important to use method sensors.) here, instead of obj.Sensors. The
 % latter does not have into account "data selections" and would break the
 % code below.
-sensorArray = sensors.obj);
+sensorArray = sensors(obj);
 if ~isempty(sensorArray),
     [group, groupIdx] = sensor_groups(sensorArray);
     if numel(group) > 1,
@@ -75,7 +75,8 @@ else
 end
 
 % Take care of trial-based datasets
-eventArray = select(obj.Event, 'Type', get(event.trial_begin, 'Type'));
+eventArray = select(obj.Event, 'Type', ...
+    get(physioset.event.std.trial_begin, 'Type'));
 if numel(eventArray) < 2,
     ftripStruct.trial = {obj.PointSet(:,:)};
     ftripStruct.time  = {obj.SamplingTime};
@@ -110,11 +111,11 @@ end
 ftripStruct.fsample = obj.SamplingRate;
 
 % Other stuff that may be stored as physioset meta-properties
-ftripStruct.cfg = get(obj, 'cfg');
-ftripStruct.hdr = get(obj, 'hdr');
+ftripStruct.cfg = get_meta(obj, 'cfg');
+ftripStruct.hdr = get_meta(obj, 'hdr');
 
-trialinfo   = get(obj, 'trialinfo');
-sampleinfo  = get(obj, 'sampleinfo');
+trialinfo   = get_meta(obj, 'trialinfo');
+sampleinfo  = get_meta(obj, 'sampleinfo');
 if ~isempty(trialinfo),     ftripStruct.trialinfo   = trialinfo; end
 if ~isempty(sampleinfo),    ftripStruct.sampleinfo  = sampleinfo; end
 
