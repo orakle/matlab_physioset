@@ -1,36 +1,11 @@
-function physiosetObj = import(obj, fileNameIn, varargin)
+function physiosetObj = import(obj, varargin)
 % IMPORT - Imports Neuromag MEG files using Fieldtrip fileio module
 %
-% physiosetObj = import(obj, fileNameIn)
-% physiosetObj = import(obj, 'key', value, ...)
+% pObj = import(obj, fileName)
+% pObjArray = import(obj, fileName1, fileName2, ...);
 %
-% Where
-%
-% OBJ is an physioset.import.fileio object
-%
-% PHYSIOSETOBJ is a physioset.object
-%
-% IFILENAME is the name of the Neuromag file to be imported
-%
-%
-% ## Most commonly used key/value pairs:
-%
-% 'FileName'    : (string) Default: session.instance.tempname
-%                 Name of the generated file
-%
-% 'StartTime'   : (numeric scalar) Start time of the EEG epoch to read from
-%                 the file, in seconds
-%                 Default: [], i.e. read from the beginning
-%
-% 'EndTime'     : (numeric scalar) End time of the EEG epoch, in seconds
-%                 Default: [], i.e. read until the end
-%
-% 'Channels'    : (natural) Indices of the channels to read
-%                 Default: [], i.e. all channels
-%
-% 'Verbose'     : (logical) If set to false, no status messages will be
-%                 displayed.
-%                 Default: obj.Verbose
+% See also: mff
+
 %
 %
 % ## Secondary key/value pairs:
@@ -39,22 +14,7 @@ function physiosetObj = import(obj, fileNameIn, varargin)
 %                 values (i.e. trigger values) to event types. See notes
 %                 below for an example.
 %                 Default: [], i.e. identity mapping
-%
-% 'StartSample' : (natural scalar) First sample to read.
-%                 Default: 1
-%
-% 'EndSample'   : (natural scalar) Last sample to read.
-%                  Default: [], last recorded sample
-%
-% 'Folder'      : (string) If provided, all files in the specified folder
-%                 will be imported, i.e. a cell array of physioset.
-%                 objects will be returned.
-%                 Default: []
-%
-% 'RegExp'      : (string) Regular expression that matches the files in the
-%                 specified folder that the user wants to import. This key
-%                 is relevant only if the Folder key is also provided.
-%                 Default: '([^.]+)'
+
 %
 
 %
@@ -64,7 +24,7 @@ function physiosetObj = import(obj, fileNameIn, varargin)
 % * The epoch range has to be specified either in samples or in time but not
 %   in both
 %
-% * If the optional argument folder is provided, then the FILENAMEIN
+% * If the optional argument folder is provided, then the fileName
 %   mandatory argument must be empty
 %
 % * The following Value2Type mapping:
@@ -78,145 +38,91 @@ function physiosetObj = import(obj, fileNameIn, varargin)
 %   an event of type 'Target' and value matching the corresponding trigger
 %   value.
 %
-% See also: physioset.import.
+% See also: neuromag
 
-% Deal with the multi-filename case
-if iscell(fileNameIn),
-    eegset_obj = cell(numel(fileNameIn), 1);
-    for i = 1:numel(fileNameIn)
-        eegset_obj{i} = import(obj, fileNameIn{i}, varargin{:});
+import pset.globals;
+import safefid.safefid;
+import exceptions.*;
+import misc.trigger2code;
+import misc.decompress;
+import pset.file_naming_policy;
+import misc.sizeof;
+import misc.eta;
+import physioset.import.neuromag;
+import physioset.physioset;
+
+if numel(varargin) == 1 && iscell(varargin{1}),
+    varargin = varargin{1};
+end
+
+% Deal with the multi-newFileName case
+if nargin > 2
+    pObj = cell(numel(varargin), 1);
+    for i = 1:numel(varargin)
+        pObj{i} = import(obj, varargin{i});
     end
     return;
 end
 
-import physioset.import.neuromag;
-import physioset.
-import physioset.import.globals;
-import pset.event;
-import pset.file_naming_policy;
-import misc.process_arguments;
-import misc.sizeof;
-import misc.regexpi_dir;
-import misc.eta;
-import misc.decompress;
-import misc.trigger2code;
+maxMemoryChunk  = globals.get.LargestMemoryChunk;
 
-if nargin < 2,
-    ME = MException('import:invalidInput', ...
-        'At least two input arguments are expected');
-    throw(ME);
-end
-
-% Add fieltrip to the pathname
-pathAdded = false;
-if isempty(strfind(path, obj.Fieldtrip))
-    addpath(genpath(obj.Fieldtrip));
-    pathAdded = true;
-end
+fileName = varargin{1};
 
 % Default values of optional input arguments
-opt.filename     = [];
-opt.starttime    = [];
-opt.endtime      = [];
-opt.startsample  = [];
-opt.endsample    = [];
-opt.channels     = [];
-opt.dateformat   = globals.evaluate.DateFormat;
-opt.timeformat   = globals.evaluate.TimeFormat;
-opt.folder       = '';
-opt.regexp       = '([^.]+)';
-opt.verbose      = obj.Verbose;
-opt.triggerchan  = 'STI101';
-opt.megchan      = '(MEG)(\d+)';
-opt.megchantrans = '$1 $2';
-opt.eegchan      = '(EEG|EOG)(\d+)';
-opt.eegchantrans = '$1 $2';
-opt.gradunit     = '.+/m$';
-opt.equalize     = obj.Equalize;
-% Note that only ECG physiology channels are considered at this point
-opt.physchan      = '(ECG)(\d+)';
-opt.physchantrans = '$1 $2';
+verbose      = is_verbose(obj);
+verboseLabel = get_verbose_label(obj);
+origVerboseLabel = goo.globals.get.VerboseLabel;
+goo.globals.set('VerboseLabel', verboseLabel);
 
-[~, opt] = process_arguments(opt, varargin);
-
-if (~isempty(opt.starttime) || ~isempty(opt.endtime)) && ...
-        (~isempty(opt.startsample) || ~isempty(opt.endsample)),
-    ME = MException('import:invalidInput', ...
-        ['Data range must be specified either in samples or in time ' ...
-        '(seconds) but not in both']);
-    throw(ME);
-end
-
-if ~isempty(fileNameIn) && ~isempty(opt.folder),
-    ME = MException('import:invalidInput', ...
-        ['The ''Folder'' optional argument is only accepted if the '...
-        'IFILENAME mandatory input argument is empty']);
-    throw(ME);
-end
-
-% Use recursion to process a opt.folder file by file
-% =========================================================================
-if isempty(fileNameIn) && isempty(opt.folder),
-    physiosetObj = [];
-    return;
-elseif isempty(fileNameIn)
-    file_list = opt.regexpi_dir(opt.folder, opt.regexp);
-    physiosetObj = cell(numel(file_list), 1);
-    for i = 1:numel(file_list)
-        if opt.verbose,
-            [~, this_name, this_ext] = fileparts(file_list{i});
-            fprintf('\n(import) Importing ''%s''...', [this_name this_ext]);
-        end
-        % This feature has not been tested
-        physiosetObj{i} = import(obj, file_list{i}, varargin{:}, ...
-            'Verbose', false, ...
-            'Folder', []);
-        if opt.verbose,
-            fprintf('[done]\n');
-        end
-    end
-    return;
-end
+% Configuration options
+eegRegex    = obj.EegRegex;
+megRegex    = obj.MegRegex;
+physRegex   = obj.PhysRegex;
+trigRegex   = obj.TriggerRegex;
+eegRegexTrans  = obj.EegTransRegex;
+megRegexTrans  = obj.MegTransRegex;
+physRegexTrans = obj.PhysTransRegex;
+graduRegex  = obj.GradUnitRegex;
+mustEqualize    = obj.Equalize;
 
 % The input file might be zipped
-[status, fileNameIn] = decompress(fileNameIn, 'Verbose', opt.verbose);
+[status, fileName] = decompress(fileName, 'Verbose', verbose);
 isZipped = ~status;
 
 % Determine the names of the generated (imported) files
-if isempty(opt.filename),
-    opt.filename = file_naming_policy(obj.FileNaming, fileNameIn);
+if isempty(obj.FileName),
+    
+    newFileName = file_naming_policy(obj.FileNaming, fileName);
+    dataFileExt = globals.get.DataFileExt;
+    newFileName = [newFileName dataFileExt];
+    
+else
+    
+    newFileName = obj.FileName;
+    
 end
 
-opt.filename = strrep(opt.filename, obj.DataFileExt, '');
-opt.filename = [opt.filename obj.DataFileExt];
-
-% Read the header
-% =========================================================================
-if opt.verbose,
-    fprintf('\n(import) Reading header...');
+%% Read header
+if verbose,
+    fprintf([verboseLabel 'Reading header...']);
 end
-% Read header but capture the produced messages to avoid too much verbosity
-[~, hdr] = evalc( ['ft_read_header(''' fileNameIn ''')'] );
 
-if isempty(opt.channels),
-    opt.channels = 1:hdr.nChans;
+[~, hdr] = evalc( ['ft_read_header(''' fileName ''')'] );
+if verbose,
+    fprintf('[done]\n\n')
 end
+
 sr = hdr.Fs;
-samplingTime = linspace(0, hdr.nSamples/sr, hdr.nSamples);
-recStartDate = datestr(now, opt.dateformat);
-recStartTime = datestr(now, opt.timeformat);
-if opt.verbose,
-    fprintf('[done]\n');
-    pause(0.001); % To ensure that fprintf flushes the buffer
-end
 
-% Read the signal values
-% =========================================================================
-if opt.verbose,
-    fprintf('\n(import) Writing data to binary file...');
+samplingTime = linspace(0, hdr.nSamples/sr, hdr.nSamples);
+
+%% Read signal values
+if verbose,
+    [~, name] = fileparts(newFileName);
+    fprintf('%sWriting data to %s...', verboseLabel, name);
 end
 tinit = tic;
-chunkSize = floor(obj.ChunkSize/(sizeof(obj.Precision)*length(opt.channels))); % in samples
+chunkSize = floor(obj.ChunkSize/(sizeof(obj.Precision)*hdr.nChans)); % in samples
 if hdr.nTrials > 1,
     % Chunk size must be an integer number of trials
     chunkSize = floor(chunkSize/(hdr.nSamples))*hdr.nSamples;
@@ -228,19 +134,15 @@ else
     boundary(end) = boundary(end)+1;
 end
 nbChunks = length(boundary) - 1;
-fid = fopen(opt.filename, 'w');
-if fid < 1,
-    ME = MException('physioset.import.fileio:import', ...
-        'I could not open file %s for writing', opt.filename);
-    throw(ME);
-end
+fid = safefid(newFileName, 'w');
+if ~fid.Valid, throw(InvalidFID(newFileName)); end
 
-% Trigger data/MEG data/EEG data/Physiology data
-isEeg     = cellfun(@(x) ~isempty(x), regexpi(hdr.label(:), opt.eegchan));
-isPhys    = cellfun(@(x) ~isempty(x), regexpi(hdr.label(:), opt.physchan));
-isTrigger = cellfun(@(x) ~isempty(x), regexpi(hdr.label(:), opt.triggerchan));
-isMeg     = cellfun(@(x) ~isempty(x), regexpi(hdr.label(:), opt.megchan));
-isGrad    = cellfun(@(x) ~isempty(x), regexpi(hdr.unit(:), opt.gradunit));
+% Identify channels for trigger data/MEG data/EEG data/Physiology data
+isEeg     = cellfun(@(x) ~isempty(x), regexpi(hdr.label(:), eegRegex));
+isPhys    = cellfun(@(x) ~isempty(x), regexpi(hdr.label(:), physRegex));
+isTrigger = cellfun(@(x) ~isempty(x), regexpi(hdr.label(:), trigRegex));
+isMeg     = cellfun(@(x) ~isempty(x), regexpi(hdr.label(:), megRegex));
+isGrad    = cellfun(@(x) ~isempty(x), regexpi(hdr.unit(:),  graduRegex));
 isGrad    = isMeg & isGrad;
 isMag     = isMeg & ~isGrad;
 
@@ -260,11 +162,10 @@ for chunkItr = 1:nbChunks
     begSample = boundary(chunkItr);
     endSample = boundary(chunkItr+1)-1;
     [~, dat] = evalc( ...
-        ['ft_read_data(fileNameIn, ' ...
+        ['ft_read_data(fileName, ' ...
         '''begsample'',        begSample, ' ...
         '''endsample'',        endSample, ' ...
         '''checkboundary'',    false, '...
-        '''chanidx'',          opt.channels, '...
         '''header'',           hdr)']);
     if ndims(dat) > 2, %#ok<ISMAT>
         dat = reshape(dat, [size(dat,1), round(numel(dat)/size(dat,1))]);
@@ -288,11 +189,10 @@ for chunkItr = 1:nbChunks
     
     % Write the chunk into the output binary file
     fwrite(fid, dat(:), obj.Precision);
-    if opt.verbose,
+    if verbose,
         eta(tinit, nbChunks, chunkItr);
     end
 end
-n_dims = size(dat,1);
 
 % Fix the order of the channels in the header
 hdr.grad    = neuromag.grad_reorder(hdr.grad, megIdx);
@@ -307,18 +207,11 @@ eegIdx  = numel(gradIdx)+numel(magIdx)+1:numel(gradIdx)+...
     numel(magIdx)+numel(eegIdx);
 physIdx = numel(gradIdx)+numel(magIdx)+numel(eegIdx)+1:...
     numel(gradIdx)+numel(magIdx)+numel(eegIdx)+numel(physIdx);
-if opt.verbose,
-    fprintf('\n');
-    pause(0.001);
-end
+if verbose, fprintf('\n\n'); end
 
-% Close the output file
-fclose(fid);
-
-% Convert trigger data to events
-% =========================================================================
-if opt.verbose,
-    fprintf('\n(import) Gathering events from trigger data...');
+%% Convert trigger data to events
+if verbose,
+    fprintf([verboseLabel 'Reading events...']);
 end
 events = [];
 for i = 1:size(triggerData,1),
@@ -333,27 +226,23 @@ for i = 1:size(triggerData,1),
         if isempty(thisType),
             thisType = code(j);
         end
-        thisEvent = pset.event(sample(j), ...
+        thisEvent = physioset.event.event(sample(j), ...
             'Type', thisType, 'Value', thisValue);
         events = [events;thisEvent]; %#ok<AGROW>
     end
 end
-if opt.verbose,
-    pause(0.0001);
-    fprintf('[done]\n\n');
-end
+if verbose, fprintf('[done]\n\n'); end
 
-% Generate a sensors.mixed object with sensor information
-% =========================================================================
-if opt.verbose,
-    fprintf('(import) Generating sensors.descriptions...');
+%% Sensor information
+if verbose,
+    fprintf([verboseLabel 'Reading sensor information...']);
 end
 eegSensors  = [];
 magSensors  = [];
 gradSensors = [];
 physSensors = [];
 if any(isEeg),
-    eegLabels = cellfun(@(x) regexprep(x, opt.eegchan, opt.eegchantrans), ...
+    eegLabels = cellfun(@(x) regexprep(x, eegRegex, eegRegexTrans), ...
         hdr.label(eegIdx), 'UniformOutput', false);
     eegSensors  = sensors.eeg(...
         'Label',     eegLabels, ...
@@ -362,7 +251,7 @@ if any(isEeg),
 end
 
 if any(isMag),
-    magLabels = cellfun(@(x) regexprep(x, opt.megchan, opt.megchantrans), ...
+    magLabels = cellfun(@(x) regexprep(x, megRegex, megRegexTrans), ...
         hdr.label(magIdx), 'UniformOutput', false);
     % Sensors for the magnetometers
     if isfield(hdr.grad, 'coilpos'),
@@ -389,12 +278,12 @@ if any(isMag),
             'Label',        magLabels, ...
             'OrigLabel',    hdr.label(magIdx));
     else
-        throw(neuromag.InvalidFieldtripStruct);
+        error('Invalid Fieldtrip structure');
     end
 end
 
 if any(isGrad),
-    gradLabels = cellfun(@(x) regexprep(x, opt.megchan, opt.megchantrans), ...
+    gradLabels = cellfun(@(x) regexprep(x, megRegex, megRegexTrans), ...
         hdr.label(gradIdx), 'UniformOutput', false);
     % Sensors for the gradiometers
     if isfield(hdr.grad, 'coilpos'),
@@ -419,71 +308,55 @@ if any(isGrad),
             'Label',        gradLabels, ...
             'OrigLabel',    hdr.label(gradIdx));
     else
-        throw(neuromag.InvalidFieldtripStruct);
+        error('Invalid Fieldtrip structure');
     end
     
 end
 
 if any(isPhys),
-    physLabels = cellfun(@(x) regexprep(x, opt.physchan, opt.physchantrans), ...
+    physLabels = cellfun(@(x) regexprep(x, physRegex, physRegexTrans), ...
         hdr.label(physIdx), 'UniformOutput', false);
     physSensors = sensors.physiology(...
         'Label',    physLabels, ...
         'PhysDim',  hdr.unit(physIdx));
 end
 
-sensorsMixed = sensors.mixed(gradSensors, magSensors, eegSensors, physSensors);
+sensorsMixed = sensors.mixed(gradSensors, magSensors, eegSensors, ...
+    physSensors);
 
-if opt.verbose,
-    pause(0.0001);
-    fprintf('[done]\n\n');
-end
+if verbose, fprintf('[done]\n\n'); end
 
-% Create a sensors.meg object
-% =========================================================================
-if opt.verbose,
-    fprintf('(import) Generating a physioset object...');
+
+%% Generate output object
+if verbose,
+    fprintf('%sGenerating a physioset object...', verboseLabel);
 end
 % Generate the output physioset object
-[~, name] = fileparts(opt.filename);
-physiosetObj = physioset(opt.filename, n_dims, ...
-    'Name',             name, ...
-    'Precision',        obj.Precision, ...
-    'Writable',         obj.Writable, ...
-    'Temporary',        obj.Temporary, ...
+physiosetArgs = construction_args_physioset(obj);
+physiosetObj  = physioset(newFileName, nb_sensors(sensorsMixed), ...
+    'Name',             name, ...  
     'SamplingRate',     sr, ...
-    'StartDate',        recStartDate, ...
-    'StartTime',        recStartTime, ...
-    'Continuous',       true, ...
     'Event',            events, ...
-    'Sensors',          sensorsMixed, ...
-    'SamplingTime',     samplingTime, ...
-    'Compact',          obj.Compact);
+    'Sensors',          sensorsMixed);
 
-physiosetObj = set(physiosetObj, 'hdr', hdr);
-if opt.verbose,
-    fprintf('[done]\n\n');
-end
+physiosetObj = set_meta(physiosetObj, 'hdr', hdr);
 
-if opt.equalize
-    if opt.verbose,
-        fprintf('(import) Equalizing...');
+if verbose, fprintf('[done]\n\n'); end
+
+if mustEqualize
+    
+    if verbose,
+        fprintf([verboseLabel 'Equalizing...']);
     end
-    physiosetObj = equalize(physiosetObj, 'Verbose', opt.verbose);
+    physiosetObj = equalize(physiosetObj, 'Verbose', verbose);
+    if verbose, fprintf('\n\n'); end
     
 end
 
 
 if isZipped,
-    delete(fileNameIn);
+    delete(fileName);
 end
 
-if pathAdded,
-    rmpath(genpath(obj.Fieldtrip));
-end
-
-if opt.verbose,
-    fprintf('\n\n');
-end
 
 end

@@ -24,9 +24,6 @@ function obj = equalize(obj, varargin)
 %
 % See also: physioset
 
-% Documentation: class_physioset.txt
-% Description: Equalize signal physical dimensions
-
 % TO-DO: IF THERE IS AN ERROR IN THIS FUNCTION YOU MAY END UP WITH WRONG
 % INFORMATION IN THE PHYSDIM FIELD OF THE SENSORS OR WITH WRONG SCALING OF
 % THE DATA CHANNELS. MAKE THIS FUNCTION EXCEPTION SAFE!

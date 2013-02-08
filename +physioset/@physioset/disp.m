@@ -43,7 +43,11 @@ fprintf('%20s : %s\n', 'StartTime',      get_msg_starttime(obj));
 
 fprintf('%20s : %s\n', 'Equalization',   get_msg_eq(obj));
 
-disp_meta(obj);
+
+if ~isempty(get_meta(obj)),
+    fprintf('\nMeta properties:\n\n');
+    disp_meta(obj);
+end
 
 fprintf('\n');
 

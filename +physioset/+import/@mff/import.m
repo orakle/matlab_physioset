@@ -2,6 +2,11 @@ function physiosetObj = import(obj, varargin)
 % IMPORT - Imports MFF files
 %
 % pObj = import(obj, fileName)
+% pObjArray = import(obj, fileName1, fileName2, ...);
+%
+% ## Notes:
+%
+%   * Compressed .gz files are supported.
 %
 % See also: mff
 
@@ -15,6 +20,7 @@ import misc.sizeof;
 import misc.eta;
 import pset.file_naming_policy;
 import exceptions.*
+import misc.decompress;
 
 if numel(varargin) == 1 && iscell(varargin{1}),
     varargin = varargin{1};
@@ -38,6 +44,10 @@ verbose      = is_verbose(obj);
 verboseLabel = get_verbose_label(obj);
 origVerboseLabel = goo.globals.get.VerboseLabel;
 goo.globals.set('VerboseLabel', verboseLabel);
+
+% The input file might be zipped
+[status, fileName] = decompress(fileName, 'Verbose', verbose);
+isZipped = ~status;
 
 % Determine the names of the generated (imported) files
 if isempty(obj.FileName),
@@ -265,7 +275,6 @@ mat = regexpi(recordTime, ...
 startTime = [mat.hours ':' mat.mins ':' mat.secs];
 startDate = [mat.day '-' mat.month '-' mat.year];
 
-
 physiosetArgs = construction_args_physioset(obj);
 physiosetObj = physioset(newFileName, nb_sensors(sensorsMixed), ...
     physiosetArgs{:}, ...
@@ -289,6 +298,11 @@ end
 
 % Unset the global verbose
 goo.globals.set('VerboseLabel', origVerboseLabel);
+
+% Delete unzipped data file
+if isZipped,
+    delete(fileNameIn);
+end
 
 end
 

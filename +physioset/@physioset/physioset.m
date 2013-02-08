@@ -465,6 +465,8 @@ classdef physioset < ...
         % node is a pset.node.node object or 
         obj             = add_processing_history(obj, node);
         
+        obj             = equalize(obj, varargin);
+        
     end
     
     % MATLAB built-in numeric methods (pset.pset forwarded)
