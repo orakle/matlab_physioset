@@ -1,32 +1,32 @@
 classdef eeglab < physioset.import.abstract_physioset_import
-    % EEGLAB - Class for importing EEGLAB files
+    % EEGLAB - Imports EEGLAB's .set files
     %
-    % obj = physioset.import.eeglab('key', value, ...)
+    % ## Usage synopsis:
     %
+    % import physioset.import.eeglab;
+    % importer = eeglab('FileName', 'myOutputFile');
+    % data = import(importer, 'myMFFfile.mff');
     %
-    % ## Accepted key/value pairs:
+    % ## Accepted (optional) construction arguments (as key/values):
     %
-    % See help physioset.import.abstract_physioset_import
+    % * All key/values accepted by abstract_physioset_import constructor
     %
-    %
-    %
-    % See also: physioset.import.abstract_physioset_import
+    % See also: abstract_physioset_import
     
-    % Documentation: pkg_physioset.import.txt
-    % Description: Imports EEGLAB files
     
+    % physioset.import.import interface
     methods
+        physObj = import(obj, ifilename, varargin);        
+    end
+    
+    % Constructor
+    methods
+        
         function obj = eeglab(varargin)
-           obj = obj@physioset.import.abstract_physioset_import(varargin{:}); 
+            obj = obj@physioset.import.abstract_physioset_import(varargin{:});             
         end
+        
     end
-    
-    % EEGC.import.interface
-    methods
-        eegset_obj = import(obj, ifilename, varargin);        
-    end
-    
-    
     
     
 end

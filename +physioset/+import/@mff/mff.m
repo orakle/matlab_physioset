@@ -5,7 +5,7 @@ classdef mff < physioset.import.abstract_physioset_import
     %
     % import physioset.import.mff;
     % importer = mff('FileName', 'myOutputFile');
-    % data = import(mff, 'myMFFfile.mff');
+    % data = import(importer, 'myMFFfile.mff');
     %
     % ## Accepted (optional) construction arguments (as key/values):
     %
@@ -42,7 +42,7 @@ classdef mff < physioset.import.abstract_physioset_import
     
     % physioset.import.import interface
     methods
-        [eegsetObj, physiosetObj] = import(obj, filename, varargin);        
+        physiosetObj = import(obj, filename, varargin);        
     end
     
     
