@@ -11,6 +11,10 @@ function pObj = import(obj, varargin)
 % See also: mff
 
 import physioset.physioset;
+import misc.decompress;
+import pset.file_naming_policy;
+import pset.globals;
+
 
 if numel(varargin) == 1 && iscell(varargin{1}),
     varargin = varargin{1};
