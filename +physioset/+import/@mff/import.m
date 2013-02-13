@@ -289,7 +289,7 @@ if verbose,
     fprintf('[done]\n\n');
 end
 
-%% Undoing global effects 
+%% Undoing stuff 
 
 % Add BIOSIG back to the path
 if any(mustRemove),

@@ -17,9 +17,9 @@ function physObj = from_eeglab(str, varargin)
 %           The name of the memory-mapped file to which the generated
 %           physioset will be linked.
 %
-%       SensorType : A cell array of strings. 
+%       SensorClass : A cell array of strings. 
 %           Default: repmat({'eeg', str.nbchan, 1)
-%           The types of the data sensors. Valid types are: eeg, meg,
+%           The classes of the data sensors. Valid types are: eeg, meg,
 %           physiology
 %
 % See also: from_pset, from_fieldtrip
@@ -42,7 +42,7 @@ if ~isstruct(str) || ~isfield(str, 'data') || ...
 end
 
 %% Optional input arguments
-opt.SensorType  = repmat({'eeg'}, str.nbchan, 1);
+opt.SensorClass  = repmat({'eeg'}, str.nbchan, 1);
 opt.FileName    = '';
 
 [~, opt] = process_arguments(opt, varargin);
@@ -70,12 +70,12 @@ fileExt = globals.get.DataFileExt;
 opt.FileName = catfile(path, [name fileExt]);
 
 %% Sensor information
-uTypes = unique(opt.SensorType);
+uTypes = unique(opt.SensorClass);
 
 % We need to ensure that same-type sensors are correlative
 count = 0;
 for i = 1:numel(uTypes)
-   idx = find(ismember(opt.SensorType, uTypes{i}));
+   idx = find(ismember(opt.SensorClass, uTypes{i}));
    ordering(count+1:count+numel(idx)) = idx;
    count = count + numel(idx);
 end
@@ -83,14 +83,14 @@ end
 sensorGroups = cell(1, numel(uTypes));
 if ~isempty(str.chanlocs),    
     for i = 1:numel(uTypes)
-        chans = str.chanlocs(ismember(opt.SensorType, uTypes{i}));
+        chans = str.chanlocs(ismember(opt.SensorClass, uTypes{i}));
         sensorGroups{i} = ...
             eval(sprintf('sensors.%s.from_eeglab(%s);', ...
             lower(uTypes{i}), chans));
     end
 else
     for i = 1:numel(uTypes)
-        nbSensors = numel(find(ismember(opt.SensorType, uTypes{i})));
+        nbSensors = numel(find(ismember(opt.SensorClass, uTypes{i})));
         sensorGroups{i} = eval(sprintf('sensors.%s.empty(%d);', ...
             uTypes{i}, nbSensors));
     end

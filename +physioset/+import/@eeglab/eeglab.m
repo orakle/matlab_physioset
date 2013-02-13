@@ -13,6 +13,45 @@ classdef eeglab < physioset.import.abstract_physioset_import
     %
     % See also: abstract_physioset_import
     
+    properties
+       
+        SensorClass;
+        
+    end
+    
+    methods
+       
+        function obj = set.SensorClass(obj, value)
+            import exceptions.*;
+           
+            if isempty(value),
+                obj.SensorClass = [];
+                return;
+            end
+            
+            if ~iscell(value) || ~all(cellfun(@(x) ischar(x), value)),
+                throw(InvalidPropValue('SensorClass', ...
+                    'Must be a cell array of strings'));
+            end
+            
+            for i = 1:numel(value),
+               
+                try
+                    eval(['sensors.' value{i}]);
+                catch ME
+                    msg = sprintf(['''%s'' is not a valid class within the '  ...
+                        'sensors package'], value{i});
+                    throw(InvalidPropValue('SensorClass', msg));
+                end
+            end
+            
+            obj.SensorClass = value;
+            
+            
+        end
+        
+    end
+    
     
     % physioset.import.import interface
     methods

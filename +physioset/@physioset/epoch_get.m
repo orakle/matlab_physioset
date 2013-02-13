@@ -59,6 +59,8 @@ if isempty(trialEv),
 end
 
 % Indices of the picked samples
+pos = reshape(pos, numel(pos), 1);
+off = reshape(off, numel(off), 1);
 idx = repmat(pos+off, 1, dur) + repmat(0:dur-1, numel(pos), 1);
 idx = idx';
 y   = reshape(x.PointSet(:, idx(:)), [size(x, 1), dur, numel(pos)]);
@@ -76,14 +78,13 @@ end
 
 % Reject physioset events that do not fall in any trial
 ev = get_event(x);
-% isTrialEv = (ev == trial_begin);
-% ev(isTrialEv) = [];
-% if isempty(ev),
-%     evNew       = [];
-%     samplIdx    = idx;
-%     evOrig      = [];
-%     return;
-% end
+
+if isempty(ev), 
+    evNew    = [];
+    evOrig   = [];
+    samplIdx = idx;
+    return;    
+end
 
 pos = get_sample(ev);
 dur = get_duration(ev);
