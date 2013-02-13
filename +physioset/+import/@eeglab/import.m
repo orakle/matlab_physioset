@@ -1,4 +1,4 @@
-function pObj = import(obj, ifilename, varargin)
+function pObj = import(obj, varargin)
 % IMPORT - Imports EEGLAB .set files
 %
 % pObj = import(obj, fileName)
@@ -12,21 +12,12 @@ function pObj = import(obj, ifilename, varargin)
 
 import physioset.physioset;
 
-% Deal with the multi-filename case
-if iscell(ifilename),
-    eegset_obj = cell(numel(ifilename), 1);
-    for i = 1:numel(ifilename)
-        eegset_obj{i} = import(obj, ifilename{i}, varargin{:});
-    end   
-    return;
-end
-
 if numel(varargin) == 1 && iscell(varargin{1}),
     varargin = varargin{1};
 end
 
 % Deal with the multi-newFileName case
-if nargin > 2
+if numel(varargin) > 2
     pObj = cell(numel(varargin), 1);
     for i = 1:numel(varargin)
         pObj{i} = import(obj, varargin{i});

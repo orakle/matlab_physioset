@@ -1,128 +1,70 @@
-function physioSet = import(obj, iFileName, varargin)
-% IMPORT - Imports FIELDTRIP structs
+function pObj = import(obj, varargin)
+% IMPORT - Imports Fieldtrip .set files
 %
-% physioSet = import(obj, iFileName)
-% physioSet = import(obj, 'key', value, ...)
-%
-% Where
-%
-% OBJ is an physioset.import.fieldtrip object
-%
-% IFILENAME is the name of the Fieldtrip file to be imported
-%
-% PHYSIOSETOBJ is a physioset.object containing the imported data
-%
-%
-% ## Optional arguments (as key/value pairs):
-%
-%
-%       FileName: (string) Default: session.instance.tempname
-%           Name of the generated file
-%
+% pObj = import(obj, fileName)
+% pObjArray = import(obj, fileName1, fileName2, ...);
 %
 % ## Notes:
-% 
-% * You can used external.regexpdir.regexpdir to build the cell array of
-%   files that are to be imported. Example:
 %
-%   import external.regexpdir.regexpdir;
-%   % Get names of all .mff files under the root directory dataFolder
-%   myFiles = regexpdir('C:/dataFolder', '.mff$', true);
-%   myObj = import(physioset.import.fileio, myFiles);
+%   * Compressed .gz files are supported.
 %
-%
-% See also: physioset.import. physioset.from_fieldtrip
+% See also: mff
 
-import physioset.
-import physioset.event.event;
-import pset.file_naming_policy;
-import misc.process_arguments;
-import misc.sizeof;
-import misc.regexpi_dir;
-import mperl.file.spec.*;
+import physioset.physioset;
 
-verboseLabel = get_verbose_label(obj);
-verbose      = is_verbose(obj);
+if numel(varargin) == 1 && iscell(varargin{1}),
+    varargin = varargin{1};
+end
 
-% Set the global verbose (for sub-functions called here)
-globals.set('VerboseLabel', verboseLabel);
-
-
-%% Deal with the multi-filename case using recursion
-if iscell(iFileName),
-    physioSet = cell(numel(iFileName), 1);
-    for i = 1:numel(iFileName)
-        physioSet{i} = import(obj, iFileName{i}, varargin{:});
+% Deal with the multi-newFileName case
+if numel(varargin) > 2
+    pObj = cell(numel(varargin), 1);
+    for i = 1:numel(varargin)
+        pObj{i} = import(obj, varargin{i});
     end
     return;
 end
 
-%% Error checking
-if nargin < 2 || isempty(iFileName),
-    ME = MException('import:invalidInput', ...
-        'At least two input arguments are expected');
-    throw(ME);
+fileName = varargin{1};
+
+% Default values of optional input arguments
+verbose      = is_verbose(obj);
+verboseLabel = get_verbose_label(obj);
+origVerboseLabel = goo.globals.get.VerboseLabel;
+goo.globals.set('VerboseLabel', verboseLabel);
+
+% The input file might be zipped
+[status, fileName] = decompress(fileName, 'Verbose', verbose);
+isZipped = ~status;
+
+% Determine the names of the generated (imported) files
+if isempty(obj.FileName),
+    
+    newFileName = file_naming_policy(obj.FileNaming, fileName);
+    dataFileExt = globals.get.DataFileExt;
+    newFileName = [newFileName dataFileExt];
+    
+else
+    
+    newFileName = obj.FileName;
+    
 end
 
-%% Optional input arguments
-opt.filename    = [];
-
-[~, opt] = process_arguments(opt, varargin);
-
-
-%% Determine the names of the generated (imported) files
-filename = opt.filename;
-if isempty(filename),
-    filename = file_naming_policy(obj.FileNaming, iFileName);
-end
-dataFileExt = pset.globals.evaluate.DataFileExt;
-filename = regexprep(filename, ['(' dataFileExt ')'], '');
-filename = [filename dataFileExt];
-
-%% Load the .mat file and try to guess the name of the data struct
-if verbose,
-    [~, name, ext] = fileparts(iFileName);
-    fprintf([verboseLabel 'Loading %s...'], [name ext]);
-end
-str = load(iFileName);
-if verbose,
-    fprintf('[done]\n\n');
-end
+str = load(fileName, '-mat');
 fNames = fieldnames(str);
-data = [];
-for i = 1:numel(fNames),
-    if isstruct(str.(fNames{i})) && isfield(str.(fNames{i}), 'cfg') && ...
-            isfield(str.(fNames{i}), 'fsample'),
-        data = str.(fNames{i});        
-    end
-end
-if isempty(data),
-    ME = MException('physioset.import.fieldtrip:MissingData', ...
-        'I could not find any M/EEG data structure in %s', iFileName);
-    throw(ME);
-end
+data = str.(fNames{1});
+pObj = physioset.from_fieldtrip(data, 'FileName', newFileName);
 
-
-%% Call the static constructor
-if verbose,
-    [~, name, ext] = fileparts(iFileName);
-    fprintf([verboseLabel 'Generating physioset object %s...'], [name ext]);
-end
-[~, name] = fileparts(iFileName);
-physioSet = physioset.from_fieldtrip(data, ...
-    'Name',         name, ...
-    'FileName',     filename, ...
-    'Precision',    obj.Precision, ...
-    'Writable',     obj.Writable, ...
-    'Temporary',    obj.Temporary);
-
-%save(physioSet);
-if verbose,
-    fprintf('\n\n');
-end
+%% Undoing stuff 
 
 % Unset the global verbose
-globals.set('VerboseLabel', '');
+goo.globals.set('VerboseLabel', origVerboseLabel);
+
+% Delete unzipped data file
+if isZipped,
+    delete(fileNameIn);
+end
+
 
 end
 

@@ -10,11 +10,6 @@ classdef fieldtrip < physioset.import.abstract_physioset_import
     %
     % See also: physioset.import. physioset.from_fieldtrip
     
-    % Documentation: pkg_physioset.import.txt
-    % Description: Imports FIELDTRIP files
-    
-    
-    
     methods
         function obj = fieldtrip(varargin)
            obj = obj@physioset.import.abstract_physioset_import(varargin{:}); 
