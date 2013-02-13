@@ -32,12 +32,10 @@ function obj = from_fieldtrip(fStruct, varargin)
 %
 % See also: physioset. pset.eegset.from_pset, pset.eegset.from_eeglab
 
-% Documentation: class_physioset.txt
-% Description: Converts Fieldtrip struct into a physioset object
 
 import physioset.event.event;
 import pset.pset;
-import physioset.
+import physioset.physioset;
 import misc.process_arguments;
 
 %% Error checking
@@ -60,14 +58,14 @@ end
 
 %% Sensor information
 if isfield(fStruct, 'grad'),
-    sensors.bj = sensors.meg.from_fieldtrip(fStruct.grad, fStruct.label); 
+    sensorsObj = sensors.meg.from_fieldtrip(fStruct.grad, fStruct.label); 
 elseif isfield(fStruct, 'elec'),
-    sensors.bj = sensors.eeg.from_fieldtrip(fStruct.elec, fStruct.label);
+    sensorsObj = sensors.eeg.from_fieldtrip(fStruct.elec, fStruct.label);
 else
-    warning('physioset.from_fieldtrip:MissingSensorInformation', ...
+    warning('physioset:MissingSensorInformation', ...
         ['Fieldtrip structure does not contain sensor information:' ...
-        'Assuming vanilla EEG sensors.]);
-    sensors.bj = sensors.eeg.empty();
+        'Assuming vanilla EEG sensors.']);
+    sensorsObj = sensors.eeg.empty();
 end
 
 % Create an event per trial
@@ -113,7 +111,7 @@ obj = physioset(opt.filename, size(data,1), ...
   'SamplingRate',     fStruct.fsample, ...
   'StartDate',        datestr(now, dateformat), ...
   'StartTime',        datestr(now, timeformat), ...
-  'Sensors',          sensors.bj, ...
+  'Sensors',          sensorsObj, ...
   'Continuous',       false, ...
   'Event',            ev, ...
   'SamplingTime',     [], ...
