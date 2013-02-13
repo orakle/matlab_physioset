@@ -1,13 +1,13 @@
-function obj = from_fieldtrip(fStruct, varargin)
+function physObj = from_fieldtrip(str, varargin)
 % FROM_FIELDTRIP - Construction from FIELDTRIP structure
 %
 % import physioset.
-% obj = physioset.from_fieldtrip(fStruct);
-% obj = physioset.from_fieldtrip(fStruct, 'key', value, ...)
+% obj = physioset.from_fieldtrip(str);
+% obj = physioset.from_fieldtrip(str, 'key', value, ...)
 %
 % Where
 %
-% FSTRUCT is a Fieldtrip struct
+% str is a Fieldtrip struct
 %
 % OBJ is an eegset object
 %
@@ -18,49 +18,57 @@ function obj = from_fieldtrip(fStruct, varargin)
 %           The name of the memory-mapped file to which the generated
 %           physioset will be linked.
 %
-%       Precision : A string. Default: pset.globals.evaluate.Precision
-%           The numeric precision to use for storing the data values
 %
-%       Writable : Logical scalar. Default: true
-%           Should the generated physioset be writable?
-%
-%       Temporary : Logical scalar. Default: true
-%           Should the generated physioset be temporary, i.e. should its
-%           corresponding memory mapped be erased when the physioset
-%           objects is destructed?
-%
-%
-% See also: physioset. pset.eegset.from_pset, pset.eegset.from_eeglab
+% See also: from_pset, from_eeglab
 
 
-import physioset.event.event;
-import pset.pset;
-import physioset.physioset;
 import misc.process_arguments;
+import misc.is_valid_filename;
+import mperl.file.spec.catfile;
+import physioset.physioset;
+import pset.globals;
+import physioset.event.event;
+import physioset.event.std.trial_begin;
+import pset.pset;
+import physioset.import.matrix;
+import exceptions.*;
+import pset.session;
+
 
 %% Error checking
-if ~isstruct(fStruct) || ~isfield(fStruct, 'fsample') || ...
-    ~isfield(fStruct, 'cfg'),
-  ME = physioset.InvalidArgument('str', 'A Fieldtrip struct is expected');
-  throw(ME);
+if ~isstruct(str) || ~isfield(str, 'fsample'),
+    ME = InvalidArgument('str', 'A Fieldtrip struct is expected');
+    throw(ME);
 end
+
 
 %% Optional input arguments
-opt.filename    = '';
-opt.precision   = pset.globals.evaluate.Precision;
-opt.writable    = true;
-opt.temporary   = true;
+opt.FileName    = '';
+
 [~, opt] = process_arguments(opt, varargin);
 
-if isempty(opt.filename),
-  opt.filename = pset.file_naming_policy('Random');
+if isempty(opt.FileName),        
+    filename = session.instance.tempname;
+    if is_valid_filename(filename),
+        opt.FileName = filename;
+    end
 end
 
+if isempty(opt.FileName),
+    opt.FileName = pset.file_naming_policy('Random');
+elseif ~is_valid_filename(opt.FileName),
+    error('The provided file name is not valid');
+end
+
+fileExt = globals.get.DataFileExt;
+[path, name] = fileparts(opt.FileName);
+opt.FileName = catfile(path, [name fileExt]);
+
 %% Sensor information
-if isfield(fStruct, 'grad'),
-    sensorsObj = sensors.meg.from_fieldtrip(fStruct.grad, fStruct.label); 
-elseif isfield(fStruct, 'elec'),
-    sensorsObj = sensors.eeg.from_fieldtrip(fStruct.elec, fStruct.label);
+if isfield(str, 'grad'),  
+    sensorsObj = sensors.meg.from_fieldtrip(str.grad, str.label); 
+elseif isfield(str, 'elec'),
+    sensorsObj = sensors.eeg.from_fieldtrip(str.elec, str.label);
 else
     warning('physioset:MissingSensorInformation', ...
         ['Fieldtrip structure does not contain sensor information:' ...
@@ -69,58 +77,55 @@ else
 end
 
 % Create an event per trial
-nEvents = numel(fStruct.trial);
+nEvents = numel(str.trial);
 ev = repmat(event, nEvents, 1);
 durAll = 0;
-for i = 1:numel(fStruct.trial),
-  offset = -find(fStruct.time{i} >= 0, 1)+1;
+for i = 1:numel(str.trial),
+  offset = -find(str.time{i} >= 0, 1)+1;
   if offset>=0,
-    offset = round(offset/fStruct.fsample);
+    offset = round(offset/str.fsample);
   end
   sample = -offset + 1 + durAll;
-  dur    = size(fStruct.time{i}, 2);
+  dur    = size(str.time{i}, 2);
   durAll = durAll + dur;
   
-  thisEvent  = event.trial_begin(sample, ...  
+  thisEvent  = trial_begin(sample, ...  
     'Offset',       offset, ...
     'Duration',     dur);
   
-  thisEvent = set(thisEvent, ...
-    'sampleinfo',   fStruct.sampleinfo(i, :), ...
-    'time',         fStruct.time{i});
+  thisEvent = set_meta(thisEvent, ...
+    'sampleinfo',   str.sampleinfo(i, :), ...
+    'time',         str.time{i});
   
-  if isfield(fStruct, 'trialinfo')
-    thisEvent = set(thisEvent, ...
-      'trialinfo', fStruct.trialinfo(i, :));
+  if isfield(str, 'trialinfo')
+    thisEvent = set_meta(thisEvent, ...
+      'trialinfo', str.trialinfo(i, :));
   else
-    thisEvent = set(thisEvent, ...
+    thisEvent = set_meta(thisEvent, ...
       'trialinfo', []);
   end
     
   ev(i) = thisEvent;
 end
 
-data = [fStruct.trial{:}];
+data = [str.trial{:}];
 
-pset.write_mmap(data, opt.filename, varargin{:});
+%% Use the matrix importer to generate a physioset object
 
-% Create the physioset object
-dateformat = pset.globals.evaluate.DateFormat;
-timeformat = pset.globals.evaluate.TimeFormat;
-obj = physioset(opt.filename, size(data,1), ...
-  'SamplingRate',     fStruct.fsample, ...
-  'StartDate',        datestr(now, dateformat), ...
-  'StartTime',        datestr(now, timeformat), ...
-  'Sensors',          sensorsObj, ...
-  'Continuous',       false, ...
-  'Event',            ev, ...
-  'SamplingTime',     [], ...
-  varargin{:});
+importer = matrix(...
+    'FileName',     opt.FileName, ...
+    'Sensors',      sensorsObj, ...
+    'SamplingRate', str.fsample);
+physObj  = import(importer, data);
+
+set_name(physObj, 'fieldtripdata');
+add_event(physObj, ev);
+
 
 extraFields = {'cfg', 'hdr', 'time', 'sampleinfo', 'trialinfo'};
 for i = 1:numel(extraFields),
-  if isfield(fStruct, extraFields{i})
-    obj = set(obj, extraFields{i}, fStruct.(extraFields{i}));
+  if isfield(str, extraFields{i})
+    set_meta(physObj, extraFields{i}, str.(extraFields{i}));
   end
 end
 

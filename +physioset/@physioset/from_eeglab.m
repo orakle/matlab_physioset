@@ -33,11 +33,13 @@ import physioset.event.event;
 import physioset.event.std.trial_begin;
 import pset.pset;
 import physioset.import.matrix;
+import exceptions.*;
+import pset.session;
 
 %% Error checking
 if ~isstruct(str) || ~isfield(str, 'data') || ...
         ~isfield(str, 'chanlocs'),
-    ME = physioset.InvalidArgument('str', 'An EEGLAB struct is expected');
+    ME = InvalidArgument('str', 'An EEGLAB struct is expected');
     throw(ME);
 end
 
@@ -115,7 +117,6 @@ end
 
 %% Use the matrix importer to generate a physioset object
 data = reshape(str.data, str.nbchan, str.pnts*str.trials);
-
 
 importer = matrix(...
     'FileName',     opt.FileName, ...
