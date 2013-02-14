@@ -50,6 +50,7 @@ import misc.sizeof;
 import misc.eta;
 import physioset.import.neuromag;
 import physioset.physioset;
+import misc.check_dependency;
 
 if numel(varargin) == 1 && iscell(varargin{1}),
     varargin = varargin{1};
@@ -101,6 +102,8 @@ else
     newFileName = obj.FileName;
     
 end
+
+check_dependency('fieldtrip');
 
 %% Read header
 if verbose,
