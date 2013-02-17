@@ -153,7 +153,7 @@ if ~isempty(obj.PntSelection) || ~isempty(obj.DimSelection),
 end
 
 %% Copy meta-properties
-set(y, get(obj));
+set_meta(y, get_meta(obj));
 
 if verbose,
     fprintf('[done]\n\n');

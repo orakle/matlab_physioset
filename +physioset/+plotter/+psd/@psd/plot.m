@@ -44,6 +44,7 @@ import goo.globals;
 import pset.session;
 import misc.legend2location;
 import inkscape.svg2png;
+import misc.unique_filename;
 
 %% Error checking
 if ~pkgisa(data, 'physioset'),
@@ -195,7 +196,8 @@ for chanGrpIdx = 1:numel(config.Channels)
     dataName = regexprep(get_name(data), '[^\w]+', '-');    
     filename = sprintf('%s_%s_psd_%s', dataName, estimatorName,...
         sensorGrpName);
-    fullFilename = catfile(config.Folder, filename);
+    fullFilename = unique_filename(catfile(config.Folder, filename));
+    [~, filename] = fileparts(fullFilename);
     
     %% Print figure in .svg format    
     if get_config(obj, 'SVG'),

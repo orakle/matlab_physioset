@@ -298,10 +298,10 @@ for groupItr = 1:numel(epochs)
         
         %% Print figure in .svg format
         res = num2str(get_config(obj, 'Resolution'));
-        if get_config(obj, 'SVG'),
-            
-            evalc('plot2svg([fullFilename ''.svg''], gcf)');
-            
+        if get_config(obj, 'SVG'),           
+           
+            evalc('plot2svg([fullFilename ''.svg''], gcf)');        
+          
             figNames{groupItr}{epochItr} = [filename '.svg'];
             
         else

@@ -80,13 +80,13 @@ classdef class_selector < physioset.event.selector & goo.abstract_setget
            
             selected = true(size(evArray));
             
-            if ~isempty(obj.EventClass), 
-            fullClassName = cellfun(@(x) ['physioset.event.std.' x], ...
-                obj.EventClass, 'UniformOutput', false);    
-            
-            af = @(x) ismember(class(x), fullClassName);
-            
-            selected = selected & arrayfun(af, evArray);           
+            if ~isempty(obj.EventClass),
+                fullClassName = cellfun(@(x) ['physioset.event.std.' x], ...
+                    obj.EventClass, 'UniformOutput', false);
+                
+                af = @(x) goo.pkgisa(x, fullClassName);
+                
+                selected = selected & arrayfun(af, evArray);
             end
             
             
