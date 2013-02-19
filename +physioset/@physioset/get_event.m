@@ -16,8 +16,6 @@ function [evArray, rawIdx] = get_event(obj, idx)
 %
 % See also: nb_event, physioset, pset.event
 
-% Description: Get event(s)
-% Documentation: class_physioset.txt
 
 import exceptions.*
 
