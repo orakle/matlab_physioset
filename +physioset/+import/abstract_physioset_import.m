@@ -47,9 +47,6 @@ classdef abstract_physioset_import < ...
     %                 Default: true
     %  
     % See also: physioset.import.eegset_import
-    
-    % Documentation: class_physioset.import.abstract_physioset_import.txt
-    % Description: Commonality among eegset_import classes
  
     %% PROTECTED INTERFACE ................................................
     

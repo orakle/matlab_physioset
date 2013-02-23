@@ -65,8 +65,6 @@ if nargin > 2
     return;
 end
 
-maxMemoryChunk  = globals.get.LargestMemoryChunk;
-
 fileName = varargin{1};
 
 % Default values of optional input arguments
@@ -116,8 +114,6 @@ if verbose,
 end
 
 sr = hdr.Fs;
-
-samplingTime = linspace(0, hdr.nSamples/sr, hdr.nSamples);
 
 %% Read signal values
 if verbose,
@@ -340,7 +336,8 @@ physiosetObj  = physioset(newFileName, nb_sensors(sensorsMixed), ...
     'Name',             name, ...  
     'SamplingRate',     sr, ...
     'Event',            events, ...
-    'Sensors',          sensorsMixed);
+    'Sensors',          sensorsMixed, ...
+    physiosetArgs{:});
 
 physiosetObj = set_meta(physiosetObj, 'hdr', hdr);
 
@@ -357,6 +354,12 @@ if mustEqualize
 end
 
 
+%% Undoing stuff 
+
+% Unset the global verbose
+goo.globals.set('VerboseLabel', origVerboseLabel);
+
+% Delete unzipped data file
 if isZipped,
     delete(fileName);
 end
