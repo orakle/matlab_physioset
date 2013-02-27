@@ -87,8 +87,8 @@ if ~isempty(str.chanlocs),
     for i = 1:numel(uTypes)
         chans = str.chanlocs(ismember(opt.SensorClass, uTypes{i}));
         sensorGroups{i} = ...
-            eval(sprintf('sensors.%s.from_eeglab(%s);', ...
-            lower(uTypes{i}), chans));
+            eval(sprintf('sensors.%s.from_eeglab(chans);', ...
+            lower(uTypes{i})));
     end
 else
     for i = 1:numel(uTypes)
