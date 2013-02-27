@@ -313,6 +313,7 @@ classdef physioset < ...
         
         function obj = delay_embed(obj, varargin)
             obj.PointSet = delay_embed(obj.PointSet, varargin{:});
+            obj.Sensors  = sensors.dummy(obj.PointSet.NbDims);
         end
         
         function obj = loadobj(obj)
