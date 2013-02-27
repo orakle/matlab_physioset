@@ -89,7 +89,7 @@ classdef neuromag < physioset.import.abstract_physioset_import
         PhysRegex       = '(ECG)(\d+)';
         PhysTransRegex  = '$1 $2';
         TriggerRegex    = 'STI101';
-        GradUnitRegex   = '.+/m$';
+        GradUnitRegex   = '.+/.?m$';
     end
     
     % Set/Get methods

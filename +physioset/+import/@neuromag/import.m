@@ -141,7 +141,10 @@ isEeg     = cellfun(@(x) ~isempty(x), regexpi(hdr.label(:), eegRegex));
 isPhys    = cellfun(@(x) ~isempty(x), regexpi(hdr.label(:), physRegex));
 isTrigger = cellfun(@(x) ~isempty(x), regexpi(hdr.label(:), trigRegex));
 isMeg     = cellfun(@(x) ~isempty(x), regexpi(hdr.label(:), megRegex));
+
+% Newer versions of Fieldtrip
 isGrad    = cellfun(@(x) ~isempty(x), regexpi(hdr.unit(:),  graduRegex));
+
 isGrad    = isMeg & isGrad;
 isMag     = isMeg & ~isGrad;
 
@@ -333,7 +336,7 @@ end
 % Generate the output physioset object
 physiosetArgs = construction_args_physioset(obj);
 physiosetObj  = physioset(newFileName, nb_sensors(sensorsMixed), ...
-    'Name',             name, ...  
+    'Name',             name, ...
     'SamplingRate',     sr, ...
     'Event',            events, ...
     'Sensors',          sensorsMixed, ...
@@ -354,7 +357,7 @@ if mustEqualize
 end
 
 
-%% Undoing stuff 
+%% Undoing stuff
 
 % Unset the global verbose
 goo.globals.set('VerboseLabel', origVerboseLabel);
