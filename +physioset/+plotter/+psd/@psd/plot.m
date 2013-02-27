@@ -31,8 +31,6 @@ function [figNames, captions, groups, extra, extraCap] = plot(obj, data, varargi
 %
 % See also: pset.plotter.psd, pset.plotter.config.psd
 
-% Documentation: class_pset_plotter_psd.txt
-% Description: Plot PSDs
 
 import physioset.plotter.default_channel_groups;
 import mperl.file.spec.catfile;
@@ -173,11 +171,20 @@ for chanGrpIdx = 1:numel(config.Channels)
     
     %% Set up figure captions
     if numel(chanIdx) > 1,
-        captions{groupCount} = sprintf('%s : %d %s signal(s)', ...
+        captions{groupCount} = sprintf(...
+            '%s : %d %s channel(s)', ...
             groups{1}, numel(chanIdx), chanClass);
     else
-        captions{groupCount} = sprintf('%s : signal %d', ...
-            groups{1}, chanIdx);
+        if numel(chanIdx) < 10,
+            chanList = regexprep(num2str(chanIdx), '\s+', ', ');
+        else
+            chanIdx1 = chanIdx(1:5);
+            chanIdx2 = chanIdx(end-4:end);
+            chanList = [regexprep(num2str(chanIdx1), '\s+', ', ') ' ... ' ...
+                regexprep(num2str(chanIdx2), '\s+', ', ')];
+        end
+        captions{groupCount} = sprintf('%s : signal %s', ...
+            groups{1}, chanList);
     end
     % Add also info about the type of sensors.
     if ~isempty(config.ChannelType) && ...
@@ -188,7 +195,9 @@ for chanGrpIdx = 1:numel(config.Channels)
     
     %% Set up a relevant file name for the printed figure
     if ~isempty(config.ChannelClass),
-        sensorGrpName = strrep(config.ChannelClass{chanGrpIdx}, '.', '-');
+        sensorGrpName = [...
+            strrep(config.ChannelClass{chanGrpIdx}, '.', '-') ...
+            num2str(chanGrpIdx)];
     else
         sensorGrpName = num2str(chanGrpIdx);
     end
