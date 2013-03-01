@@ -142,7 +142,6 @@ isPhys    = cellfun(@(x) ~isempty(x), regexpi(hdr.label(:), physRegex));
 isTrigger = cellfun(@(x) ~isempty(x), regexpi(hdr.label(:), trigRegex));
 isMeg     = cellfun(@(x) ~isempty(x), regexpi(hdr.label(:), megRegex));
 
-% Newer versions of Fieldtrip
 isGrad    = cellfun(@(x) ~isempty(x), regexpi(hdr.unit(:),  graduRegex));
 
 isGrad    = isMeg & isGrad;

@@ -49,6 +49,11 @@ opt.FileName    = '';
 
 [~, opt] = process_arguments(opt, varargin);
 
+if numel(opt.SensorClass) < str.nbchan,
+    opt.SensorClass = [opt.SensorClass(:); ...
+        repmat({'eeg'}, str.nbchan-numel(opt.SensorClass), 1)];
+end
+
 if isempty(opt.FileName),
     if ~isempty(str.filepath),
        filePath = str.filepath;
