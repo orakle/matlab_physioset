@@ -218,19 +218,19 @@ for chanGrpIdx = 1:numel(config.Channels)
     end
     
     %% .png format is needed always for thumbnail generation
-    if usejava('Desktop'),
-        print('-dpng', fullFilename, '-r600');
-    else
-        % MATLAB renderers that are available during terminal emulation suck a
-        % lot. We use an indirect route to be able to generate a high quality
-        % .png in this case: (1) generate a pdf, (2) convert to .png using
-        % inkscape
-        [path name] = fileparts(fullFilename);
-        tmpPdfFile = [catfile(path, name) '.pdf'];
-        print('-dpdf', tmpPdfFile);
-        svg2png(tmpPdfFile, [], 600); % maybe I should rename this function...
-        delete(tmpPdfFile);
-    end
+    %     if usejava('Desktop'),
+    %         print('-dpng', fullFilename, '-r600');
+    %     else
+    % MATLAB renderers that are available during terminal emulation suck a
+    % lot. We use an indirect route to be able to generate a high quality
+    % .png in this case: (1) generate a pdf, (2) convert to .png using
+    % inkscape
+    [path name] = fileparts(fullFilename);
+    tmpPdfFile = [catfile(path, name) '.pdf'];
+    print('-dpdf', tmpPdfFile);
+    svg2png(tmpPdfFile, [], 600); % maybe I should rename this function...
+    delete(tmpPdfFile);
+    %    end
     
     %% Print also other with other drivers
     printDrivers = get_config(obj, 'PrintDrivers');
