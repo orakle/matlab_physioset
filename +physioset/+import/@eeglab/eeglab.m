@@ -37,7 +37,7 @@ classdef eeglab < physioset.import.abstract_physioset_import
             for i = 1:numel(value),
                
                 try
-                    eval(['sensors.' value{i}]);
+                    evalc(['sensors.' value{i}]);
                 catch ME
                     msg = sprintf(['''%s'' is not a valid class within the '  ...
                         'sensors package'], value{i});
