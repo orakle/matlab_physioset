@@ -66,7 +66,38 @@ end
 
 hdr = ft_read_header(fileName);
 
+
+% Build a sensor array
 channels = 1:hdr.nChans;
+types = unique(hdr.chantype);
+
+count = 1;
+sArray = cell(1, numel(types));
+for i = 1:numel(types)
+   thisTypeIdx = find(ismember(hdr.chantype, types{i})); 
+   channels(count:count+numel(thisTypeIdx)-1) = thisTypeIdx;
+   count = count + numel(thisTypeIdx);
+   str.label = hdr.label; %#ok<STRNU>
+   try
+       sArray{i} = ...
+           eval(['sensors.' lower(types{i}) '.from_fieldtrip(str);']);
+   catch ME
+       if ~strcmp(ME.identifier, 'MATLAB:UndefinedFunction'),
+           rethrow(ME);
+       end
+       thisLabel = cell(1, numel(thisTypeIdx));
+       for j = 1:numel(thisTypeIdx)
+           thisLabel{j} = [types{i} ' ' num2str(j)];
+       end
+       sArray{i} = sensors.dummy(numel(thisTypeIdx), 'Label', thisLabel);       
+   end
+end
+
+if numel(sArray) > 1,
+    sensorArray = sensors.mixed(sArray{:});
+else
+    sensorArray = sArray{1};
+end
 
 if verbose,
     fprintf([verboseLabel 'Done reading header\n\n']);
@@ -144,11 +175,13 @@ timeFormat  = globals.get.TimeFormat;
 startDate   = datestr(now, dateFormat);
 startTime   = datestr(now, timeFormat);
 
+
 pObj = physioset(newFileName, size(dat,1), physiosetArgs{:}, ...
-    'StartDate',    startDate, 'StartTime', startTime, ...
+    'StartDate',    startDate, ...
+    'StartTime',    startTime, ...
     'Event',        eventArray, ...
     'Sensors',      sensorArray, ...
-    'SamplingRate', max(hdr.sr), ...
+    'SamplingRate', hdr.Fs, ...
     'Header',       hdr);
 
 
