@@ -14,7 +14,7 @@ import pset.file_naming_policy;
 import pset.globals;
 import safefid.safefid;
 import misc.eta;
-import io.edfplus.labels2sensors.
+import io.edfplus.labels2sensors;
 import physioset.physioset;
 
 if numel(varargin) == 1 && iscell(varargin{1}),
@@ -199,8 +199,8 @@ fid = safefid(newFileName, 'w');
 [~, dat] = read(fileName, ...
     'startRec', boundary(1), ...
     'endRec',   boundary(2)-1, ...
-    'verbose', false, ...
-    'hdr', hdr);
+    'verbose',  false, ...
+    'hdr',      hdr);
 
 if nbChunks > 1,
     dat = dat(:, begSample:end);
