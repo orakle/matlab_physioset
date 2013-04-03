@@ -104,8 +104,8 @@ if verbose,
 end
 
 %% Read events
-if obj.ReadEvents
-    
+eventArray = [];  
+if obj.ReadEvents 
     if verbose,
         fprintf([verboseLabel 'Reading events...']);
     end
@@ -118,8 +118,7 @@ if obj.ReadEvents
     if ~isempty(eventStr), 
         eventArray = event.from_fieldtrip(eventStr); 
     end
-else
-    eventArray = [];    
+
 end
 
 
