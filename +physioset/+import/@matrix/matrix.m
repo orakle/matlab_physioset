@@ -24,9 +24,6 @@ classdef matrix < physioset.import.abstract_physioset_import
     %
     % See also: abstract_physioset_import, physioset.import.
     
-    % Documentation: import.txt
-    % Description: Imports a MATLAB matrix
-    
      %% PROTECTED INTERFACE ................................................
     
     methods (Access = protected)       
@@ -49,8 +46,7 @@ classdef matrix < physioset.import.abstract_physioset_import
     properties
         
         SamplingRate;
-        Sensors;
-        
+
     end
     
     % Consistency checks
@@ -68,27 +64,7 @@ classdef matrix < physioset.import.abstract_physioset_import
             obj.SamplingRate = value;            
             
         end        
-        
-        function obj = set.Sensors(obj, value)
-           
-            import exceptions.*
-            import goo.pkgisa;
-            
-            if isempty(value), 
-                obj.Sensors = [];
-                return;
-            end
-            
-            if ~isa(value, 'sensors.sensors'),
-               
-                throw(InvalidPropValue('Sensors', ...
-                    'Must be a sensors.object'));
-                
-            end
-            
-            obj.Sensors = value;
-            
-        end
+     
         
     end
     

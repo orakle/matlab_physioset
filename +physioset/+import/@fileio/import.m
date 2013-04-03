@@ -69,34 +69,40 @@ hdr = ft_read_header(fileName);
 
 % Build a sensor array
 channels = 1:hdr.nChans;
-types = unique(hdr.chantype);
 
-count = 1;
-sArray = cell(1, numel(types));
-for i = 1:numel(types)
-   thisTypeIdx = find(ismember(hdr.chantype, types{i})); 
-   channels(count:count+numel(thisTypeIdx)-1) = thisTypeIdx;
-   count = count + numel(thisTypeIdx);
-   str.label = hdr.label; %#ok<STRNU>
-   try
-       sArray{i} = ...
-           eval(['sensors.' lower(types{i}) '.from_fieldtrip(str);']);
-   catch ME
-       if ~strcmp(ME.identifier, 'MATLAB:UndefinedFunction'),
-           rethrow(ME);
-       end
-       thisLabel = cell(1, numel(thisTypeIdx));
-       for j = 1:numel(thisTypeIdx)
-           thisLabel{j} = [types{i} ' ' num2str(j)];
-       end
-       sArray{i} = sensors.dummy(numel(thisTypeIdx), 'Label', thisLabel);       
-   end
-end
-
-if numel(sArray) > 1,
-    sensorArray = sensors.mixed(sArray{:});
+if isempty(obj.Sensors)
+    types = unique(hdr.chantype);
+    
+    count = 1;
+    sArray = cell(1, numel(types));
+    for i = 1:numel(types)
+        thisTypeIdx = find(ismember(hdr.chantype, types{i}));
+        channels(count:count+numel(thisTypeIdx)-1) = thisTypeIdx;
+        count = count + numel(thisTypeIdx);
+        str.label = hdr.label; %#ok<STRNU>
+        try
+            sArray{i} = ...
+                eval(['sensors.' lower(types{i}) '.from_fieldtrip(str);']);
+        catch ME
+            if ~strcmp(ME.identifier, 'MATLAB:UndefinedFunction'),
+                rethrow(ME);
+            end
+            thisLabel = cell(1, numel(thisTypeIdx));
+            for j = 1:numel(thisTypeIdx)
+                thisLabel{j} = [types{i} ' ' num2str(j)];
+            end
+            sArray{i} = sensors.dummy(numel(thisTypeIdx), 'Label', thisLabel);
+        end
+    end
+    
+    if numel(sArray) > 1,
+        sensorArray = sensors.mixed(sArray{:});
+    else
+        sensorArray = sArray{1};
+    end
+    
 else
-    sensorArray = sArray{1};
+    sensorArray = obj.Sensors;
 end
 
 if verbose,
@@ -104,8 +110,8 @@ if verbose,
 end
 
 %% Read events
-eventArray = [];  
-if obj.ReadEvents 
+eventArray = [];
+if obj.ReadEvents
     if verbose,
         fprintf([verboseLabel 'Reading events...']);
     end
@@ -115,10 +121,10 @@ if obj.ReadEvents
         fprintf('[done]\n\n');
     end
     
-    if ~isempty(eventStr), 
-        eventArray = event.from_fieldtrip(eventStr); 
+    if ~isempty(eventStr),
+        eventArray = event.from_fieldtrip(eventStr);
     end
-
+    
 end
 
 
@@ -145,20 +151,22 @@ nbChunks = length(boundary) - 1;
 
 fid = safefid(newFileName, 'w');
 tinit = tic;
-for chunk_itr = 1:nbChunks   
+for chunk_itr = 1:nbChunks
     
     dat = ft_read_data(fileName, 'begsample', boundary(chunk_itr),...
         'endsample', boundary(chunk_itr+1)-1, 'checkboundary', false, ...
-        'chanidx', channels, 'header', hdr);     
+        'chanidx', channels, 'header', hdr);
     
-    if ndims(dat) > 2, %#ok<ISMAT>
+    dat = dat(1:nb_sensors(sensorArray),:,:);
+    if ndims(dat) > 2, %#ok<ISMAT>        
+        
         dat = reshape(dat, [size(dat,1), round(numel(dat)/size(dat,1))]);
     end
     
     % Write the chunk into the output binary file
     fwrite(fid, dat(:), obj.Precision);
-    if verbose, 
-        eta(tinit, nbChunks, chunk_itr); 
+    if verbose,
+        eta(tinit, nbChunks, chunk_itr);
     end
 end
 if verbose, fprintf('\n'); end

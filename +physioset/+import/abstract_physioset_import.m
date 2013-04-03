@@ -84,6 +84,7 @@ classdef abstract_physioset_import < ...
        ReadEvents   = true;  
        FileName     = '';
        FileNaming   = 'inherit';
+       Sensors      = [];
        
     end   
    
@@ -152,7 +153,29 @@ classdef abstract_physioset_import < ...
            
            obj.ReadEvents = value;  
            
-       end        
+       end
+       
+          
+        function obj = set.Sensors(obj, value)
+           
+            import exceptions.*
+            import goo.pkgisa;
+            
+            if isempty(value), 
+                obj.Sensors = [];
+                return;
+            end
+            
+            if ~isa(value, 'sensors.sensors'),
+               
+                throw(InvalidPropValue('Sensors', ...
+                    'Must be a sensors.object'));
+                
+            end
+            
+            obj.Sensors = value;
+            
+        end
        
    end   
    
