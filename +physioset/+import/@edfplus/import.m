@@ -119,7 +119,6 @@ if verbose,
 end
 
 spr = max(hdr.spr(channels));
-ns = length(channels);
 
 if ~isempty(obj.StartTime) || ~isempty(obj.EndTime),
     
@@ -180,11 +179,12 @@ else
     
 end
 
+ns = length(channels);
 chunkSize = globals.get.ChunkSize;
-chunksize = floor(chunkSize/(sizeof(obj.Precision)*ns)); % in samples
-chunksize = floor(chunksize/spr); % in data records
+chunkSize = floor(chunkSize/(sizeof(obj.Precision)*ns)); % in samples
+chunkSize = floor(chunkSize/spr); % in data records
 
-boundary = startRec:chunksize:endRec;
+boundary = startRec:chunkSize:endRec;
 if length(boundary)<2 || boundary(end) < endRec,
     boundary = [boundary,  endRec+1];
 else
@@ -218,7 +218,10 @@ for chunkItr = 2:(nbChunks-1)
         'verbose',  false, ...
         'hdr',      hdr);
     fwrite(fid, dat(:), obj.Precision);
-    eta(tinit, (nbChunks-1), chunkItr);
+    
+    if verbose,
+        eta(tinit, (nbChunks-1), chunkItr);
+    end
     
 end
 

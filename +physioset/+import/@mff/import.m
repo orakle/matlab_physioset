@@ -26,7 +26,7 @@ if numel(varargin) == 1 && iscell(varargin{1}),
     varargin = varargin{1};
 end
 
-% Deal with the multi-newFileName case
+% Deal with the multi-file case
 if nargin > 2
     pObj = cell(numel(varargin), 1);
     for i = 1:numel(varargin)
@@ -34,8 +34,6 @@ if nargin > 2
     end
     return;
 end
-
-maxMemoryChunk  = globals.get.LargestMemoryChunk;
 
 fileName = varargin{1};
 
@@ -84,7 +82,7 @@ if verbose,
         fileName)
 end
 if ~exist(fileName, 'file'),
-    [pathName fileName] = fileparts(fileName);
+    [pathName, fileName] = fileparts(fileName);
     if exist([pathName filesep fileName], 'file')
         fileName = [pathName filesep fileName];
     else
@@ -118,6 +116,7 @@ for i = 1:numel(data)
 end
 
 % Number of blocks that are to be read in one time
+maxMemoryChunk  = globals.get.LargestMemoryChunk;
 nbBlocksPerRead = ceil(maxMemoryChunk/blockSize);
 
 % Approximate number of blocks
