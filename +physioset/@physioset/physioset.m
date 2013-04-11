@@ -186,7 +186,7 @@ classdef physioset < ...
     methods
         
         function set.Event(obj, v)
-            import exceptions.*
+            import exceptions.*;
             
             if ~all(isempty(v)) && ~isa(v, 'physioset.event.event'),
                 throw(InvalidPropValue('Event', ...
@@ -201,7 +201,7 @@ classdef physioset < ...
         end
         
         function set.Sensors(obj, v)
-            import exceptions.*
+            import exceptions.*;
             
             if isempty(v),
                 obj.Sensors = [];
@@ -218,7 +218,7 @@ classdef physioset < ...
         function set.SamplingRate(obj, v)
             
             import misc.isnatural;
-            import exceptions.*
+            import exceptions.*;
             
             if ~isempty(v) && (numel(v) > 1 || ~isnatural(v)),
                 throw(InvalidPropValue('SamplingRate', ...
@@ -229,7 +229,7 @@ classdef physioset < ...
         end
         
         function set.StartDate(obj, v)
-            import exceptions.*
+            import exceptions.*;
             
             if ~isempty(v) && ~ischar(v),
                 throw(InvalidPropValue('Date', ...
@@ -240,7 +240,7 @@ classdef physioset < ...
         end
         
         function set.StartTime(obj, v)
-            import exceptions.*
+            import exceptions.*;
             
             if ~isempty(v) && ~ischar(v),
                 throw(InvalidPropValue('Time', ...
@@ -252,13 +252,19 @@ classdef physioset < ...
         
         function set.SamplingTime(obj, v)
             import misc.isnatural;
-            import exceptions.*
+            import exceptions.*;
+            import goo.from_constructor;
             
             if ~isempty(v) && ~all(v > -eps),
                 throw(InvalidPropValue('SamplingTime', ...
                     'Must be an array of positive scalars'));
             end
             obj.SamplingTime = v;
+            
+            if ~from_constructor(obj),
+                check(obj);
+            end
+            
         end
         
     end

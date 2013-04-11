@@ -111,17 +111,25 @@ end
 data = [str.trial{:}];
 
 %% Use the matrix importer to generate a physioset object
-
 importer = matrix(str.fsample, ...
     'FileName',     opt.FileName, ...
     'Sensors',      sensorsObj);
 physObj  = import(importer, data);
 
 set_name(physObj, 'fieldtripdata');
-add_event(physObj, ev);
 
+%% Add to the physioset the trial events and the data events
+add_event(physObj, ev); 
+if isfield(str, 'cfg') && isfield(str.cfg, 'event')
+    add_event(physObj, event.from_fieldtrip(str.cfg.event));
+end
 
-extraFields = {'cfg', 'hdr', 'time', 'sampleinfo', 'trialinfo'};
+%% Take care of the time property
+if isfield(str, 'time'),
+    physObj.SamplingTime = [str.time{:}];
+end
+
+extraFields = {'cfg', 'hdr', 'sampleinfo', 'trialinfo'};
 for i = 1:numel(extraFields),
   if isfield(str, extraFields{i})
     set_meta(physObj, extraFields{i}, str.(extraFields{i}));
