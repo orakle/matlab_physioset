@@ -75,8 +75,12 @@ else
 end
 
 % Take care of trial-based datasets
-eventArray = select(obj.Event, 'Type', ...
-    get(physioset.event.std.trial_begin, 'Type'));
+if isempty(obj.Event),
+    eventArray = obj.Event;
+else
+    eventArray = select(obj.Event, 'Type', ...
+        get(physioset.event.std.trial_begin, 'Type'));
+end
 if numel(eventArray) < 2,
     ftripStruct.trial = {obj.PointSet(:,:)};
     ftripStruct.time  = {obj.SamplingTime};
