@@ -55,13 +55,11 @@ function EEG = eeglab(obj, varargin)
 %
 % See also: fieldtrip
 
-% Documentation: pset_eegset_class.txt
-% Description: Conversion to an EEGLAB structure
-
 import misc.check_dependency;
 import physioset.event.event;
 import physioset.event.std.trial_begin;
 import physioset.event.std.epoch_begin;
+import physioset.deal_with_bad_data;
 import misc.process_arguments;
 
 check_dependency('eeglab');
@@ -149,32 +147,7 @@ end
 end
 
 
-function didSelection = deal_with_bad_data(obj, policy)
 
-if ~any(is_bad_channel(obj)) && ~any(is_bad_sample(obj)),
-    didSelection = false;
-    return;
-end
 
-didSelection = true;
 
-if nargin < 2 || isempty(policy), policy = 'reject'; end
-
-switch lower(policy)
-    
-    case 'reject',
-        
-        select(obj, ~is_bad_channel(obj), ~is_bad_sample(obj));
-        
-    case 'flatten',
-        
-        obj.PointSet(is_bad_channel(obj), is_bad_sample(obj)) = 0;
-        
-    otherwise,
-        
-        error('Invalid policy ''%s''', policy);
-        
-end
-
-end
 
