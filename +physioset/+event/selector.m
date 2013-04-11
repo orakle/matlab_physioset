@@ -7,6 +7,8 @@ classdef selector
         
        [evArray, idx] = select(obj, evArray); 
        
+       obj = not(obj);
+       
     end
     
     

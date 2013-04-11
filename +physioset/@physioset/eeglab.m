@@ -13,15 +13,10 @@ function EEG = eeglab(obj, varargin)
 %
 % ## Accepted (optional) key/value options:
 %
-%   BadChannels : (string) Default: 'reject'
-%       Determines what is to be done with the bad channels when exporting
+%   BadData : (string) Default: 'reject'
+%       Determines what is to be done with the bad data when exporting
 %       to EEGLAB format. Other alternatives are: 'flatten' (make zero) and
 %       'interpolate'. Note that 'interpolate' does not work yet.
-%
-%   BadSamples : (string) Default: 'reject'
-%       Same as BadChannels but used to determine what is to be done with
-%       the bad data samples. The 'interpolate' policy is not implemented
-%       yet.
 %
 % ## Notes:
 %
@@ -64,13 +59,12 @@ import misc.process_arguments;
 
 check_dependency('eeglab');
 
-opt.BadChannels = 'reject';
-opt.BadSamples  = 'reject';
+opt.BadData = 'reject';
 opt.EpochRejTh  = 25;
 [~, opt] = process_arguments(opt, varargin);
 
 % Do something about the bad channels/samples
-didSelection = deal_with_bad_data(obj, opt.BadChannels);
+didSelection = deal_with_bad_data(obj, opt.BadData);
 
 % Convert data selection into events
 %selectionEv = epoch_begin(NaN, 'Type', '__DataSelection');

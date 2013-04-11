@@ -12,14 +12,13 @@ classdef class_selector < physioset.event.selector & goo.abstract_setget
     %
     % See also: event, physioset, selector, physioset.event.std
     
-    % Description: Selects events of standard class(es)
-    % Documentation: class_class_selector.txt
     
     % PUBLIC INTERFACE ....................................................
     properties
         
-        EventClass;
-        EventType;
+        EventClass  = {};
+        EventType   = {};
+        Negated     = false;
         
     end
     
@@ -40,9 +39,9 @@ classdef class_selector < physioset.event.selector & goo.abstract_setget
             end
             
             fullClassName = cellfun(@(x) ['physioset.event.std.' x], value, ...
-                'UniformOutput', false);            
-          
-           if ~all(cellfun(@(x) exist(x, 'class'), fullClassName)),
+                'UniformOutput', false);
+            
+            if ~all(cellfun(@(x) exist(x, 'class'), fullClassName)),
                 
                 throw(InvalidPropValue('EventClass', ...
                     'Must be a string/cell array of valid event name(s)'));
@@ -54,7 +53,7 @@ classdef class_selector < physioset.event.selector & goo.abstract_setget
         end
         
         function obj = set.EventType(obj, value)
-           
+            
             import exceptions.*
             
             if ~iscell(value), value = {value}; end
@@ -66,18 +65,36 @@ classdef class_selector < physioset.event.selector & goo.abstract_setget
                     'Must be a cell array of strings'));
             end
             
-            obj.EventType = value;            
+            obj.EventType = value;
+            
+        end
+        
+        function obj = set.Negated(obj, value)
+            import exceptions.*;
+            
+            if numel(value) ~= 1 || ~islogical(value),
+                throw(InvalidPropValue('Negated', ...
+                    'Must be a logical scalar'));
+            end
+            obj.Negated = value;
             
         end
         
         
     end
     
+    
     % physioset.event.selector.selector interface
     methods
         
+        function obj = not(obj)
+            
+            obj.Negated = ~obj.Negated;
+            
+        end
+        
         function [evArray, idx] = select(obj, evArray)
-           
+            
             selected = true(size(evArray));
             
             if ~isempty(obj.EventClass),
@@ -96,7 +113,11 @@ classdef class_selector < physioset.event.selector & goo.abstract_setget
                 selected = selected & arrayfun(af, evArray);
                 
             end
-          
+            
+            if obj.Negated,
+                selected = ~selected;
+            end
+            
             evArray = evArray(selected);
             
             idx = find(selected);
@@ -108,7 +129,7 @@ classdef class_selector < physioset.event.selector & goo.abstract_setget
     % Constructor
     methods
         
-        function obj = class_selector(varargin)     
+        function obj = class_selector(varargin)
             
             import misc.process_arguments;
             

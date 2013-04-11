@@ -12,15 +12,10 @@ function ftripStruct = fieldtrip(obj, varargin)
 %
 % ## Accepted (optional) key/value options:
 %
-%   BadChannels : (string) Default: 'reject'
-%       Determines what is to be done with the bad channels when exporting
+%   BadData : (string) Default: 'reject'
+%       Determines what is to be done with the bad data when exporting
 %       to EEGLAB format. Other alternatives are: 'flatten' (make zero) and
 %       'interpolate'. Note that 'interpolate' does not work yet.
-%
-%   BadSamples : (string) Default: 'reject'
-%       Same as BadChannels but used to determine what is to be done with
-%       the bad data samples. The 'interpolate' policy is not implemented
-%       yet.
 %
 % ## Notes:
 %
@@ -62,8 +57,7 @@ function ftripStruct = fieldtrip(obj, varargin)
 % clear_selection(data);
 % set_bad_channel(data, 1:2:10);
 % set_bad_sample(data, 1:1000);
-% ftripStr = fieldtrip(data, 'BadSamples', 'reject', ...
-%   'BadChannels', 'reject'); 
+% ftripStr = fieldtrip(data, 'BadData', 'reject'); 
 %
 %
 % ### Example 3: export and flatten bad data
@@ -71,8 +65,7 @@ function ftripStruct = fieldtrip(obj, varargin)
 % clear_selection(data);
 % set_bad_channel(data, 1:2:10);
 % set_bad_sample(data, 1:1000);
-% ftripStr = fieldtrip(data, 'BadSamples', 'flatten', ...
-%   'BadChannels', 'flatten'); 
+% ftripStr = fieldtrip(data, 'BadData', 'flatten'); 
 %
 % See also: eeglab, physioset, physioset.event.event
 
@@ -80,12 +73,11 @@ import physioset.event.event;
 import physioset.deal_with_bad_data;
 import misc.process_arguments;
 
-opt.BadChannels = 'reject';
-opt.BadSamples  = 'reject';
+opt.BadData = 'reject';
 [~, opt] = process_arguments(opt, varargin);
 
 % Do something about the bad channels/samples
-didSelection = deal_with_bad_data(obj, opt.BadChannels);
+didSelection = deal_with_bad_data(obj, opt.BadData);
 
 % Important to use method sensors here, instead of obj.Sensors. The
 % latter does not have into account "data selections" and would break the
@@ -124,7 +116,7 @@ else
     ftripStruct.elec  = [];
 end
 
-% Take care of trial-based datasets
+%% Take care of trial-based datasets (which contain trial_begin events)
 if isempty(obj.Event),
     eventArray = obj.Event;
 else
@@ -164,9 +156,21 @@ end
 
 ftripStruct.fsample = obj.SamplingRate;
 
+ftripStruct.time = sampling_time(obj);
+
 % Other stuff that may be stored as physioset meta-properties
 ftripStruct.cfg = get_meta(obj, 'cfg');
 ftripStruct.hdr = get_meta(obj, 'hdr');
+
+evArray = get_event(obj);
+if ~isempty(evArray),
+    evSelector = physioset.event.class_selector('Class', 'trial_begin');
+    evArray = select(~evSelector, evArray);
+end
+
+if ~isempty(evArray)    
+    ftripStruct.cfg.event = fieldtrip(evArray);        
+end
 
 trialinfo   = get_meta(obj, 'trialinfo');
 sampleinfo  = get_meta(obj, 'sampleinfo');

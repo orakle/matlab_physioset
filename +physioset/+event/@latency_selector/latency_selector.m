@@ -23,16 +23,14 @@ classdef latency_selector < ...
     %           latencies will be shifted backwards LatencyRange(1) seconds
     %
     % See also: event, physioset, selector
-    
-    % Description: Selects events within latency_selector range
-    % Documentation: class_latency_selector.txt
-    
+
     % PUBLIC INTERFACE ....................................................
     properties
         
         SamplingRate      = [];
         LatencyRange      = [];
         ResetStartLatency = true;
+        Negated           = false;
         
     end
     
@@ -78,10 +76,27 @@ classdef latency_selector < ...
             
         end
         
+        function obj = set.Negated(obj, value)
+            import exceptions.*;
+            
+            if numel(value) ~= 1 || ~islogical(value),
+                throw(InvalidPropValue('Negated', ...
+                    'Must be a logical scalar'));
+            end
+            obj.Negated = value;
+            
+        end
+        
     end
     
     % physioset.event.selector.selector interface
     methods
+        
+        function obj = not(obj)
+            
+            obj.Negated = ~obj.Negated;
+            
+        end
         
         [evArray, idx] = select(obj, evArray)
         

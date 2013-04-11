@@ -12,8 +12,6 @@ function ev = from_fieldtrip(str)
 %
 % See also: from_fieldtrip, from_struct
 
-% Description: Construction from Fieldtrip structure
-% Documentation: class_pset_event.txt
 
 import physioset.event.event;
 

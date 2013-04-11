@@ -15,8 +15,6 @@ function [evArray, idx] = select(obj, evArray)
 %
 % See also: latency, selector
 
-% Description: Event selection method
-% Documentation: class_latency.txt
 
 if nargin < 2 || isempty(evArray),
     
@@ -35,6 +33,10 @@ for i = 1:size(obj.LatencyRange,1)
     af = @(x) x.Sample >= range(1) && x.Sample <= range(2);
     selected = selected | arrayfun(af, evArray);
     
+end
+
+if obj.Negated,
+    selected = ~selected;
 end
 
 evArray = evArray(selected);

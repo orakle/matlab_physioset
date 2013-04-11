@@ -118,17 +118,12 @@ physObj  = import(importer, data);
 
 set_name(physObj, 'fieldtripdata');
 
-%% Add to the physioset the trial events and the data events
-add_event(physObj, ev); 
-if isfield(str, 'cfg') && isfield(str.cfg, 'event')
-    add_event(physObj, event.from_fieldtrip(str.cfg.event));
-end
-
 %% Take care of the time property
 if isfield(str, 'time'),
     physObj.SamplingTime = [str.time{:}];
 end
 
+%% Take care of extra fields, unique to Fieldtrip
 extraFields = {'cfg', 'hdr', 'sampleinfo', 'trialinfo'};
 for i = 1:numel(extraFields),
   if isfield(str, extraFields{i})
@@ -136,3 +131,8 @@ for i = 1:numel(extraFields),
   end
 end
 
+%% Add to the physioset the trial events and the data events
+add_event(physObj, ev); 
+if isfield(str, 'cfg') && isfield(str.cfg, 'event')
+    add_event(physObj, event.from_fieldtrip(str.cfg.event));
+end

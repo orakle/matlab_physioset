@@ -1,38 +1,64 @@
 classdef sample_selector < physioset.event.selector & goo.abstract_setget
     
     
-   
+    
     properties
-       
-        Sample;
+        
+        Sample  = [];
+        Negated = false;
         
     end
     
     methods
         
+        function obj = set.Negated(obj, value)
+            import exceptions.*;
+            
+            if numel(value) ~= 1 || ~islogical(value),
+                throw(InvalidPropValue('Negated', ...
+                    'Must be a logical scalar'));
+            end
+            obj.Negated = value;
+            
+        end
+        
+    end
+    
+    methods
+        
+        function obj = not(obj)
+            
+            obj.Negated = ~obj.Negated;
+            
+        end
+        
         function [evArray, idx] = select(obj, evArray)
             
-           if isempty(obj.Sample) || isempty(evArray),
-               idx = 1:numel(evArray);
-               return; 
-           end
+            if isempty(obj.Sample) || isempty(evArray),
+                idx = 1:numel(evArray);
+                return;
+            end
             
-           sample = get_sample(evArray);
-           off    = get_offset(evArray);
-           dur    = get_duration(evArray);
-           
-           inRange = false(size(evArray));
-           
-           for i = 1:numel(evArray)
-              
-               idx = (sample(i) + off(i)):(sample(i) + off(i) + dur(i) - 1);
-               inRange(i) = all(ismember(idx, obj.Sample));
-               
-           end
-           
-           evArray = evArray(inRange);    
-           
-           idx = find(inRange);
+            sample = get_sample(evArray);
+            off    = get_offset(evArray);
+            dur    = get_duration(evArray);
+            
+            inRange = false(size(evArray));
+            
+            for i = 1:numel(evArray)
+                
+                idx = (sample(i) + off(i)):(sample(i) + off(i) + dur(i) - 1);
+                inRange(i) = all(ismember(idx, obj.Sample));
+                
+            end
+            
+            if obj.Negated,
+                inRange = ~inRange;
+            end
+            
+            evArray = evArray(inRange);           
+            
+            idx = find(inRange);
             
         end
         
@@ -43,7 +69,7 @@ classdef sample_selector < physioset.event.selector & goo.abstract_setget
     methods
         
         function obj = sample_selector(varargin)
-           
+            
             if nargin < 1, return; end
             
             if nargin > 1,

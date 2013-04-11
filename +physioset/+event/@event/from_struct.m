@@ -31,7 +31,7 @@ fnamesU = cellfun(@(x) [upper(x(1)) x(2:end)], fnames, ...
 
 builtinFields = fieldnames(event);
 
-builtinFields = setdiff(builtinFields, {'Type', 'Latency', 'Meta'});
+builtinFields = setdiff(builtinFields, {'Type', 'Latency', 'Meta', 'Duration'});
 
 for i = 1:length(fnames)
     
@@ -63,6 +63,12 @@ for i = 1:length(fnames)
                 end
                 
             end 
+            
+        case 'duration',
+            % Fieldtrip events (sometimes?) have 0 duration
+            for j = 1:length(strArray)
+                obj(j).Duration = max(1, strArray(j).(fnames{i}));
+            end
             
         case lower(builtinFields),
             
