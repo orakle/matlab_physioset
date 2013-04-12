@@ -48,6 +48,10 @@ if isempty(obj.FileName),
     dataFileExt = globals.get.DataFileExt;
     newFileName = [newFileName dataFileExt];
     
+else 
+    
+    newFileName = obj.FileName;
+    
 end
 
 readEvents = obj.ReadEvents;

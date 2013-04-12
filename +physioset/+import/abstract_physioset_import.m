@@ -93,7 +93,7 @@ classdef abstract_physioset_import < ...
        
        function obj = set.Precision(obj, value)       
            
-           import exceptions.*
+           import exceptions.*;
            
            if ~ischar(value),
                throw(InvalidPropValue('Precision', ...
@@ -111,7 +111,7 @@ classdef abstract_physioset_import < ...
   
        function obj = set.Writable(obj, value)   
            
-           import exceptions.*
+           import exceptions.*;
            if numel(value) > 1 || ~islogical(value),
                throw(InvalidPropValue('Writable', ...
                    'Must be a logical scalar'));        
@@ -122,7 +122,7 @@ classdef abstract_physioset_import < ...
        
        function obj = set.Temporary(obj, value)    
            
-           import exceptions.*
+           import exceptions.*;
            if numel(value) > 1 || ~islogical(value),
                throw(InvalidPropValue('Temporary', ...
                    'Must be a logical scalar'));    
@@ -134,7 +134,7 @@ classdef abstract_physioset_import < ...
        
        function obj = set.ChunkSize(obj, value)
            
-           import exceptions.*
+           import exceptions.*;
            import misc.isinteger;            
            if numel(value) > 1 || ~isinteger(value) || value < 0,
                throw(InvalidPropValue('ChunkSize', ...
@@ -145,7 +145,7 @@ classdef abstract_physioset_import < ...
        
        function obj = set.ReadEvents(obj, value)     
            
-           import exceptions.*
+           import exceptions.*;
            if isempty(value) || numel(value) > 1 || ~islogical(value),
                throw(InvalidPropValue('ReadEvents', ...
                    'Must be a logical scalar'));            
@@ -158,7 +158,7 @@ classdef abstract_physioset_import < ...
           
         function obj = set.Sensors(obj, value)
            
-            import exceptions.*
+            import exceptions.*;
             import goo.pkgisa;
             
             if isempty(value), 
@@ -174,6 +174,31 @@ classdef abstract_physioset_import < ...
             end
             
             obj.Sensors = value;
+            
+        end
+        
+        function obj = set.FileName(obj, value)
+           
+            import exceptions.*;
+            import pset.globals;
+            
+            if ~ischar(value),
+                throw(InvalidPropValue('FileName', ...
+                    'Must be a valid file name (a string)'));
+            end
+            
+            [pathName, fileName, ext] = fileparts(value);
+            
+            psetExt = globals.get.DataFileExt;
+            
+            if ~isempty(ext) && ~strcmp(ext, psetExt),
+                warning('abstract_physioset_import:InvalidExtension', ...
+                    'Replaced file extension %s -> %s', ext, psetExt);
+            end
+            
+            value = [pathName, filesep, fileName, psetExt];
+            
+            obj.FileName = value;            
             
         end
        

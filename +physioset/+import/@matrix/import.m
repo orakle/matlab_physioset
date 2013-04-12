@@ -19,8 +19,6 @@ function pObj = import(obj, varargin)
 %
 % See also: import, physioset.
 
-% Documentation: class_matrix.txt
-% Description: Imports a numeric data matrix
 
 import physioset.physioset;
 import pset.pset;
