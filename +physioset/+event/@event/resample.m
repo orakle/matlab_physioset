@@ -1,9 +1,5 @@
 function obj = resample(obj, p, q)
 
-% Description: Resamples an event array
-% Documentation: class_pset_event_event.txt
-
-
 duration    = get(obj, 'Duration');
 sample      = get(obj, 'Sample');
 
