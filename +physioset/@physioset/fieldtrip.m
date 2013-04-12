@@ -125,7 +125,7 @@ else
 end
 if numel(eventArray) < 2,
     ftripStruct.trial = {obj.PointSet(:,:)};
-    ftripStruct.time  = {obj.SamplingTime};
+    ftripStruct.time  = {sampling_time(obj)};
 else
     nTrials = numel(eventArray);
     ftripStruct.sampleinfo = nan(nTrials,2);
@@ -140,7 +140,17 @@ else
         begSample = ev.Sample + ev.Offset;
         endSample = begSample + ev.Duration - 1;
         ftripStruct.trial{trialItr} = obj.PointSet(:, begSample:endSample);
-        ftripStruct.time{trialItr}  = get(ev, 'time');
+        
+        % Samples corresponding to this trial
+        trialBeg   = get(ev, 'Sample');
+        trialDur   = get(ev, 'Duration');
+        trialSampl = trialBeg:trialBeg+trialDur-1;
+        trialTime  = sampling_time(obj);
+        trialTime  = trialTime(trialSampl);
+        
+        ftripStruct.time{trialItr}  = trialTime;
+        
+        
         ftripStruct.sampleinfo(trialItr,:) = get(ev, 'sampleinfo');
         if ~isempty(tInfo),
             tInfo = get(ev, 'trialinfo');
@@ -155,8 +165,6 @@ end
 
 
 ftripStruct.fsample = obj.SamplingRate;
-
-ftripStruct.time = sampling_time(obj);
 
 % Other stuff that may be stored as physioset meta-properties
 ftripStruct.cfg = get_meta(obj, 'cfg');
