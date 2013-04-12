@@ -31,14 +31,9 @@ classdef edfplus < physioset.import.abstract_physioset_import
     %   both keys simultaneously.
     %
     % See also: abstract_physioset_import, io.edfplus.signal_types
-    
-    % Documentation: pkg_import.txt
-    % Description: Imports EDF and EDF+ files
-    
-    
-    properties
+   
+    properties        
         
-        Sensors;        % A sensors.sensors object
         SignalType;        
         Channels;
         StartTime;
@@ -50,26 +45,7 @@ classdef edfplus < physioset.import.abstract_physioset_import
     
     % Set methods / consistency checks
     methods
-        
-        function obj = set.Sensors(obj, value)
-            
-           import exceptions.*
-           
-           if isempty(value),
-               obj.Sensors = [];
-               return;
-           end
-           
-           if ~isa(value, 'sensors.sensors'),
-               throw(InvalidPropValue('Sensors', ...
-                   'Must be a sensors.sensorsobject'));
-           end
-           
-           obj.Sensors = value;
-            
-            
-        end
-        
+      
         function obj = set.SignalType(obj, value)
             
            import io.edfplus.signal_types;
