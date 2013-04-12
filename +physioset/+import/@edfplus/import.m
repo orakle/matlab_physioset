@@ -86,7 +86,7 @@ end
 % How to find the locations??
 
 if verbose,
-    fprintf([verboseLabel 'Done reading header\n\n']);
+    fprintf(['\n' verboseLabel 'Done reading header\n\n']);
 end
 
 %% Read events
