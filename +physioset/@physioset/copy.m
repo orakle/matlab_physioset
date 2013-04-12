@@ -111,6 +111,15 @@ if verbose,
         nameOut);
     pause(0.01);
 end
+if exist(new_name, 'file'),
+    [pathName, fileName] = fileparts(new_name);
+    delete(new_name);
+    % Associated header file
+    hdrFile = [pathName, filesep, fileName, pset.globals.get.HdrFileExt];
+    if exist(hdrFile, 'file'),
+        delete(hdrFile);
+    end
+end
 copyfile(obj.PointSet.DataFile, new_name);
 
 %% Create an physioset object associated to the new memory-mapped file
