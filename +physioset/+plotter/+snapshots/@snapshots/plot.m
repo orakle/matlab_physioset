@@ -296,8 +296,7 @@ for groupItr = 1:numel(epochs)
         fullFilename = catfile(path, name);
         filename = name;
         
-        %% Print figure in .svg format
-        res = num2str(get_config(obj, 'Resolution'));
+        %% Print figure in .svg format        
         if get_config(obj, 'SVG'),           
            
             evalc('plot2svg([fullFilename ''.svg''], gcf)');        
