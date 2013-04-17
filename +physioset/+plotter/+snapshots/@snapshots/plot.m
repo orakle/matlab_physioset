@@ -299,8 +299,14 @@ for groupItr = 1:numel(epochs)
         %% Print figure in .svg format        
         if get_config(obj, 'SVG'),           
            
-            evalc('plot2svg([fullFilename ''.svg''], gcf)');        
-            svg2png([fullFilename '.svg'], []);
+            evalc('plot2svg([fullFilename ''.svg''], gcf)');
+            if ~strcmpi(computer, 'pcwin64'),
+                svg2png([fullFilename '.svg'], []);
+            else
+                % Inkscape crashes when converting large .svg files to a
+                % raster format under Windows 8. 
+                print('-dpng', [fullFilename '.png']);                 
+            end
             figNames{groupItr}{epochItr} = [filename '.svg'];
             
         else
