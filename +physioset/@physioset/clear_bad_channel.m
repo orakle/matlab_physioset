@@ -13,14 +13,12 @@ function obj = clear_bad_channel(obj, index)
 % 
 % See also: set_bad_channel, clear_bad_sample, physioset
 
-% Documentation: class_physioset.txt
-% Description: Removes a bad channel marking
 
 import misc.isnatural;
 import exceptions.*
 import misc.str2multiline;
 
-if nargin < 2 || isempty(index), index = []; end
+if nargin < 2 || isempty(index), index = 1:nb_dim(obj); end
 
 if ischar(index),
     if strcmpi(index, 'all'),
