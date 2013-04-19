@@ -28,9 +28,9 @@ end
 
 % Deal with the multi-file case
 if nargin > 2
-    pObj = cell(numel(varargin), 1);
+    physiosetObj = cell(numel(varargin), 1);
     for i = 1:numel(varargin)
-        pObj{i} = import(obj, varargin{i});
+        physiosetObj{i} = import(obj, varargin{i});
     end
     return;
 end
