@@ -81,17 +81,21 @@ classdef matrix < physioset.import.abstract_physioset_import
         function obj = matrix(sr, varargin)  
             
             import pset.globals; 
+            import misc.process_arguments;
             
             if nargin < 1, sr = globals.get.SamplingRate; end
             
+            opt.SamplingRate = sr;
             if ischar(sr), 
                 varargin = [sr varargin];
-                sr = globals.get.SamplingRate;
+                opt.SamplingRate = globals.get.SamplingRate;
             end
             
             obj = obj@physioset.import.abstract_physioset_import(varargin{:});            
            
-            obj.SamplingRate = sr;            
+            [~, opt] = process_arguments(opt, varargin);
+            
+            obj.SamplingRate = opt.SamplingRate;            
             
         end
         

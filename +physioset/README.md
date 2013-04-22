@@ -73,7 +73,32 @@ Meta properties:
 Note that method `import()` of the `matrix` importer made quite a few 
 assumptions such as the sampling rate of your data (250 Hz) and the type
 of sensors that were used to acquire the data (some `dummy` sensors, 
-meaning that the sensor class is unknown, or not applicable). 
+meaning that the sensor class is unknown, or not applicable). You can 
+override such assumptions by building a custom `matrix` importer. For 
+instance, to build a `matrix` importer that will import EEG data sampled 
+at 1000 Hz:
+
+````matlab
+
+% Create a set of 10 EEG sensors
+% For more information see the documentation of the sensors module
+% at https://github.com/germangh/matlab_sensors
+% The sensor labels must follow the EDF+ standard naming conventions,
+% described at: http://www.edfplus.info/specs/edfplus.html#additionalspecs
+myLabels = arrayfun(@(x) ['EEG ' num2str(x)], 1:10, 'UniformOutput', false);
+mySensors = sensors.eeg('Label', myLabels);
+
+% Create the importer. Notice that we ommit the semicolon so that method 
+% disp() is implicitely called on myImporter
+myImporter = physioset.import.matrix( ...
+    'SamplingRate', 1000, ...
+    'Sensors',      mySensors);
+
+% And import the data matrix
+X = randn(10, 1000);
+myData = import(myImporter, X);
+
+````
 
 
 
