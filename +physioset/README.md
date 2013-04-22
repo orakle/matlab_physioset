@@ -33,7 +33,7 @@ package. To import data from a MATLAB matrix we need to use the
 
 [matrix-class]: ./%2Bimport/%40matrix
 
-````matrix
+````matlab
 % Create a random data matrix (10 data channels, 1000 samples)
 X = randn(10, 1000);
 
