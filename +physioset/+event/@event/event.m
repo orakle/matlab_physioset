@@ -192,6 +192,8 @@ classdef event < goo.abstract_setget & ...
         
         ev = shift(ev, nsamples);
         
+        ev = map2class(ev, mapHash);
+        
         % Consistency checks have been moved here in order to allow for
         % checked (slow) modifiers and unchecked (fast) modifiers
         
@@ -317,6 +319,21 @@ classdef event < goo.abstract_setget & ...
             import physioset.event.event;
             
             if nargin < 1 || isempty(pos), return; end
+            
+            if nargin == 1 && isa(pos, 'physioset.event.event'),
+               % copy constructor
+               obj(size(pos,1), size(pos,2)) = event;
+               for i = 1:numel(pos)
+                   obj(i).Sample = pos(i).Sample;
+                   obj(i).Type   = pos(i).Type;
+                   obj(i).Time   = pos(i).Time;
+                   obj(i).Value  = pos(i).Value;
+                   obj(i).Offset = pos(i).Offset;
+                   obj(i).Duration = pos(i).Duration;
+                   obj(i).Dims   = pos(i).Dims;
+               end
+               return;
+            end
             
             pos = sort(pos, 'ascend');
             

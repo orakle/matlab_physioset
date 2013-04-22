@@ -328,6 +328,11 @@ mat = regexpi(recordTime, ...
 startTime = [mat.hours ':' mat.mins ':' mat.secs];
 startDate = [mat.day '-' mat.month '-' mat.year];
 
+% Map events
+if ~isempty(evArray) && ~isempty(obj.EventMapping),
+   evArray = type2class(evArray, obj.EventMapping);
+end
+
 physiosetArgs = construction_args_physioset(obj);
 physiosetObj = physioset(newFileName, nb_sensors(sensorsMixed), ...
     physiosetArgs{:}, ...

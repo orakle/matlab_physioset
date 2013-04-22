@@ -85,6 +85,7 @@ classdef abstract_physioset_import < ...
        FileName     = '';
        FileNaming   = 'inherit';
        Sensors      = [];
+       EventMapping = mjava.hash({'TREV', 'tr', 'TR\s.+', 'tr'})
        
     end   
    
@@ -201,6 +202,24 @@ classdef abstract_physioset_import < ...
             obj.FileName = value;            
             
         end
+        
+        function obj = set.EventMapping(obj, value)
+           
+            import exceptions.*;
+            
+            if isempty(value),
+                obj.EventMapping = [];
+                return;
+            end
+            
+            if numel(value) ~= 1 || ~isa(value, 'mjava.hash'),
+                throw(InvalidPropValue('EventMapping', ...
+                    'Must be a mjava.hash object'));
+            end
+            obj.EventMapping = value;
+            
+        end
+        
        
    end   
    
