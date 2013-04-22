@@ -208,10 +208,23 @@ delete_event(myData, 1:3);
 A `physioset` object can be converted to a [Fieldtrip][fieldtrip] or 
 [EEGLAB][eeglab] data structure:
 
+[fieldtrip]: http://fieldtrip.fcdonders.nl/
+[eeglab]: http://sccn.ucsd.edu/eeglab/
+
 ````matlab
-% Create a physioset object containing random data
-X = randn(10, 5000);
-myData = import(physioset.import.matrix, X);
+% Create a physioset object containing "simulated" EEG data
+myLabels = arrayfun(@(x) ['EEG ' num2str(x)], 1:10, 'UniformOutput', false);
+mySensors = sensors.eeg('Label', myLabels);
+myImporter = physioset.import.matrix( ...
+    'SamplingRate', 1000, ...
+    'Sensors',      mySensors)
+myData = import(physioset.import.matrix, randn(10, 5000));
+
+% Convert to Fieldtrip structure
+myFtripStr = fieldtrip(myData);
+
+% Convert to EEGLAB structure
+myEEGLABStr = eeglab(myData);
 
 
 ````
