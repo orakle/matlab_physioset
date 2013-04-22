@@ -22,9 +22,18 @@ API component                  | What is it for?
 [plotter-pkg]: ./%2Bplotter
 
 Below you can find some usage examples of the API provided by the 
-`physioset` package.
+`physioset` package. All the examples assume that [meegpipe][meegpipe] is
+in your MATLAB path and that you have run the following two lines when you
+started your MATLAB session:
 
-### Create physioset from MATLAB matrix
+````matlab
+clear all;
+meegpipe.initialize;
+````
+
+[meegpipe]: https://github.com/germangh/meegpipe
+
+## Create physioset from MATLAB matrix
 
 Physiosets are almost always created using a suitable _importer_, 
 implemented by one of the classes contained in the [+import][import-pkg] 
@@ -89,10 +98,11 @@ myLabels = arrayfun(@(x) ['EEG ' num2str(x)], 1:10, 'UniformOutput', false);
 mySensors = sensors.eeg('Label', myLabels);
 
 % Create the importer. Notice that we ommit the semicolon so that method 
-% disp() is implicitely called on myImporter
+% disp() is implicitely called on myImporter. This is useful to ensure 
+% that the properties of myImporter were set correctly.
 myImporter = physioset.import.matrix( ...
     'SamplingRate', 1000, ...
-    'Sensors',      mySensors);
+    'Sensors',      mySensors)
 
 % And import the data matrix
 X = randn(10, 1000);
@@ -100,9 +110,75 @@ myData = import(myImporter, X);
 
 ````
 
+## Plot a physioset
+
+````matlab
+
+% Create a physioset object containing random data
+X = randn(10, 5000);
+myData = import(physioset.import.matrix, X);
+
+% Plot it
+plot(myData);
+
+````
 
 
+## Data selections
 
+Sometimes you want to plot or process just a sub-set of the data contained
+in a `physioset`. There are two ways you can achieve this. The first is 
+to simply dereference the data that you want to process, i.e. create a 
+MATLAB matrix out of a subset of the `physioset` data:
+
+````matlab
+% Create a physioset object containing random data
+X = randn(10, 5000);
+myData = import(physioset.import.matrix, X);
+
+% Select only channels 1 to 5
+myDataMatrix = myData(1:5,:);
+assert(strcmp(class(myDataMatrix), 'double'));
+
+% Plot the MATLAB matrix myDataMatrix using MATLAB built-in plot()
+plot(myDataMatrix');
+
+````
+
+There are two major disadvantages to the approach above:
+
+* By dereferencing we are actually creating a copy of the data contained in 
+the 5 first data channels and we are loading such copy in MATLAB's 
+workspace. This is OK for a small physioset like the one in the example, 
+but may be impossible to do for very large physiosets (due to memory 
+limitations).
+
+* Dereferencing produces a built-in MATLAB matrix of double precision. This
+means that any meta-data that was contained in the physioset (e.g. the 
+sensor classes, sampling rate, etc.) are lost. Thus, only MATLAB built-in 
+methos that apply to double matrices can be used with `myDataMatrix`.
+
+The second alternative is typically preferable and consists in _selecting_ 
+the sub-set of data that we want to operate with:
+
+````matlab
+% Create a physioset object containing random data
+X = randn(10, 5000);
+myData = import(physioset.import.matrix, X);
+assert(all(size(myData) == [10, 5000]));
+
+% Select only the first 5 data channels
+select(myData, 1:5);
+assert(all(size(myData) == [5, 5000]));
+
+% Plot the first data channels
+plot(myData);
+
+% Undo the data selection
+restore_selection(myData);
+assert(all(size(myData) == [10, 5000]));
+
+````
 
 
 
