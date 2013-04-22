@@ -218,7 +218,7 @@ mySensors = sensors.eeg('Label', myLabels);
 myImporter = physioset.import.matrix( ...
     'SamplingRate', 1000, ...
     'Sensors',      mySensors)
-myData = import(physioset.import.matrix, randn(10, 5000));
+myData = import(myImporter, randn(10, 5000));
 
 % Convert to Fieldtrip structure
 myFtripStr = fieldtrip(myData);
