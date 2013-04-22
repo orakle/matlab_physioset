@@ -95,8 +95,6 @@ linear interpolation) to 1000 Hz.
 You can select the unmultiplexed data channels using:
 
 ````matlab
-meegpipe.initialize; % needed only once per MATLAB session
-
 % Create a data selector object
 mySel = pset.selector.sensor_class('Type', 'Temp');
 select(mySel, data);
