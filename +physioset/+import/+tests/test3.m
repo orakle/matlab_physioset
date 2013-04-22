@@ -16,7 +16,7 @@ DATA_URL = ['http://kasku.org/data/meegpipe/' ...
 
 MEh     = [];
 
-initialize(7);
+initialize(8);
 
 %% Create a new session
 try
@@ -82,7 +82,7 @@ try
     warning('on', 'sensors:MissingPhysDim');
     warning('on', 'sensors:InvalidLabel');
     
-    condition = all(size(data) == [263 94697]) & ...
+    condition = all(size(data) == [275 94697]) & ...
         isa(sensors(data), 'sensors.mixed');
     clear data;
     ok(condition, name);
@@ -168,13 +168,10 @@ try
     warning('on', 'sensors:MissingPhysDim');
     warning('on', 'sensors:InvalidLabel');
     
-    % Get the pip box channels
-    sel = pset.selector.sensor_class('Class', 'physiology');
-    select(sel, data);
-    
-    psetExt = pset.globals.get.DataFileExt;
-    newFile = catfile(folder, ['myfile' psetExt]);
-    ok(exist(newFile, 'file') > 0, name);
+    % Get the pip box channels   
+    condition = size(data,1) == 275 & ...
+        abs(mean(data(end,:)) - 40) < 0.1;
+    ok(condition, name);
     
 catch ME
     
