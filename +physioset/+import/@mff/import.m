@@ -183,7 +183,7 @@ if numel(hdr.signal) > 1,
     nbMux         = numel(muxIdx);  
     muxSensors    = cell(1, nbMux);
     
-    for i = 1:numel(nbMux),
+    for i = 1:nbMux,
         
         muxTemplate = regexprep(label{muxIdx(i)}, '[^\s]+\s+([^\s]+$)', ...
             '$1');
