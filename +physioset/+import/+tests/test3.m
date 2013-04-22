@@ -1,4 +1,4 @@
-function [status, MEh] = test2()
+function [status, MEh] = test3()
 % TEST2 - Test mff importer
 
 import mperl.file.spec.*;
@@ -102,14 +102,16 @@ end
 try
     
     name = 'import multiple files';
-    folder = session.instance.Folder;
-    file1 = catfile(folder, 'sample.mff.zip');
-    file2 = catfile(folder, 'sample2.mff.zip');
-    copyfile(file1, file2);
-    gunzip(file2);
-    warning('off', 'import:invalidFormat');
-    data = import(mff, file1, file2);
-    warning('on', 'import:invalidFormat');
+    folder = session.instance.Folder;   
+    file2 = catfile(folder, 'copy.mff');
+    copyfile(file, file2);
+    
+    warning('off', 'sensors:InvalidLabel');
+    warning('off', 'sensors:MissingPhysDim');
+    data = import(mff, file, file2);
+    warning('on', 'sensors:MissingPhysDim');
+    warning('on', 'sensors:InvalidLabel');
+    
     
     condition = iscell(data) && numel(data) == 2 && ...
         all(size(data{1})==size(data{2}));
@@ -120,7 +122,8 @@ try
     
 catch ME
     
-    warning('on', 'import:invalidFormat');
+    warning('on', 'sensors:MissingPhysDim');
+    warning('on', 'sensors:InvalidLabel');
     ok(ME, name);
     MEh = [MEh ME];
     
@@ -132,10 +135,12 @@ try
     name = 'specify file name';
     
     folder = session.instance.Folder;
-    fileIn = catfile(folder, 'sample.mff');
-    warning('off', 'import:invalidFormat');
-    import(mff('FileName', catfile(folder, 'myfile')), fileIn);
-    warning('on', 'import:invalidFormat');
+   
+    warning('off', 'sensors:InvalidLabel');
+    warning('off', 'sensors:MissingPhysDim');
+    import(mff('FileName', catfile(folder, 'myfile')), file);
+    warning('on', 'sensors:MissingPhysDim');
+    warning('on', 'sensors:InvalidLabel');
     
     psetExt = pset.globals.get.DataFileExt;
     newFile = catfile(folder, ['myfile' psetExt]);
@@ -143,7 +148,38 @@ try
     
 catch ME
     
-    warning('on', 'import:invalidFormat');
+    warning('on', 'sensors:MissingPhysDim');
+    warning('on', 'sensors:InvalidLabel');
+    ok(ME, name);
+    MEh = [MEh ME];
+    
+end
+
+%% Unmultiplex data channel
+try
+    
+    name = 'unmultiplex mux data channel';
+    
+    folder = session.instance.Folder;
+   
+    warning('off', 'sensors:InvalidLabel');
+    warning('off', 'sensors:MissingPhysDim');
+    data = import(mff, file);
+    warning('on', 'sensors:MissingPhysDim');
+    warning('on', 'sensors:InvalidLabel');
+    
+    % Get the pip box channels
+    sel = pset.selector.sensor_class('Class', 'physiology');
+    select(sel, data);
+    
+    psetExt = pset.globals.get.DataFileExt;
+    newFile = catfile(folder, ['myfile' psetExt]);
+    ok(exist(newFile, 'file') > 0, name);
+    
+catch ME
+    
+    warning('on', 'sensors:MissingPhysDim');
+    warning('on', 'sensors:InvalidLabel');
     ok(ME, name);
     MEh = [MEh ME];
     

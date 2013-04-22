@@ -171,13 +171,56 @@ eegSensors = set_meta(eegSensors, 'ical', ical);
 if numel(hdr.signal) > 1,    
     % Read PNS sensor information
     sens = read_pns_sensors(fileName);
+    
+    label = sens.name;
+    unit  = sens.unit;
+    
+    % There could be multiplexed channels
+    isMux = cellfun(@(x) ~isempty(regexp(x, 'Mux\s.+', 'once')), ...
+        sens.name);
+    
+    muxIdx        = find(isMux);
+    nbMux         = numel(muxIdx);  
+    muxSensors    = cell(1, nbMux);
+    
+    for i = 1:numel(nbMux),
+        
+        muxTemplate = regexprep(label{muxIdx(i)}, '[^\s]+\s+([^\s]+$)', ...
+            '$1');
+        muxSensors{i} = eval(['sensors.mux.' muxTemplate]);
+        
+    end
+    
+    label = label(~isMux);
+    unit  = unit(~isMux);
+    
+    pnsIdx = setdiff(1:numel(sens.name), muxIdx);
+  
     pnsSensors = sensors.physiology(...
         'Name',         hdr.signal{2}.pnsSetName, ...
-        'Label',        sens.name, ...
-        'OrigLabel',    sens.name, ...        
-        'PhysDim',      sens.unit);    
+        'Label',        label, ...
+        'OrigLabel',    label, ...        
+        'PhysDim',      unit);    
 else
     pnsSensors = [];
+    pnsIdx     = [];
+    muxSensors = [];
+    muxIdx     = [];
+end
+
+if ~isempty(pnsSensors),
+    
+    if ~isempty(muxSensors),
+        umuxSensors = cellfun(@(x) x.UmuxSensors, muxSensors, ...
+            'UniformOutput', false);
+    else
+        umuxSensors = {};
+    end
+    
+    sensorsMixed = sensors.mixed(eegSensors, pnsSensors, umuxSensors{:});
+    
+else
+    sensorsMixed = eegSensors;
 end
 
 if verbose,
@@ -207,19 +250,21 @@ try
     begBlock = 2;
     endBlock = begBlock + nbBlocksPerRead-1;
     
-    if ~isempty(pnsSensors),
-        sensorsMixed = sensors.mixed(eegSensors, pnsSensors);
-    else
-        sensorsMixed = eegSensors;
-    end
-    
     tinit = tic;
     
     while any(cellfun(@(x) ~isempty(x), data)),
-        % Discard last (flat) channels
-        for i = 1:numel(data)
-            data{i}(end,:) = [];
+        % Re-sort the PNS sensors so that MUX sensors appear at the end
+        % and unmultiplex any multiplexed data channel
+        if ~isempty(muxIdx),
+            umuxData = cell(numel(muxIdx), 1);
+            for i = numel(muxIdx),
+               umuxData{i} = unmultiplex(muxSensors{i}, ...
+                   data{2}(muxIdx(i),:), hdr.fs); 
+            end
+            tmp = data{2}(pnsIdx,:);
+            data{2} = [tmp; umuxData{:}];
         end
+        
         % Write data to disk
         data = cell2mat(data);
         fwrite(fid, data(:), obj.Precision);

@@ -1,4 +1,8 @@
 matlab_physioset
 ================
 
-MATLAB classes and functions for high-dimensional physiological datasets
+This repository contains MATLAB classes (mostly data structures) and
+functions for high-dimensional physiological datasets. For more information
+see the documentation of the [physioset][physioset-pkg] MATLAB package.
+
+[physioset-pkg]: ./%2Bphysioset
