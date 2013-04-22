@@ -33,7 +33,7 @@ meegpipe.initialize;
 
 [meegpipe]: https://github.com/germangh/meegpipe
 
-## Create physioset from MATLAB matrix
+## Create physioset from a MATLAB matrix
 
 Physiosets are almost always created using a suitable _importer_, 
 implemented by one of the classes contained in the [+import][import-pkg] 
@@ -203,6 +203,31 @@ delete_event(myData, 1:3);
 
 ````
 
+## Create a physioset from an EDF+ file
+
+````matlab
+% Download a sample EDF+ file
+DATA_URL = ['http://kasku.org/data/meegpipe/' ...
+    'pupw_0005_physiology_afternoon-sitting_day1.edf']
+
+urlwrite(DATA_URL, 'sample.edf');
+
+% Create an EDF+ data importer
+myImporter = physioset.import.edfplus;
+
+% Import data from the disk file
+data = import(myImporter, 'sample.edf');
+
+````
+
+There are several other data importers available in package 
+[import][import-pkg]. One of the most versatile data importers is the 
+[fileio][fileio-importer] importer, which is just a wrapper around 
+[Fieldtrip][fieldtrip]'s fileio module. Thus, the `fileio` importer should
+be able to import data from any format supported by Fieldtrip. 
+
+[fileio-importer]: ./%2Bimport/%40fileio
+
 ## Export to other data formats
 
 A `physioset` object can be converted to a [Fieldtrip][fieldtrip] or 
@@ -219,6 +244,10 @@ myImporter = physioset.import.matrix( ...
     'SamplingRate', 1000, ...
     'Sensors',      mySensors)
 myData = import(myImporter, randn(10, 5000));
+
+% Add some events
+myEvents = physioset.event.event(1000:1000:5000, 'Type', 'mytype');
+add_event(myData, myEvents);
 
 % Convert to Fieldtrip structure
 myFtripStr = fieldtrip(myData);
