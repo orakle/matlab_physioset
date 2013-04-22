@@ -25,11 +25,8 @@ The `.mff` importer supports multiplexed physiological data. At this point
 only temperature data produced by [Braintronics][braintronics]'s 
 TEMPMUX-1012 is supported. The TEMPMUX-1012 multiplexes 16 temperature
 channels over one DC channel, e.g. over one channel of the [Polygraph 
-Input Box (PIB)][pib] produced by [EGI][egi]. 
-
-Currently, the only data importer that supports multiplexed temperature 
-channels is the `.mff` importer. A important pre-requisite is that 
-channels that contain multiplexed data must have a standard label name 
+Input Box (PIB)][pib] produced by [EGI][egi]. An important pre-requisite is
+that channels that contain multiplexed data must have a standard label name 
 that follows the convention:
 
 ````
