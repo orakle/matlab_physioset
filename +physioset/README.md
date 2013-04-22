@@ -31,6 +31,8 @@ implemented by one of the classes contained in the [+import][import-pkg]
 package. To import data from a MATLAB matrix we need to use the 
 [matrix][matrix-class] importer:
 
+[matrix-class]: ./%2Bimport/%40matrix
+
 ````matrix
 % Create a random data matrix (10 data channels, 1000 samples)
 X = randn(10, 1000);
