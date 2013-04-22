@@ -180,8 +180,39 @@ assert(all(size(myData) == [10, 5000]));
 
 ````
 
+## Working with events
+
+````matlab
+% Create a physioset object containing random data
+X = randn(10, 5000);
+myData = import(physioset.import.matrix, X);
+
+% Create 5 events at samples 1000, 2000, ..., 5000
+% of type 'my_event'
+myEvArray = physioset.event.event(1000:1000:5000, 'Type', 'my_event');
+add_event(myData, myEvArray);
+
+% Plot the data. Can you see the event markers?
+plot(myData);
+
+% Retrieve the events stored in the physioset object
+myEvArray = get_event(myData);
+
+% Delete first 3 events
+delete_event(myData, 1:3);
+
+````
+
+## Export to other data formats
+
+A `physioset` object can be converted to a [Fieldtrip][fieldtrip] or 
+[EEGLAB][eeglab] data structure:
+
+````matlab
+% Create a physioset object containing random data
+X = randn(10, 5000);
+myData = import(physioset.import.matrix, X);
 
 
-[matrix]: ./%2Bimport/%40matrix
-
+````
 
