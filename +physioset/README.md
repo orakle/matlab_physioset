@@ -15,7 +15,7 @@ API component                  | What is it for?
 [+import][import-pkg]          | Importing data from disk files
 [+plotter][plotter-pkg]        | Plotting physiological datasets
 
-[physioset-api]: ./
+[physioset-pkg]: ./
 [physioset-class]: ./%40physioset
 [event-pkg]: ./%2Bevent
 [import-pkg]: ./%2Bimport
