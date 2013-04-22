@@ -265,6 +265,15 @@ try
             data{2} = [tmp; umuxData{:}];
         end
         
+        if numel(data) > 1,
+            % Last channel of PIB box is always zero->Remove it
+            % VERY IMPORTANT: do not remove this line or this will lead to
+            % the dimensionality of the sensor array differing from the
+            % dimensionality of the data, which will break completely
+            % method subsref() of the generated physioset
+            data{2}(end,:) = [];
+        end
+        
         % Write data to disk
         data = cell2mat(data);
         fwrite(fid, data(:), obj.Precision);
