@@ -4,7 +4,8 @@ mff data importer
 The `mff` data importer can be used to create a [physioset][physioset] 
 using data contained in [EGI][egi]'s `.mff` data format. Note that this 
 importer is generally preferable over the [fileio][fileio] importer, which
-is also able to import `.mff` files.  
+is also able to import `.mff` files. The latter has several limitations and
+does not support multiplexed data channels. 
 
 [egi]: http://www.egi.com/
 [physioset]: ../../%40physioset
