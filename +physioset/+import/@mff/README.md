@@ -34,11 +34,14 @@ Mux [manufacturer]_[model]_[submodel]
 ````
 
 This means that channels that contain data multiplexed with 
-Braintronics TEMPMUX-1012 must be labeled as `braintronics_tempmux_1012`.
-If you did not follow this naming convention when you recorded your data
-you can edit the channel labels a-posteriori by editing the appropriate
-`.xml` file within the `.mff` package/directory. Typically, the relevant
-file will be named `pnsSet.xml`.
+Braintronics TEMPMUX-1012 must be labeled as `Mux braintronics_tempmux_1012`.
+Note also that this channel label complies with the 
+[EDF+ recommendations][edfplus-recs]. If you did not follow this naming
+convention when you recorded your data you can edit the channel labels
+a-posteriori by editing the appropriate `.xml` file within the `.mff`
+package/directory. Typically, the relevant file will be named `pnsSet.xml`.
+
+[edfplus-recs]: http://www.edfplus.info/specs/edfplus.html#additionalspecs
 
 The data import should be straightforward, as long as the multiplexed data
 channels have the correct labels:
@@ -56,7 +59,7 @@ data = import(physioset.import.mff, 'test_mux.mff');
 disp(data)
 ````
 
-The last command above should display something similar to:
+The last command above should display something like:
 
 ````matlab
 >> disp(data)
@@ -89,4 +92,16 @@ linear interpolation) to 1000 Hz.
 [pib]: http://www.unl.edu/dbrainlab/*files/intranet/ERP%20data%20collection/PIB_instructions_plac_8404162-51_20100427.pdf
 
 
+You can select the unmultiplexed data channels using:
 
+````matlab
+meegpipe.initialize; % needed only once per MATLAB session
+
+% Create a data selector object
+mySel = pset.selector.sensor_class('Type', 'Temp');
+select(mySel, data);
+
+% So you temp data matrix is:
+myTempData = data(:,:);
+plot(myTempData');
+````
