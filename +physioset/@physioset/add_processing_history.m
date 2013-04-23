@@ -15,7 +15,7 @@ import exceptions.*;
 
 if isa(item, 'meegpipe.node.node'),
     item = clone(item);
-elseif ~ischar(item) || (ischar(item) && ~exist(item, 'file')),
+elseif ~ischar(item),
     throw(InvalidArgValue('item', ...
         'Must be a processing node or the name of an existing file'));
 end
