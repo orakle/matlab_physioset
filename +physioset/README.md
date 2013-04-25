@@ -110,6 +110,9 @@ myData = import(myImporter, X);
 
 ````
 
+For more information regarding data importers see the documentation of
+the [+import][import-pkg] package.
+
 ## Plot a physioset
 
 ````matlab
@@ -203,6 +206,9 @@ delete_event(myData, 1:3);
 
 ````
 
+For more information regarding physioset events see the documentation of
+the [+event][event-pkg] package.
+
 ## Create a physioset from an EDF+ file
 
 ````matlab
@@ -227,6 +233,10 @@ There are several other data importers available in package
 be able to import data from any format supported by Fieldtrip. 
 
 [fileio-importer]: ./%2Bimport/%40fileio
+
+For more information regarding data importers for other file data formats
+see the documentation of the [+import][import-pkg] package.
+
 
 ## Export to other data formats
 
