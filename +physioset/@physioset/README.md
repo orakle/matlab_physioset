@@ -124,3 +124,4 @@ myPhysiosetCopy = filter(filtObj, myPhysioset);
 Class `physioset` implements the [mmappset] interface.
 
 [mmappset]: https://github.com/germangh/matlab_pset/blob/master/%2Bpset/mmappset.md
+
