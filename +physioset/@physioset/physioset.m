@@ -118,6 +118,10 @@ classdef physioset < ...
     % myPhysiosetCopy = filter(filtObj, myPhysioset);
     % ````
     %
+    % ## Class methods
+    %
+    % 
+    %
     % See also: pset.pset, physioset.event.event, sensors.sensors
 
     

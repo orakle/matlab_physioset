@@ -24,7 +24,7 @@ construction arguments accepted by the constructor of the parent
 class pset.pset. Additionally, the following `('key', value)` pairs
 are also accepted:
 
-### __SamplingRate__ : _numeric_
+__SamplingRate__ : _numeric_
 
    The data sampling rate. Must be an integer scalar. Defaults to
    `250`.
@@ -116,3 +116,11 @@ the object:
 myPhysiosetCopy = copy(myPhysioset);
 myPhysiosetCopy = filter(filtObj, myPhysioset);
 ````
+
+## Class methods
+
+### pset.mmapset interface
+
+Class `physioset` implements the [mmappset] interface.
+
+[mmappset]: https://github.com/germangh/matlab_pset/blob/master/%2Bpset/mmappset.md
