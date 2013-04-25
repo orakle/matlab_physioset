@@ -2,91 +2,121 @@ classdef physioset < ...
         pset.mmappset & ...
         goo.printable_handle & ...
         goo.verbose_handle
-    % PHYSIOSET - Memory-mapped Physiological dataset
+    % PHYSIOSET - Memory-mapped physiological dataset class
     %
     %
     % ## Construction:
     %
+    % ````
     % obj = physioset.physioset
     % obj = physioset.physioset('key', value, ...)
-    %
+    % ````
     %
     % Where
     %
-    % OBJ is a physioset.physioset object
+    % `obj` is a physioset.physioset object
     %
     %
-    % ## Optional construction arguments (as key/value pairs):
+    % ### Optional construction arguments
     %
-    % * All the key/value pairs accepted by class
-    %   <a href="matlab:help pset.pset">pset.pset</a>
+    % Optional construction arguments are provided at `('key', value)` 
+    % tuples. The constructor of the physioset class admits all the 
+    % construction arguments accepted by the constructor of the parent
+    % class pset.pset. Additionally, the following `('key', value)` pairs
+    % are also accepted:
     %
-    %       SamplingRate : An integer scalar. Default: 250
-    %           The data sampling rate.
+    % __SamplingRate__ : _numeric_
     %
-    %       Sensors : A sensors.sensorsobject. Default: []
-    %           Description of the physiological sensors.
+    %       The data sampling rate. Must be an integer scalar. Defaults to
+    %       `250`.
     %
-    %       Event : An array of pset.event objects. Default: []
+    % __Sensors__ : _sensors.sensors_
     %
-    %       StartTime : A string. Default: datestr(now, 'HH:MM:SS')
-    %           The start time of the recording in format HH:MM:SS.
+    %       Describes the physiological sensors. Defaults to an array of 
+    %       `dummy` sensors.
     %
-    %       StartDate : A string. Default: datestr(now, 'dd-mmm-yyyy')
-    %           Starting date of the recording in format dd-mmm-yyyy
+    % __Event__ : _physioset.event.event_
+    %
+    %       Event or markers that provide information on specific data
+    %       samples or epochs.
+    %
+    % __StartTime__ : _char_
+    %       The start time of the recording in format HH:MM:SS. Defaults 
+    %       to `datestr(now, 'HH:MM:SS')`
+    %
+    % __StartDate__ : _char_
+    %       Starting date of the recording in format dd-mmm-yyyy. Default 
+    %       to `datestr(now, 'dd-mmm-yyyy')`
     %
     %
-    % ## Usage synopsis:
+    % ## Usage synopsis
     %
-    % % Import data from a disk file (see <a href="matlab:help
-    % physioset.import.>physioset.import./a>)
+    % The usage examples below assume the following import directives:
+    %
+    % ````matlab
+    % import physioset.physioset physioset.import.matrix;
+    % import pset.pset  pset.session;
+    % import spt.pca.pca;
+    % ````
+    %
+    % Import data from MATLAB matrix, the generated memory-mapped file 
+    % will be stored under directory `D:\tmp`
+    %
+    % ````matlab
     % session.instance('D:/tmp');
-    % myPhysioset = import(physioset.import.mff, 'myrec.mff')
+    % myPhysioset = import(matrix, randn(4, 10000))
+    % ````
     %
-    % % Identify and mark bad channels
-    % idx = find_bad_channels(myPhysioset);
-    % myPhysioset = set_bad_channel(myPhysioset);
+    % Create a new physioset object that will contain only the first 20
+    % channels and the first 1000 samples of `myPhysioset`
     %
-    % % Create a new physioset object that will contain only the first 20
-    % % channels and the first 1000 samples of myPhysioset
+    % ````matlab
     % myPhysiosetSubset = subset(myPhysioset, 1:20, 1:1000);
+    % ````
     %
-    % % Project into principal components
-    % pcaObj = learn(spt.pca, myPhysioset);
+    % Project data into its principal components:
+    %
+    % ````matlab
+    % pcaObj = learn(pca, myPhysioset);
     % pcs = project(pcaObj, myPhysioset);
+    % ````
     %
-    % % Convert to a plain pointset
-    % myPset = pset(myPhysioset);
+    % Convert `physioset` object to a plain `pset` object
+    % ````matlab
+    % myPset = pset.pset(myPhysioset);
+    % ````
     %
-    % % Convert to Fieldtrip structure
-    % myFtripStruct = fieldtrip(myPhysioset);
+    % Convert `myPhysioset` to a Fieldtrip and EEGLAB structures:
     %
-    % % Construct back a physioset object from Fieldtrip struct
-    % myPhysioset2 = physioset.physioset.from_fieldtrip(myFtripStruct);
+    % ````matlab
+    % myFtripStr  = fieldtrip(myPhysioset);
+    % myEEGLABStr = eeglab(myPhysioset);
+    % ````
     %
-    % % Filter the physioset
+    % Construct `physioset` object from Fieldtrip structure:
+    % ````matlab
+    % myPhysioset2 = physioset.from_fieldtrip(myFtripStruct);
+    %
+    % Low-pass filter a `physioset`:
+    % ````matlab
     % filtObj = filter.lpfilt('fc', 0.5) % A low pass filter
     % filter(filtObj, myPhysioset2);
     %
     % % Note that the filtering syntax above is completely equivalent to:
-    % filtObj = filter(filtObj, myPhysioset2);
+    % myPhysioset2 = filter(filtObj, myPhysioset2);
+    % ````
     %
-    % % In both cases, the data values contained in myPhysioset2 WILL be
-    % % modified. This is because class physioset.physioset is a <a
-    % href="matlab:help handle">handle</a> class.
-    % % If you want to pass a physioset object by value, you need to
-    % % explicitely create a copy of the object:
-    %
-    % % Create a (temporary) copy
+    % In both cases above, the data values contained in myPhysioset2 
+    % _will be modified_. This is because class physioset is a handle class. 
+    % See `help handle` for more information. If you want to pass a
+    % `physioset` object by value, you need to explicitely create a copy of
+    % the object:
+    % ````matlab
     % myPhysiosetCopy = copy(myPhysioset);
     % myPhysiosetCopy = filter(filtObj, myPhysioset);
+    % ````
     %
-    % % Now myPhysiosetCopy contains filtered data while myPhysioset still
-    % % contains raw (unfiltered) data
-    %
-    %
-    %
-    % See also: pset.pset, pset.event, sensors.sensors
+    % See also: pset.pset, physioset.event.event, sensors.sensors
 
     
     
