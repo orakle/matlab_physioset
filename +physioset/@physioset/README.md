@@ -16,7 +16,7 @@ Where
 `obj` is a physioset.physioset object
 
 
-### Optional construction arguments
+## Optional construction arguments
 
 Optional construction arguments are provided at `('key', value)` 
 tuples. The constructor of the physioset class admits all the 
@@ -40,10 +40,12 @@ __Event__ : _physioset.event.event_
    samples or epochs.
 
 __StartTime__ : _char_
+
    The start time of the recording in format HH:MM:SS. Defaults 
    to `datestr(now, 'HH:MM:SS')`
 
 __StartDate__ : _char_
+
    Starting date of the recording in format dd-mmm-yyyy. Default 
    to `datestr(now, 'dd-mmm-yyyy')`
 
