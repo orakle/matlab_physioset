@@ -24,7 +24,7 @@ construction arguments accepted by the constructor of the parent
 class pset.pset. Additionally, the following `('key', value)` pairs
 are also accepted:
 
-__SamplingRate__ : _numeric_
+### __SamplingRate__ : _numeric_
 
    The data sampling rate. Must be an integer scalar. Defaults to
    `250`.
