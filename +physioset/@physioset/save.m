@@ -9,7 +9,11 @@ hdrfileext  = [datafileext 'h'];
 
 if nargin < 2 || isempty(filename),
     [pathstr, name] = fileparts(obj.PointSet.DataFile);
-    filename = [pathstr filesep name];
+    if numel(pathstr) > 1 && strcmp(pathstr(end), filesep),
+        filename = [pathstr name];
+    else
+        filename = [pathstr filesep name];
+    end
 end
 
 filename = regexprep(filename, ...

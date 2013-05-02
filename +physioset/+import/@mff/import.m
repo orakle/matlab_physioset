@@ -21,6 +21,7 @@ import misc.eta;
 import pset.file_naming_policy;
 import exceptions.*
 import misc.decompress;
+import physioset.event.std.epoch_begin;
 
 if numel(varargin) == 1 && iscell(varargin{1}),
     varargin = varargin{1};
@@ -231,7 +232,7 @@ end
 if verbose,
     fprintf([verboseLabel 'Reading events...']);
 end
-evArray = read_events(fileName, hdr.fs, hdr.beginTime);
+evArray = read_events(fileName, hdr.fs, hdr.begin_time, hdr.epochs);
 if verbose,
     fprintf('[done]\n\n');
 end
@@ -318,7 +319,7 @@ if verbose,
 end
 sampleRate = hdr.fs;
 
-recordTime = hdr.beginTime;
+recordTime = hdr.begin_time;
 
 mat = regexpi(recordTime, ...
     ['(?<year>\d{4}+)-(?<month>\d\d)-(?<day>\d\d)T', ...
@@ -333,6 +334,34 @@ if ~isempty(evArray) && ~isempty(obj.EventMapping),
    evArray = type2class(evArray, obj.EventMapping);
 end
 
+% Create epoch events if there is more than one epoch in this file
+samplingTime = linspace(0, size(data,2)/fs, size(data,2));
+if numel(hdr.epochs) > 1,
+    epochEvents = repmat(epoch_begin, numel(hdr.epochs), 1);
+    
+    epochSampl = 1;
+    samplingTime = nan(1, size(data,2));
+    for i = 1:numel(epochEvents)
+        epochDur      = hdr.epochs(i).end_time-hdr.epochs(i).begin_time;
+        epochDurSampl = (epochDur/1e9)*fs;
+        epochTime = parse_begin_time(hdr.begin_time);
+        epochTime = addtodate(epochTime, epochDur*1e-6, 'millisecond');
+        epochEvents(i) = set(epochEvents(1), ...
+            'Sample',   epochSampl, ...
+            'Time',     epochTime, ...
+            'Duration', epochDurSampl);
+        
+        samplingTime(epochSampl:epochSampl+epochDurSampl-1) = ...
+            linspace(hdr.epochs(i).begin_time*1e-9, ...
+            hdr.epochs(i).end_time*1e-9, ...
+            epochDurSampl);
+        
+        epochSampl = epochSampl + epochDurSampl;
+        
+    end 
+   
+end
+
 physiosetArgs = construction_args_physioset(obj);
 physiosetObj = physioset(newFileName, nb_sensors(sensorsMixed), ...
     physiosetArgs{:}, ...
@@ -341,7 +370,12 @@ physiosetObj = physioset(newFileName, nb_sensors(sensorsMixed), ...
     'StartDate',        startDate, ...
     'StartTime',        startTime, ...
     'Event',            evArray, ...
-    'Header',           hdr);
+    'Header',           hdr, ...
+    'SamplingTime',     samplingTime);
+
+if numel(hdr.epochs) > 1,
+    add_event(physiosetObj, epochEvents);
+end
 
 if verbose,
     fprintf('[done]\n\n');
