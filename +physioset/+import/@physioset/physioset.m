@@ -40,7 +40,7 @@ classdef physioset < physioset.import.abstract_physioset_import
     
     % physioset.import.interface
     methods
-        eegset_obj = import(obj, ifilename, varargin);        
+        eegset_obj = import(obj, ifilename);        
     end
     
     % consistency checks

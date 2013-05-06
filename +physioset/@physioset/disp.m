@@ -5,15 +5,15 @@ import misc.join;
 if usejava('Desktop'),
     disp(['<a href="matlab:help physioset.>physioset./a> ' ...
         '<a href="matlab:help handle">handle</a>']);
-    disp('Package: <a href="matlab: help pset">pset</a>');
+    disp('Package: <a href="matlab: help physioset">physioset</a>');
 else
-    disp('physioset.handle');
-    disp('Package: pset');
+    disp('handle');
+    disp('Package: physioset');
 end
 
 fprintf('\n\n');
 
-fprintf('%20s : %s\n', 'Name',           get_name(obj));
+fprintf('%20s : %s\n', 'Name', get_name(obj));
 
 % Note: We do not use get_event(obj) because that can get terribly slow in
 % the presence of data selections (which require the recomputation of event
