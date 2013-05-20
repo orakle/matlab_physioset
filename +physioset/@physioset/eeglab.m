@@ -30,11 +30,13 @@ function EEG = eeglab(obj, varargin)
 %
 % * `flatten` : Bad data will be zeroed out
 %
-% * `none` : Export all bad data
+% * `donothing` : Export all bad data
+%
+%
 %
 % ## Notes:
 %
-% * This function requires the EEGLAB toolbox:
+% * This method requires the EEGLAB toolbox:
 %   http://sccn.ucsd.edu/eeglab/
 %
 % * Once a physioset has been exported to EEGLAB format, you can easily
@@ -46,7 +48,7 @@ function EEG = eeglab(obj, varargin)
 %   Where eeglabStr is the result of converting a physioset to EEGLAB
 %   format.
 %
-% * For epoched datasets, any trial that contains at least one bad sample
+% * For epoched datasets, any trial that contains one or more bad samples
 %   will be rejected. This might be too harsh but allows a simplified
 %   implementation.
 %
