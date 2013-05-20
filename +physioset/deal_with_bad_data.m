@@ -20,6 +20,9 @@ switch lower(policy)
         obj(is_bad_channel(obj), :) = 0;
         obj(:, is_bad_sample(obj))  = 0; %#ok<*NASGU>
         
+    case 'none',
+        % do nothing
+        
     otherwise,
         
         error('Invalid policy ''%s''', policy);

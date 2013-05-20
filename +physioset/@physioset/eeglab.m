@@ -1,8 +1,9 @@
 function EEG = eeglab(obj, varargin)
 % EEGLAB - Conversion to an EEGLAB structure
 %
-% eeg = eeglab(eegsetObj)
+% ## Usage
 %
+% eeg = eeglab(eegsetObj)
 % eeg = eeglab(eegsetObj, 'key', value, ...)
 %
 % where
@@ -11,12 +12,25 @@ function EEG = eeglab(obj, varargin)
 %
 % EEG is an EEGLAB data structure
 %
-% ## Accepted (optional) key/value options:
 %
-%   BadData : (string) Default: 'reject'
-%       Determines what is to be done with the bad data when exporting
-%       to EEGLAB format. Other alternatives are: 'flatten' (make zero) and
-%       'interpolate'. Note that 'interpolate' does not work yet.
+% ## Accepted (optional) key/value options:
+% 
+% ### BadData
+%
+% __Default:__ `'reject'`
+% __Class:__    `char`
+%
+% Determines what is to be done with the bad data when exporting to EEGLAB
+% format. Valid alternatives are:
+%
+% * `reject` : Bad data will not be exported to EEGLAB. Realize that this
+%    might lead to temporal discontinuities in the data. A 
+%    `physioset.event.std.discontinuity` event will be added at both
+%    endings of a rejected bad epoch. 
+%
+% * `flatten` : Bad data will be zeroed out
+%
+% * `none` : Export all bad data
 %
 % ## Notes:
 %
