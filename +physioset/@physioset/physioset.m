@@ -499,7 +499,7 @@ classdef physioset < ...
         
         obj             = select_good_data(data);
         
-        obj             = add_event(obj, ev);
+        [obj, idx]      = add_event(obj, ev);
         
         obj             = delete_event(obj, idx);
         

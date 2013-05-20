@@ -1,4 +1,4 @@
-function obj    = add_event(obj, evArray)
+function [obj, idx] = add_event(obj, evArray)
 % ADD_EVENT - Adds events to a physioset
 %
 % obj = add_event(obj, evArray)
@@ -9,8 +9,6 @@ function obj    = add_event(obj, evArray)
 %
 % See also: event, physioset
 
-% Documentation: class_physioset.txt
-% Description: Adds events to a physioset
 
 if isempty(evArray), return; end
 
@@ -29,12 +27,12 @@ if ~isempty(pntSel),
     
 end
 
-if ~isempty(obj.Event),
+if isempty(obj.Event),
+    idx = 1:numel(evArray);
+else
     evArray = [obj.Event(:); evArray(:)];
+    idx = numel(obj.Event)+1:numel(obj.Event)+numel(evArray)-1;
 end
-
-% [~, I] = unique(evArray, 'Sample');
-% evArray = evArray(I);
 
 obj.Event = evArray;
 

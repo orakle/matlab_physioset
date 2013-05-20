@@ -25,12 +25,13 @@ function EEG = eeglab(obj, varargin)
 %
 % * `reject` : Bad data will not be exported to EEGLAB. Realize that this
 %    might lead to temporal discontinuities in the data. A 
-%    `physioset.event.std.discontinuity` event will be added at both
-%    endings of a rejected bad epoch. 
+%    `boundary` event will be added at the location of the discontinuity.
 %
-% * `flatten` : Bad data will be zeroed out
+% * `flatten` : Bad data will be zeroed out. Events of type __BadData will
+%    be added to the exported dataset in order to mark the locations of the
+%    bad data epochs.
 %
-% * `donothing` : Export all bad data
+% * `donothing` : Export all bad data, but add __BadData events.
 %
 %
 %
@@ -63,6 +64,7 @@ function EEG = eeglab(obj, varargin)
 % eeglabStr = eeglab(data);
 % eeglab; % Start EEGLAB
 % [ALLEEG EEG] = eeg_store(ALLEEG, eeglabStr, CURRENTSET);
+% eeglab redraw;
 %
 % See also: fieldtrip
 
@@ -80,7 +82,7 @@ opt.EpochRejTh  = 25;
 [~, opt] = process_arguments(opt, varargin);
 
 % Do something about the bad channels/samples
-didSelection = deal_with_bad_data(obj, opt.BadData);
+[didSelection, evIdx] = deal_with_bad_data(obj, opt.BadData);
 
 % Convert data selection into events
 %selectionEv = epoch_begin(NaN, 'Type', '__DataSelection');
@@ -151,6 +153,7 @@ EEG = tmp;
 % Undo temporary selections
 if didSelection,
     restore_selection(obj);
+    delete_event(obj, evIdx);
 end
 
 
