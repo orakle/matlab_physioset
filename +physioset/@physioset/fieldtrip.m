@@ -1,73 +1,55 @@
 function ftripStruct = fieldtrip(obj, varargin)
-% FIELDTRIP - Conversion to a Fieldtrip data structure
+% fieldtrip - Conversion to an Fieldtrip structure
+% =======
 %
-% ftripStruct = fieldtrip(obj)
-% ftripStruct = fieldtrip(obj, 'key', value, ...)
+% ## Usage
 %
-% Where
+%````matlab
+% ftripStr = fieldtrip(pObj)
+% ftripStr = fieldtrip(eegsetObj, 'key', value, ...)
+%````
 %
-% OBJ is a physioset.object
+% where
 %
-% FTRIPSTRUCT is a Fieldtrip-compatible data structure
+% `pObj` is a `physioset` object
+%
+% `ftripStr` is the exported EEGLAB data structure
+%
 %
 % ## Accepted (optional) key/value options:
+% 
+% ### BadDataPolicy
 %
-%   BadData : (string) Default: 'reject'
-%       Determines what is to be done with the bad data when exporting
-%       to EEGLAB format. Other alternatives are: 'flatten' (make zero) and
-%       'interpolate'. Note that 'interpolate' does not work yet.
+% __Default:__ `'reject'`
+% __Class:__    `char`
+%
+% Determines what is to be done with the bad data when exporting to
+% Fieldtrip format. See the documentation of 
+% [physioset.deal_with_bad_data][deal_with_bad_data] for information
+% regarding valid bad data policies.
+% 
+% [deal_wit_bad_data]: ../deal_with_bad_data.md
+%
 %
 % ## Notes:
 %
-% * This conversion method will assume that events of the same type as
-%   physioset.event.trial_begin should be used for defining trial
-%   boundaries.
-%
-% * As Fieldtrip expects single modality data, if you attempt to
-%   convert a physioset object that contains multiple modalities (e.g. EEG
-%   and MEG), multiple fieltrip structures will be generated, each of which
-%   will contain data from a single modality.
-%
-% * Note that the format in which Fieldtrip structures store MEG sensors.
-%   information changed in September 23, 2011. This conversion script will
-%   use the new format. For more information visit the URL below:
-%
-%   <a
-%   href="http://fieldtrip.fcdonders.nl/faq/how_are_electrodes_magnetometers_or_gradiometers_described">http://fieldtrip.fcdonders.nl/faq/how_are_electrodes_magnetometers_or_gradiometers_described</a>
+% * For epoched datasets, any trial that contains one or more bad samples
+%   will be rejected. This might be too harsh but allows a simplified
+%   implementation.
 %
 %
 % ## Examples:
 %
-% # In the examples below we will use the following sample data:
-% mySensors = sensors.eeg.from_template('egi256');
-% mySensors = subset(mySensors, 1:10:256);
-% myImporter = physioset.import.matrix('Sensors', mySensors);
-% data = import(myImporter, randn(26, 2000));
-% set_meta(data, 'RandomProp', rand(1,100));
+% ### Export only the EEG channels
 %
-% ### Example 1: Data selections
-% 
-% select(data, 1:2:20);
+% ````matlab
+% data = pset.load('myfile.pseth');
+% selector =  pset.selector.sensor_class('Class', 'EEG');
+% select(selector, data);
 % ftripStr = fieldtrip(data);
-% assert(numel(ftripStr.elec.label) == 10);
-% 
+% ````
 %
-% ### Example 2: export and reject bad channels/bad samples
-% 
-% clear_selection(data);
-% set_bad_channel(data, 1:2:10);
-% set_bad_sample(data, 1:1000);
-% ftripStr = fieldtrip(data, 'BadData', 'reject'); 
-%
-%
-% ### Example 3: export and flatten bad data
-%
-% clear_selection(data);
-% set_bad_channel(data, 1:2:10);
-% set_bad_sample(data, 1:1000);
-% ftripStr = fieldtrip(data, 'BadData', 'flatten'); 
-%
-% See also: eeglab, physioset, physioset.event.event
+% See also: eeglab
 
 import physioset.event.event;
 import physioset.deal_with_bad_data;

@@ -53,7 +53,7 @@ regarding valid bad data policies.
   implementation.
 
 
-## Examples:
+## Examples
 
 __Export only the EEG channels__
 
@@ -67,6 +67,8 @@ eeglab; % Start EEGLAB
 eeglab redraw;
 ````
 
-See also: [fieldtrip][fieldtrip-method]
+## More information
 
-[fieldtrip-method]: ./fieldtrip.md
+[physioset.physioset.fieldtrip](./fieldtrip.md)
+
+[EEGLAB toolbox](http://sccn.ucsd.edu/eeglab) 
