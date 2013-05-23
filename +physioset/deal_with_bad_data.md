@@ -60,6 +60,6 @@ durations of the bad data epochs.
 
 ## More information
 
-[physioset.eeglab][./@physioset/eeglab.md]
+[physioset.eeglab](./@physioset/eeglab.md)
 
-[physioset.fieldtrip][./@physioset/fieldtrip.md]
+[physioset.fieldtrip](./@physioset/fieldtrip.md)
