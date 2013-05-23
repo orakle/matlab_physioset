@@ -26,7 +26,7 @@ are also accepted:
 
 ### SamplingRate
 
-__Default:__ 250`
+__Default:__ `250`
 __Class__: `numeric`
 
 The data sampling rate, in samples per second.
