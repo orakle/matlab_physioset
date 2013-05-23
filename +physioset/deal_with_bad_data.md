@@ -58,4 +58,8 @@ Export all data, but do add `boundary` events marking the onsets and
 durations of the bad data epochs.
 
 
-See also: physioset.eeglab, physioset.fieldtrip
+## More information
+
+[physioset.eeglab][./@physioset/eeglab.md]
+
+[physioset.fieldtrip][./@physioset/fieldtrip.md]
