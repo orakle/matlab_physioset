@@ -5,8 +5,10 @@ Conversion to an EEGLAB structure
 
 ## Usage
 
+````matlab
 EEG = eeglab(pObj)
 EEG = eeglab(eegsetObj, 'key', value, ...)
+````
 
 where
 
@@ -23,8 +25,11 @@ __Default:__ `'reject'`
 __Class:__    `char`
 
 Determines what is to be done with the bad data when exporting to EEGLAB
-format. See the documentation of `physioset.deal_with_bad_data` for
-information regarding valid bad data policies.
+format. See the documentation of 
+[physioset.deal_with_bad_data][deal_with_bad_data] for information
+regarding valid bad data policies.
+
+[deal_wit_bad_data]: ../deal_with_bad_data.md
 
 
 ## Notes:
@@ -50,7 +55,7 @@ information regarding valid bad data policies.
 
 ## Examples:
 
-### Export only the EEG channels
+__Export only the EEG channels__
 
 ````matlab
 data = pset.load('myfile.pseth');
@@ -62,4 +67,6 @@ eeglab; % Start EEGLAB
 eeglab redraw;
 ````
 
-See also: fieldtrip
+See also: [fieldtrip][fieldtrip-method]
+
+[fieldtrip-method]: ./fieldtrip.md
