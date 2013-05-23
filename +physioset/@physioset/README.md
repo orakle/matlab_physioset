@@ -13,7 +13,7 @@ obj = physioset.physioset('key', value, ...)
 
 Where
 
-`obj` is a physioset.physioset object
+`obj` is a `physioset.physioset` object
 
 
 ## Optional construction arguments
@@ -24,30 +24,46 @@ construction arguments accepted by the constructor of the parent
 class pset.pset. Additionally, the following `('key', value)` pairs
 are also accepted:
 
-__SamplingRate__ : _numeric_
+### SamplingRate
 
-   The data sampling rate. Must be an integer scalar. Defaults to
-   `250`.
+__Default:__ 250`
+__Class__: `numeric`
 
-__Sensors__ : _sensors.sensors_
+The data sampling rate, in samples per second.
 
-   Describes the physiological sensors. Defaults to an array of 
-   `dummy` sensors.
 
-__Event__ : _physioset.event.event_
+### Sensors
 
-   Event or markers that provide information on specific data
-   samples or epochs.
+__Default:__ An array of `dummy` sensors
+__Class:__ `sensors.sensors`
 
-__StartTime__ : _char_
+Describes the physiological sensors. 
 
-   The start time of the recording in format HH:MM:SS. Defaults 
-   to `datestr(now, 'HH:MM:SS')`
 
-__StartDate__ : _char_
+### Event
 
-   Starting date of the recording in format dd-mmm-yyyy. Default 
-   to `datestr(now, 'dd-mmm-yyyy')`
+__Default:__ `[]`
+__Class:__ `physioset.event.event`
+
+Event or markers that provide information on specific data samples or
+epochs.
+
+
+### StartTime
+
+__Default:__ `datestr(now, 'HH:MM:SS')`
+__Class:__ `char` array
+
+The start time of the recording in format `HH:MM:SS`.
+
+
+### StartDate
+
+__Default:__ `datestr(now, 'dd-mmm-yyyy')`
+__Class:__ `char` array
+
+Starting date of the recording in format dd-mmm-yyyy. 
+
 
 
 ## Usage synopsis
