@@ -13,9 +13,6 @@ function b = struct(a)
 %
 % See also: from_struct, fieldtrip, eeglab
 
-% Documentation: class_pset_event.txt
-% Description: Conversion to a struct
-
 aprops = properties(class(a));
 
 nprops = length(aprops);

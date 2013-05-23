@@ -10,7 +10,10 @@ function [obj, idx] = add_event(obj, evArray)
 % See also: event, physioset
 
 
-if isempty(evArray), return; end
+if isempty(evArray), 
+    idx = [];
+    return; 
+end
 
 % When there are selections, we need to remap the events Sample property
 pntSel = pnt_selection(obj);
@@ -30,8 +33,9 @@ end
 if isempty(obj.Event),
     idx = 1:numel(evArray);
 else
+    nbEvs = numel(evArray);
     evArray = [obj.Event(:); evArray(:)];
-    idx = numel(obj.Event)+1:numel(obj.Event)+numel(evArray)-1;
+    idx = numel(obj.Event)+1:numel(obj.Event)+nbEvs;
 end
 
 obj.Event = evArray;

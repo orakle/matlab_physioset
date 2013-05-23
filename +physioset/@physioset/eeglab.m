@@ -1,38 +1,28 @@
 function EEG = eeglab(obj, varargin)
-% EEGLAB - Conversion to an EEGLAB structure
+% eeglab - Conversion to an EEGLAB structure
 %
 % ## Usage
 %
-% eeg = eeglab(eegsetObj)
-% eeg = eeglab(eegsetObj, 'key', value, ...)
+% EEG = eeglab(pObj)
+% EEG = eeglab(eegsetObj, 'key', value, ...)
 %
 % where
 %
-% EEGSETOBJ is an eegset object
+% `pObj` is a `physioset` object
 %
-% EEG is an EEGLAB data structure
+% `EEG` is the exported EEGLAB data structure
 %
 %
 % ## Accepted (optional) key/value options:
 % 
-% ### BadData
+% ### BadDataPolicy
 %
 % __Default:__ `'reject'`
 % __Class:__    `char`
 %
 % Determines what is to be done with the bad data when exporting to EEGLAB
-% format. Valid alternatives are:
-%
-% * `reject` : Bad data will not be exported to EEGLAB. Realize that this
-%    might lead to temporal discontinuities in the data. A 
-%    `boundary` event will be added at the location of the discontinuity.
-%
-% * `flatten` : Bad data will be zeroed out. Events of type __BadData will
-%    be added to the exported dataset in order to mark the locations of the
-%    bad data epochs.
-%
-% * `donothing` : Export all bad data, but add __BadData events.
-%
+% format. See the documentation of `physioset.deal_with_bad_data` for
+% information regarding valid bad data policies.
 %
 %
 % ## Notes:
@@ -43,10 +33,12 @@ function EEG = eeglab(obj, varargin)
 % * Once a physioset has been exported to EEGLAB format, you can easily
 %   load it into EEGLAB, by doing the following:
 %
+% ````matlab
 %   eeglab; % Start EEGLAB
-%   [ALLEEG EEG] = eeg_store(ALLEEG, eeglabStr, CURRENTSET);
+%   [ALLEEG EEG] = eeg_store(ALLEEG, EEG, CURRENTSET);
+% ````
 %
-%   Where eeglabStr is the result of converting a physioset to EEGLAB
+%   Where `EEG` is the result of converting a physioset to EEGLAB
 %   format.
 %
 % * For epoched datasets, any trial that contains one or more bad samples
@@ -56,8 +48,9 @@ function EEG = eeglab(obj, varargin)
 %
 % ## Examples:
 %
-% Example 1: Import to EEGLAB only the EEG channels
+% ### Export only the EEG channels
 %
+% ````matlab
 % data = pset.load('myfile.pseth');
 % selector =  pset.selector.sensor_class('Class', 'EEG');
 % select(selector, data);
@@ -65,6 +58,7 @@ function EEG = eeglab(obj, varargin)
 % eeglab; % Start EEGLAB
 % [ALLEEG EEG] = eeg_store(ALLEEG, eeglabStr, CURRENTSET);
 % eeglab redraw;
+% ````
 %
 % See also: fieldtrip
 
@@ -77,12 +71,12 @@ import misc.process_arguments;
 
 check_dependency('eeglab');
 
-opt.BadData = 'reject';
-opt.EpochRejTh  = 25;
+opt.BadDataPolicy = 'reject';
+opt.EpochRejTh    = 25;
 [~, opt] = process_arguments(opt, varargin);
 
 % Do something about the bad channels/samples
-[didSelection, evIdx] = deal_with_bad_data(obj, opt.BadData);
+[didSelection, evIdx] = deal_with_bad_data(obj, opt.BadDataPolicy);
 
 % Convert data selection into events
 %selectionEv = epoch_begin(NaN, 'Type', '__DataSelection');

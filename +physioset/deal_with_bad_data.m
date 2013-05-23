@@ -1,4 +1,44 @@
 function [didSelection, evIdx] = deal_with_bad_data(obj, policy)
+% deal_with_bad_data - Prepares physioset for conversion to other formats
+%
+% Note: This is an internal function, not intended to be used directly.
+%
+% ## Usage:
+%
+% ```matlab
+% [didSelection, evIdx] = deal_with_bad_data(obj, policy)
+% ````
+%
+% Where
+%
+% `obj` is a `physioset` object.
+%
+% `policy` is a string with the name of the policy that will be used for
+% dealing with the bad data prior to conversion to a third-party data
+% format (e.g. EEGLAB or Fieldtrip).
+%
+%
+% ## Implemented policies
+%
+% ### reject
+%
+% Bad data will not be exported to the third-party data format. This policy
+% might lead to temporal discontinuities in the exported data. A `boundary`
+% event will be added at the location of the discontinuity. The `Value`
+% property of such events will be set to the duration of the data epoch
+% that was rejected (in data samples).
+%
+% ### flatten
+%
+% Bad data will be zeroed out. Events of type `boundary` will be added to
+% the exported dataset in order to mark the locations of the bad data
+% epochs. The `Value` property of such events will be set to the duration
+% of the (flattened) bad data epoch that follows the event.
+%
+% ### donothing
+%
+% Export all data, but do add `boundary` events marking the onsets and
+% durations of the bad data epochs.
 
 import physioset.event.event;
 
@@ -30,8 +70,7 @@ switch lower(policy)
             samplTime = get_sampling_time(obj);
             lat = samplTime(pos);
             thisEv = event(pos, 'Type', 'boundary', 'Time', lat, ...
-                'Duration', 1);
-            thisEv = set_meta(thisEv, 'RejEpochDur', dur);
+                'Duration', 1, 'Value', dur);
             
             [~, evIdx(i)] = add_event(obj, thisEv);
             count = count + 1;
