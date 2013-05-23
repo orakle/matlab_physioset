@@ -22,6 +22,16 @@ function [didSelection, evIdx] = deal_with_bad_data(obj, policy)
 % dealing with the bad data prior to conversion to a third-party data
 % format (e.g. EEGLAB or Fieldtrip).
 %
+% `didSelection` is a logical scalar that will be `true` if the corresponding 
+% policy involved performing a data selectiona on `obj`. This output 
+% parameter can be used to undo such data selection.
+% 
+% `evIdx` is an array of natural indices that identify the locations of the 
+% events that were introduced in `obj` (typically with the purpose of marking
+% the positions of discontinuities or bad data epochs). This array can be 
+% used to remove these events from `obj` once they are not anymore necessary 
+% (e.g. once the conversion operation has been completed).
+%
 %
 % ## Implemented policies
 %

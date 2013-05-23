@@ -29,7 +29,7 @@ format. See the documentation of
 [physioset.deal_with_bad_data][deal_with_bad_data] for information
 regarding valid bad data policies.
 
-[deal_wit_bad_data]: ../deal_with_bad_data.md
+[deal_with_bad_data]: ../deal_with_bad_data.md
 
 
 ## Notes:
