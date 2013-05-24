@@ -243,6 +243,7 @@ if fid < 1,
     error('Could not open %s for writing', newFileName);
 end
 
+nbSamples = 0;
 try
     if verbose,
         fprintf('%sWriting data to %s...', verboseLabel, newFileName);
@@ -277,6 +278,7 @@ try
         
         % Write data to disk
         data = cell2mat(data);
+        nbSamples = nbSamples + size(data,2);
         fwrite(fid, data(:), obj.Precision);
         [data, ~, fidBins] = read_data(fileName, ...
             begBlock, endBlock, [], true, true);
@@ -335,7 +337,7 @@ if ~isempty(evArray) && ~isempty(obj.EventMapping),
 end
 
 % Create epoch events if there is more than one epoch in this file
-samplingTime = linspace(0, size(data,2)/fs, size(data,2));
+samplingTime = linspace(0, nbSamples/fs, nbSamples);
 if numel(hdr.epochs) > 1,
     epochEvents = repmat(epoch_begin, numel(hdr.epochs), 1);
     
