@@ -21,7 +21,7 @@ fprintf('%20s : %s\n', 'Name', get_name(obj));
 % on the sample positions of the events.
 fprintf('%20s : %s\n', 'Event',          get_msg_event(obj.Event));
 fprintf('%20s : %s\n', 'Sensors',        get_msg_sensors(obj.Sensors));
-fprintf('%20s : %d Hz\n', 'SampingRate', obj.SamplingRate);
+fprintf('%20s : %d Hz\n', 'SamplingRate', obj.SamplingRate);
 fprintf('%20s : %s\n', 'Samples',        get_msg_nbpoints(obj));
 
 if ~isempty(obj.PntSelection)
