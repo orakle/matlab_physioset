@@ -133,6 +133,7 @@ classdef physioset < ...
         
         History;            % Processing history
         PointSet;           % A pset.pset object
+        Offset;             % For methods remove_offset, restore_offset
         EqWeights;          % Equalization weights
         EqWeightsOrig;      % The inverse of this transforms the data to its original scales
         PhysDimPrefixOrig;  % The original (before equalization) physical dimensions prefix
@@ -143,6 +144,7 @@ classdef physioset < ...
         SamplingTime;       % Sampling instants relative to StartTime
         Config = physioset.config;     % Method configuration options
         ProcHistory = {};   
+        TimeOrig;
         
     end
     
@@ -154,6 +156,8 @@ classdef physioset < ...
         PntSelection;
         DimMap;
         DimInvMap;
+        StartTime;
+        StartDate;
         
     end
     
@@ -184,6 +188,15 @@ classdef physioset < ...
             val = obj.PointSet.DimInvMap;
         end
         
+        function val    = get.StartTime(obj)            
+            val = obj.TimeOrig;            
+        end
+        
+        function val    = get.StartDate(obj)
+            val = datestr(obj.TimeOrig, 'dd-mm-yyyy');
+        end            
+            
+        
     end
     
     methods (Access = private)
@@ -213,9 +226,7 @@ classdef physioset < ...
     properties (SetAccess = private)
         
         SamplingRate;       % Sampling rate in Hz
-        StartDate;          % Start date of the recording
-        StartTime;          % Start time of the recording
-        
+    
     end
     
     % Consistency checks (Set methods)
@@ -744,7 +755,7 @@ classdef physioset < ...
             dateFormat        = globals.get.DateFormat;
             timeFormat        = globals.get.TimeFormat;
             opt.startdate     = datestr(now, dateFormat);
-            opt.starttime     = datestr(now, timeFormat);
+            opt.starttime     = now;
             opt.eqweights     = [];
             opt.eqweightsorig = [];
             opt.physdimprefixorig = [];
@@ -763,11 +774,16 @@ classdef physioset < ...
                 opt.name = default_name(obj);
             end
             
+            if ischar(opt.starttime),
+                opt.starttime = ...
+                    datenum([opt.startdate ' ' opt.starttime], ...
+                    [dateFormat ' ' timeFormat]);
+            end
+            
             obj.SamplingRate    = opt.samplingrate;
             obj.Sensors         = opt.sensors;
-            obj.SamplingTime    = opt.samplingtime;
-            obj.StartDate       = datestr(opt.startdate, dateFormat);
-            obj.StartTime       = datestr(opt.starttime, timeFormat);
+            obj.SamplingTime    = opt.samplingtime;            
+            obj.TimeOrig        = opt.starttime;
             obj.Event           = opt.event;
             obj.EqWeights       = opt.eqweights;
             obj.EqWeightsOrig   = opt.eqweightsorig;

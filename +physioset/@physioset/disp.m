@@ -185,7 +185,7 @@ end
 
 function msgStartTime = get_msg_starttime(obj)
 
-msgStartTime = [obj.StartDate ' ' obj.StartTime];
+msgStartTime = datestr(obj.TimeOrig, 'dd-mm-yyyy HH:MM:SS:FFF');
 
 end
 
