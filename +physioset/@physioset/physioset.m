@@ -189,11 +189,11 @@ classdef physioset < ...
         end
         
         function val    = get.StartTime(obj)            
-            val = obj.TimeOrig;            
+            val = datestr(obj.TimeOrig, pset.globals.get.TimeFormat);            
         end
         
         function val    = get.StartDate(obj)
-            val = datestr(obj.TimeOrig, 'dd-mm-yyyy');
+            val = datestr(obj.TimeOrig, pset.globals.get.DateFormat);
         end            
             
         
@@ -466,6 +466,8 @@ classdef physioset < ...
     
     % Const public methods
     methods
+        
+        time               = get_time_origin(obj);
         
         args               = construction_args(obj, type);
         
