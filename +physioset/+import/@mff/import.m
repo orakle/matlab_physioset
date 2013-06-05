@@ -395,7 +395,7 @@ goo.globals.set('VerboseLabel', origVerboseLabel);
 
 % Delete unzipped data file
 if isZipped,
-    delete(fileNameIn);
+    delete(fileName);
 end
 
 end
