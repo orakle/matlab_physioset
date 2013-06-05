@@ -30,9 +30,6 @@ function [figNames, captions, groupNames, extra, extraCap] = ...
 %
 % See also: pset.plotter.time.snapshots, pset.plotter.time.config.snapshots
 
-% Documentation: class_pset_plotter_time_snapshots.txt
-% Description: Plots summary snapshots of a physioset
-
 import mperl.file.spec.catfile;
 import physioset.plotter.default_channel_groups;
 import plotter.driver2format;
@@ -211,6 +208,10 @@ for groupItr = 1:numel(epochs)
         thisEpoch = cell(1, 1+numel(extraData));
         thisEpoch{1} = data(chanIdx, firstSample:lastSample);
         for i = 1:numel(extraData)
+            if ~all(size(data) == size(extraData{i})),
+                error('snapshots:plot:WrongDimensions', ...
+                    'Cannot overlay plots for datasets with different dimensionality');
+            end
             thisEpoch{i+1} = extraData{i}(chanIdx, firstSample:lastSample);
         end
         
@@ -234,8 +235,7 @@ for groupItr = 1:numel(epochs)
             end
         end
         
-        %% Do the plotting
-        
+        %% Do the plotting        
         tmp = get_config(obj, 'Plotter');
         eegplotObj = plot(clone(tmp), thisEpoch{:}, thisArguments{:}, varargin{:});
         sensLabels = labels(sensors(data));

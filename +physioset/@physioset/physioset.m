@@ -477,7 +477,7 @@ classdef physioset < ...
         
         sensObj            = sensors(obj);
         
-        sTime              = sampling_time(obj);
+        [sTime, absSTime]  = sampling_time(obj);
         
         value              = get_method_config(obj, varargin);
         
