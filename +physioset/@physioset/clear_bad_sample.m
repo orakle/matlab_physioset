@@ -13,13 +13,10 @@ function obj = clear_bad_sample(obj, idx)
 %
 % See also: clear_bad_channel, set_bad_sample, physioset
 
-% Description: Unmarks bad samples
-% Documentations: class_physioset.txt
 
 import misc.isnatural;
-import physioset.
 
-if nargin < 2 || isempty(idx), idx = []; end
+if nargin < 2 || isempty(idx), idx = 1:size(obj,2); end
 
 if ischar(idx),
     if strcmpi(idx, 'all'),
@@ -33,7 +30,7 @@ if ischar(idx),
 end
 
 if ~isempty(idx) && ~isnatural(idx),
-    throw(physioset.InvalidSampleIndex('Sample index must be a natural number'));
+    error('Sample index must be a natural number');
 end
 
 if any(idx > obj.NbPoints),
