@@ -62,6 +62,7 @@ import physioset.event.event;
 
 if ~any(is_bad_channel(obj)) && ~any(is_bad_sample(obj)),
     didSelection = false;
+    evIdx = [];
     return;
 end
 
@@ -126,7 +127,7 @@ winrej = eeglab_winrej(obj);
 evIdx = nan(1, size(winrej,1));
 count = 0;
 for i = 1:size(winrej,1)
-    pos = winrej(i,1)-1;
+    pos = max(1, winrej(i,1)-1);
     if pos < 1, continue; end
     
     dur = diff(winrej(i,1:2))+1;
