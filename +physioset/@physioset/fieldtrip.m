@@ -111,7 +111,7 @@ if numel(eventArray) < 2,
 else
     nTrials = numel(eventArray);
     ftripStruct.sampleinfo = nan(nTrials,2);
-    tInfo = get(eventArray(1), 'trialinfo');
+    tInfo = get_meta(eventArray(1), 'trialinfo');
     if ~isempty(tInfo),
         ftripStruct.trialinfo  = nan(nTrials, size(tInfo,2));
     end
@@ -133,9 +133,9 @@ else
         ftripStruct.time{trialItr}  = trialTime;
         
         
-        ftripStruct.sampleinfo(trialItr,:) = get(ev, 'sampleinfo');
+        ftripStruct.sampleinfo(trialItr,:) = get_meta(ev, 'sampleinfo');
         if ~isempty(tInfo),
-            tInfo = get(ev, 'trialinfo');
+            tInfo = get_meta(ev, 'trialinfo');
             ftripStruct.trialinfo(trialItr,:) = tInfo;
         end
     end
@@ -161,11 +161,6 @@ end
 if ~isempty(evArray)    
     ftripStruct.cfg.event = fieldtrip(evArray);        
 end
-
-trialinfo   = get_meta(obj, 'trialinfo');
-sampleinfo  = get_meta(obj, 'sampleinfo');
-if ~isempty(trialinfo),     ftripStruct.trialinfo   = trialinfo; end
-if ~isempty(sampleinfo),    ftripStruct.sampleinfo  = sampleinfo; end
 
 % Undo temporary selections
 if didSelection,
