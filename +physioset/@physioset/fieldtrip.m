@@ -59,7 +59,7 @@ opt.BadData = 'reject';
 [~, opt] = process_arguments(opt, varargin);
 
 % Do something about the bad channels/samples
-didSelection = deal_with_bad_data(obj, opt.BadData);
+[didSelection, evIdx] = deal_with_bad_data(obj, opt.BadData);
 
 % Important to use method sensors here, instead of obj.Sensors. The
 % latter does not have into account "data selections" and would break the
@@ -110,6 +110,12 @@ if numel(eventArray) < 2,
     ftripStruct.time  = {sampling_time(obj)};
 else
     nTrials = numel(eventArray);
+    
+    if ~isempty(evIdx) && strcmpi(opt.BadData, 'reject'),
+       error(['Cannot use bad data policy ''reject'' in the presence ' ...
+           'of bad data samples']); 
+    end    
+    
     ftripStruct.sampleinfo = nan(nTrials,2);
     tInfo = get_meta(eventArray(1), 'trialinfo');
     if ~isempty(tInfo),
@@ -165,6 +171,7 @@ end
 % Undo temporary selections
 if didSelection,
     restore_selection(obj);
+    delete_event(obj, evIdx);
 end
 
 end
