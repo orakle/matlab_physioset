@@ -159,9 +159,7 @@ end
 try
     
     name = 'unmultiplex mux data channel';
-    
-    folder = session.instance.Folder;
-   
+  
     warning('off', 'sensors:InvalidLabel');
     warning('off', 'sensors:MissingPhysDim');
     data = import(mff, file);

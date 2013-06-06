@@ -264,16 +264,36 @@ try
                    data{2}(muxIdx(i),:), hdr.fs); 
             end
             tmp = data{2}(pnsIdx,:);
+            
+            if size(tmp, 1) == (nb_sensors(pnsSensors)+1) && ...
+                    all(abs(tmp(end,:)) < eps),
+                tmp(end,:) = [];
+            end
+            
             data{2} = [tmp; umuxData{:}];
         end
         
-        if numel(data) > 1,
+        if numel(data) > 1 && isempty(muxIdx) && ...
+                nb_sensors(pnsSensors) == (size(data{2}, 1) + 1) && ...
+                all(abs(data{2}(end,:)) < eps),
             % Last channel of PIB box is always zero->Remove it
             % VERY IMPORTANT: do not remove this line or this will lead to
             % the dimensionality of the sensor array differing from the
             % dimensionality of the data, which will break completely
             % method subsref() of the generated physioset
+            %
+            % Also important, do not do this if there are MUX channels. In
+            % that case this is taken care of above.
+            % Sometimes this is not necessary and that is why we check that
+            % the PNS sensor array has one less sensor.
             data{2}(end,:) = [];
+            
+            % Check dimensionality matches expectations
+            nbMuxSensors = sum(cellfun(@(x) nb_sensors(x), muxSensors));
+            if size(data{2},1) ~= nb_sensors(pnsSensors) + nbMuxSensors,
+                error(['Data dimensionality does not match ' ...
+                    'dimensionality of sensor array']);
+            end
         end
         
         % Write data to disk
