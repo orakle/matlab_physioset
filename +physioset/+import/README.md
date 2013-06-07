@@ -43,13 +43,15 @@ Data Importer (class name)       | Data format
 [eeglab]: http://sccn.ucsd.edu/eeglab/
 [fieldtrip-class]: ./@fieldtrip
 [fieldtrip]: http://fieldtrip.fcdonders.nl/ 
+[fileio-class]: ./@fileio
 [fileio]: http://fieldtrip.fcdonders.nl/development/fileio
 [geneactiv-class]: ./@geneactiv_bin
 [geneactiv]: http://www.geneactive.co.uk/
 [matrix-class]: ./@matrix
-[class-mff]: ./@mff
+[mff-class]: ./@mff
 [egi]: http://www.egi.com/
-[neuromag-class]: http://www.elekta.com/healthcare-professionals/products/elekta-neuroscience/functional-mapping.html
+[neuromag]: http://www.elekta.com/healthcare-professionals/products/elekta-neuroscience/functional-mapping.html
+[neuromag-class]: ./@neuromag
 [physioset-class]: ./@physioset
 [meegpipe]: http://www.germangh.com/meegpipe/
 
