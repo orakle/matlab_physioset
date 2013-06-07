@@ -18,8 +18,8 @@ defines method `import()`, that must be implemented by all concrete
 classes lower in the hierarchy. Class 
 [abstract_physioset_import][abs-phys-imp] defines a set of properties 
 common across all data importers. At the bottom of the hierarchy are the 
-concrete data importer classes that can be instantiated to generate
-[physioset][physioset] objects from various raw data formats.
+concrete data importer classes that can be instantiated, and used to
+generate [physioset][physioset] objects from various raw data formats.
 
 [abs-phys-imp]: ./abstract_physioset_import.md
 

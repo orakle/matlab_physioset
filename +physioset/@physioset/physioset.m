@@ -267,9 +267,9 @@ classdef physioset < ...
             import misc.isnatural;
             import exceptions.*;
             
-            if ~isempty(v) && (numel(v) > 1 || ~isnatural(v)),
+            if numel(v) ~= 1,
                 throw(InvalidPropValue('SamplingRate', ...
-                    'Must be a natural scalar'));
+                    'Must be a scalar'));
             end
             obj.SamplingRate = v;
             

@@ -17,7 +17,7 @@ import misc.eta;
 import pset.file_naming_policy;
 import exceptions.*
 import misc.decompress;
-import io.daisymeter.read;
+import io.dimesimeter.read;
 import safefid.safefid;
 import datestr2num.DateStr2Num;
 
@@ -75,35 +75,20 @@ if verbose,
     fprintf([verboseLabel 'Creating sensor array ...']);
 end
 
-sensorsAcc   = [];
-sensorsLight = [];
-sensorsTemp  = [];
+isAct = ismember(hdr.label, 'act');
 
-if ~isempty(xyz) && ~all(xyz(:) < eps),
-    sensorsAcc = sensors.accelerometer(...
-        'Label', {'Acc X', 'Acc Y', 'Acc Z'}, ...
-        'PhysDim', hdr.capabilities.accelerometer_units);
+if any(isAct),
+    sensorsAcc = sensors.accelerometer('Label', hdr.label(isAct));
+    sensorsLight = sensors.light('Label', hdr.label(~isAct));
+else
+    sensorsAcc = [];
+    sensorsLight = sensors.light('Label', hdr.label);
 end
 
-if ~isempty(light) && ~all(light(:) < eps),
-    sensorsLight = sensors.light('Label', 'Light', ...
-        'PhysDim', hdr.capabilities.light_meter_units);
-end
+sens = sensors.mixed(sensorsLight, sensorsAcc);
 
-if ~isempty(temp) && ~all(temp(:) < eps),
-    tempUnit = hdr.capabilities.temperature_sensor_units;
-    
-    if ~isempty(strfind(tempUnit, 'C')),
-        tempUnit = 'degC';
-    else
-        tempUnit = 'degF';
-    end
-    
-    sensorsTemp = sensors.temp('Label', 'Temp', ...
-        'PhysDim', tempUnit);
-end
-
-sens = sensors.mixed(sensorsAcc, sensorsLight, sensorsTemp);
+% Keep ordering consistent with sensor ordering
+data = [data(:, ~isAct) data(:, isAct)];
     
 if verbose,
     fprintf('[done]\n\n');
@@ -119,14 +104,14 @@ if fid < 1,
     error('Could not open %s for writing', newFileName);
 end
 
-nbSamples = max([size(xyz, 1), size(light, 1), size(temp,1)]);
+nbSamples = size(data,1);
 
 if nbSamples < 1,
     error('No data samples were found');
 end
 
-data = [xyz light temp];
-fwrite(fid, data(:), obj.Precision);
+data  = data';
+fid.fwrite(data(:), obj.Precision);
 
 if verbose,
     fprintf('[done]\n\n');
@@ -136,33 +121,20 @@ end
 if verbose,
     fprintf('%sGenerating a physioset object...', verboseLabel);
 end
-sampleRate = hdr.fs;
 
-recordTime = hdr.start_time;
+% Guess the sampling rate
+k = floor(numel(time)/2)*2;
+samplTimes = reshape(time(1:k), 2, k/2);
+timeDiff = nan(1, k/2);
+for i = 1:k/2
+    timeDiff(i) = etime(datevec(samplTimes(2,i)), datevec(samplTimes(1,i)));
+end
+sampleRate = 1/mean(timeDiff);
 
-mat = regexpi(recordTime, ...
-    ['(?<year>\d{4}+)-(?<month>\d\d)-(?<day>\d\d)\s+', ...
-    '(?<hours>\d\d):(?<mins>\d\d):(?<secs>\d\d):', ...
-    '(?<dec>[^+]+)'], ...
-    'names');
-
-startTime = DateStr2Num([mat.year mat.month mat.day ...
-    'T' mat.hours mat.mins mat.secs '.' mat.dec], 300);
+recordTime = [datestr(time(1), 'yyyymmddTHHMMSS') '.000'];
+startTime = DateStr2Num(recordTime, 300);
 
 samplingTime = time;
-
-if ~strcmp(datestr(startTime, 'dd-mm-yyyy HH:MM:SS'), ...
-        datestr(samplingTime(1), 'dd-mm-yyyy HH:MM:SS')),
-    
-   error('geneactiv_bin:Inconsistent', ...
-       'Recording start time does not match first sampling instant');
-   
-end
-
-% There might be a small delay between the official start time and the
-% actual time of the first sample. We use the latter as the recording start
-% time
-startTime = samplingTime(1);
 
 physiosetArgs = construction_args_physioset(obj);
 physiosetObj = physioset(newFileName, nb_sensors(sens), ...

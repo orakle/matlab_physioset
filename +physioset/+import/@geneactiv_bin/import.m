@@ -122,7 +122,7 @@ if nbSamples < 1,
     error('No data samples were found');
 end
 
-data = [xyz light temp];
+data = [xyz light temp]';
 fwrite(fid, data(:), obj.Precision);
 
 if verbose,
