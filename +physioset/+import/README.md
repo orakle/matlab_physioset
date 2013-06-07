@@ -11,8 +11,17 @@ of various formats.
 
 Data importer classes are organized in the following class hierarchy:
 
+![class hierarchy](physioset-import_class-diagram.png.png "Class hierarchy")
 
-CLASS DIAGRAM HERE
+At the top of the hierarchy is the interface `physioset_import` which 
+defines method `import()`, that must be implemented by all concrete 
+classes lower in the hierarchy. Class 
+[abstract_physioset_import][abs-phys-imp] defines a set of properties 
+common across all data importers. At the bottom of the hierarchy are the 
+concrete data importer classes that can be instantiated to generate
+[physioset][physioset] objects from various raw data formats.
+
+[abs-phys-imp]: ./abstract_physioset_import.md
 
 
 ## Available data importers
@@ -25,7 +34,7 @@ inspecting the [package contents][physioset-import-pkg].
 
 Data Importer (class name)       | Data format 
 --------------                   | -------------------- 
-[@daisymeter][daisymeter-class]  | Dimesimeter light measurements (`.txt`)
+[@dimesimeter][dimesimeter-class]| Dimesimeter light measurements (`.txt`)
 [@edfplus][edfplus-class]        | Time-series in [EDF+ format][edfplus] (`.edf`)
 [@eeglab][eeglab-class]          | [EEGLAB][eeglab]'s `.set` files
 [@fieldtrip][fieldtrip-class]    | [Fieldtrip][fieldtrip]'s data structure in `.mat` format
@@ -36,7 +45,7 @@ Data Importer (class name)       | Data format
 [@neuromag][neuromag-class]      | [Neuromag][neuromag]'s `.fif` format for MEG
 [@physioset][physioset-class]    | [meegpipe][meegpipe]'s physiological dataset format `.pset`/`.pseth`
 
-[daisymeter-class]: ./@dimesimeter
+[dimesimeter-class]: ./@dimesimeter
 [edfplus-class]: ./@edfplus
 [edfplus]: http://www.edfplus.info/
 [eeglab-class]: ./@eeglab
