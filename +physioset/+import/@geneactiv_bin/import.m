@@ -42,10 +42,6 @@ verboseLabel = get_verbose_label(obj);
 origVerboseLabel = goo.globals.get.VerboseLabel;
 goo.globals.set('VerboseLabel', verboseLabel);
 
-% The input file might be zipped
-[status, fileName] = decompress(fileName, 'Verbose', verbose);
-isZipped = ~status;
-
 % Determine the names of the generated (imported) files
 if isempty(obj.FileName),
     
@@ -183,10 +179,7 @@ end
 % Unset the global verbose
 goo.globals.set('VerboseLabel', origVerboseLabel);
 
-% Delete unzipped data file
-if isZipped,
-    delete(fileName);
-end
+
 
 end
 
