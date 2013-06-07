@@ -11,7 +11,7 @@ of various formats.
 
 Data importer classes are organized in the following class hierarchy:
 
-![class hierarchy](physioset-import_class-diagram.png.png "Class hierarchy")
+![class hierarchy](physioset-import_class-diagram.png "Class hierarchy")
 
 At the top of the hierarchy is the interface `physioset_import` which 
 defines method `import()`, that must be implemented by all concrete 
