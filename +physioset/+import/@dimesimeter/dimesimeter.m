@@ -1,11 +1,11 @@
-classdef daisymeter < physioset.import.abstract_physioset_import
-    % daisymeter - Imports Geneactiv's 3D accelerometry in .bin format
+classdef dimesimeter < physioset.import.abstract_physioset_import
+    % dimesimeter - Imports Geneactiv's 3D accelerometry in .bin format
     %
     % ## Usage synopsis:
     %
     % ````matlab
-    % import physioset.import.daisymeter;
-    % importer = daisymeter('FileName', 'myOutputFile');
+    % import physioset.import.dimesimeter;
+    % importer = dimesimeter('FileName', 'myOutputFile');
     % data = import(importer, 'myFile.txt');
     % ````
     %
@@ -25,7 +25,7 @@ classdef daisymeter < physioset.import.abstract_physioset_import
     % Constructor
     methods
         
-        function obj = daisymeter(varargin)
+        function obj = dimesimeter(varargin)
             obj = obj@physioset.import.abstract_physioset_import(varargin{:});             
         end
         

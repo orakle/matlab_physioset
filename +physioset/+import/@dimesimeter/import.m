@@ -1,11 +1,11 @@
 function physiosetObj = import(obj, varargin)
-% import - Imports daisymeter light measurements files
+% import - Imports dimesimeter light measurements files
 %
 % ## Notes:
 %
 %   * Compressed .gz files are supported.
 %
-% See also: daisymeter
+% See also: dimesimeter
 
 
 import pset.globals;

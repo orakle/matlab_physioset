@@ -1,7 +1,7 @@
 abstract_physioset_import
 ========
 
-The abstract_physioset_import class is an abstract class designed for
+The `abstract_physioset_import` class is an abstract class designed for
 inheritance. This means that instances of the class cannot be created
 but instead the purpose of the class is to provide its children
 classes with common properties and methods. The values of the

@@ -5,7 +5,7 @@ classdef eeglab < physioset.import.abstract_physioset_import
     %
     % import physioset.import.eeglab;
     % importer = eeglab('FileName', 'myOutputFile');
-    % data = import(importer, 'myMFFfile.mff');
+    % data = import(importer, 'myMFFfile.set');
     %
     % ## Accepted (optional) construction arguments (as key/values):
     %

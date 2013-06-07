@@ -4,7 +4,7 @@ classdef abstract_physioset_import < ...
         goo.verbose
     % abstract_physioset_import - Commonality among physioset_import classes
     %
-    %     The abstract_physioset_import class is an abstract class designed for
+    % The `abstract_physioset_import` class is an abstract class designed for
     % inheritance. This means that instances of the class cannot be created
     % but instead the purpose of the class is to provide its children
     % classes with common properties and methods. The values of the
@@ -12,7 +12,9 @@ classdef abstract_physioset_import < ...
     % of a child class using key/value pairs. For instance, the command:
     %
     % ````matlab
-    % importObj = physioset.import.matrix('Temporary', true, 'Writable', false)
+    % importObj = physioset.import.matrix(...
+    %       'Temporary', true, ...
+    %       'Writable', false)
     % ````
     %
     % will create an importer object of class `matrix` (a child class of class

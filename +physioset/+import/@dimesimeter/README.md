@@ -1,4 +1,4 @@
-daysimeter light measurements importer
+dimesimeter light measurements importer
 ================
 
 Imports [Geneactiv][geneactiv]'s 3D accelerometry in .bin format.
@@ -8,8 +8,8 @@ Imports [Geneactiv][geneactiv]'s 3D accelerometry in .bin format.
 ## Usage synopsis:
   
 ````matlab
-import physioset.import.daisymeter;
-importer = daisymeter('FileName', 'myOutputFile');
+import physioset.import.dimesimeter;
+importer = dimesimeter('FileName', 'myOutputFile');
 data = import(importer, 'myFile.txt');
 ````
  
