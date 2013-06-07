@@ -61,7 +61,7 @@ m = pset.generate_data('matrix', m, psetArgs{:}, ...
     'ChunkSize', obj.ChunkSize, 'Temporary', false);
 
 physiosetArgs = construction_args_physioset(obj);
-pObj = physioset(m.DataFile, m.NbDims, physiosetArgs{:});
+pObj = physioset(m.DataFile, m.NbDims, psetArgs{:}, physiosetArgs{:});
 
 if ~isempty(trialEvents),
     add_event(pObj, trialEvents);
