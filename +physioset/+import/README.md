@@ -27,9 +27,7 @@ generate [physioset][physioset] objects from various raw data formats.
 ## Usage
 
 All `physioset` data importers are used similarly. E.g. to import data from 
-an [.mff][mff] data file `myfile.mff`:
-
-[mff]: 
+an `.mff` data file `myfile.mff`:
 
 ````matlab
 myImporter = physioset.import.mff;
