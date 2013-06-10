@@ -1,11 +1,12 @@
 dimesimeter light measurements importer
 ================
 
-Imports [Geneactiv][geneactiv]'s 3D accelerometry in .bin format.
+Imports [Dimesimeter][dimesimeter]'s ambient light measurements in `.txt`
+format
 
-[geneactiv]: http://www.geneactive.co.uk/
+[dimesimeter]: http://www.lrc.rpi.edu/programs/lighthealth/projects/Dimesimeter.asp
     
-## Usage synopsis:
+## Usage synopsis
   
 ````matlab
 import physioset.import.dimesimeter;
