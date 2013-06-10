@@ -151,8 +151,6 @@ classdef physioset < ...
     %
     % [mmappset]: https://github.com/germangh/matlab_pset/blob/master/%2Bpset/mmappset.md
     %
-    % Documentation on additional `physioset` methods is still to be done...
-    %
     %
     % ### Data conversion methods
     %
@@ -165,6 +163,10 @@ classdef physioset < ...
     % [eeglab]: ./eeglab.md
     % [fieldtrip]: ./fieldtrip.md
     %
+    %
+    % ### Other methods
+    %
+    % Documentation to be done
     %
     % See also: pset.pset, physioset.event.event, sensors.sensors
 

@@ -148,8 +148,6 @@ Class `physioset` implements the [mmappset] interface.
 
 [mmappset]: https://github.com/germangh/matlab_pset/blob/master/%2Bpset/mmappset.md
 
-Documentation on additional `physioset` methods is still to be done...
-
 
 ### Data conversion methods
 
@@ -161,3 +159,7 @@ Method name             | Description
 
 [eeglab]: ./eeglab.md
 [fieldtrip]: ./fieldtrip.md
+
+### Other methods
+
+Documentation to be done
