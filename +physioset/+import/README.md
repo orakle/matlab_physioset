@@ -24,6 +24,44 @@ generate [physioset][physioset] objects from various raw data formats.
 [abs-phys-imp]: ./abstract_physioset_import.md
 
 
+## Usage
+
+All `physioset` data importers are used similarly. E.g. to import data from 
+an [.mff][mff] data file `myfile.mff`:
+
+[mff]: 
+
+````matlab
+myImporter = physioset.import.mff;
+pObj = import(myImporter, 'myfile.mff');
+````
+
+where `pObj` is a `physioset` object built out of the contents of 
+`myfile.mff`. Similarly, to import a file in `.edf` format `myfile.edf`:
+
+````matlab
+myImpoter = physioset.import.edfplus;
+pObj = import(myImporter, 'myfile.edf');
+````
+
+Data importers with custom behaviours can be built by specifying custom 
+values for various construction options. Some of these options (also 
+referred to as _importer properties) are common to all data importers, i.e.
+they are inherited from the abstract class 
+[abstract_physioset_import][abs-phys-import], while other are specific to 
+a given data importer class. For instance, the `.mff` and `.edf` importers 
+above could have been tuned so that the produced `physioset` stores data 
+values in `single` precision (instead of the default `double`):
+
+````matlab
+myImporter = physioset.import.mff('Precision', 'single');
+pObj = import(myImpoter, 'myfile.mff'); % pObj uses single precision
+% The same for the edfplus importer
+myImporter = physioset.import.edfplus('Precision', 'single');
+pObj = import(myImpoter, 'myfile.edf'); % pObj uses single precision
+````
+
+
 ## Available data importers
 
 A list of currently available data importers can be found below. However, 
