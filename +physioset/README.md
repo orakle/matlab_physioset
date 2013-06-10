@@ -33,6 +33,7 @@ meegpipe.initialize;
 
 [meegpipe]: https://github.com/germangh/meegpipe
 
+
 ## Create physioset from a MATLAB matrix
 
 Physiosets are almost always created using a suitable _importer_, 
@@ -124,6 +125,47 @@ myData = import(physioset.import.matrix, X);
 % Plot it
 plot(myData);
 
+````
+
+## Sampling instants
+
+`physioset` objects keep track of the sampling instants associated to each 
+of the data samples contained in the physioset. You can retrieve the 
+relative timing of a set of samples using:
+
+````matlab
+% Retrieve the relative timing of samples 10:10:100
+time = get_sampling_time(myData, 10:10:100);
+````
+
+The times above are relative to the physioset _time origin_, which can 
+be retrieved using:
+
+````matlab
+timeOrig = get_time_origin(myData);
+````
+
+You can also retrieve absolute sampling timings using:
+
+````matlab
+[~, absTimes] = get_sampling_time(myData, 10:10:100);
+````
+
+But be aware that, at this moment, the computation of absolute sampling 
+times is very inefficient so you should avoid trying to retrieve the 
+absolute timings of a large set of samples. 
+
+The following assertion illustrates how relative timings can be converted 
+to absolute ones:
+
+````matlab
+[time, absTime] = get_sampling_time(myData, 10:10:100);
+timeOrig = get_time_origin(myData);
+
+absTime2 = arrayfun(@(x) ...
+    addtodate(timeOrig, round(x*1000), 'millisecond'), time);
+
+assert(all(absTime == absTime2));
 ````
 
 
