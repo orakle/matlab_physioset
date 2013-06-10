@@ -151,10 +151,6 @@ You can also retrieve absolute sampling timings using:
 [~, absTimes] = get_sampling_time(myData, 10:10:100);
 ````
 
-But be aware that, at this moment, the computation of absolute sampling 
-times is very inefficient so you should avoid trying to retrieve the 
-absolute timings of a large set of samples. 
-
 The following assertion illustrates how relative timings can be converted 
 to absolute ones:
 
@@ -162,11 +158,13 @@ to absolute ones:
 [time, absTime] = get_sampling_time(myData, 10:10:100);
 timeOrig = get_time_origin(myData);
 
-absTime2 = arrayfun(@(x) ...
-    addtodate(timeOrig, round(x*1000), 'millisecond'), time);
+msPerDay = 24*60*60*1000;
+absTime2 = timeOrig + round(time*1000)/msPerDay;
 
 assert(all(absTime == absTime2));
 ````
+
+Note that th
 
 
 ## Data selections

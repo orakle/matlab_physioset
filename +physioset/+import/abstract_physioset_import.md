@@ -82,3 +82,19 @@ If set to true, the events information will also be imported. This
 can slow down the data import considerably in some cases. Not all
 data importers take into consideration the value of this property,
 i.e. events may be imported even if `ReadEvents` is set to `false`.
+
+
+### `StartTime`
+
+__Class__: `double`
+
+__Default__: `now`
+
+The time origin for the `physioset` sampling instants. The absolute 
+sampling instant for the `i`th sample of a `physioset` object `obj` can be
+obtained using:
+
+````matlab
+samplTime = sampling_time(obj);
+itime = addtodate(get_time_origin(obj), 
+````
