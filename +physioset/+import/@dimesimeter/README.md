@@ -24,10 +24,11 @@ importer = dimesimeter('FileName', 'myOutputFile');
 data = import(importer, 'sample_header.txt');
 ````
  
-## Accepted (optional) construction arguments (as key/values):
-  
-All key/values accepted by [abstract_physioset_import][abs-phys-imp]
-constructor.
+## Optional construction arguments
+
+The constructor for this data importer accepts all key/values accepted by
+[abstract_physioset_import][abs-phys-imp] constructor. There are no 
+additional construction arguments specific to this importer class.
 
 [abs-phys-imp]: ../abstract_physioset_import.md
 
