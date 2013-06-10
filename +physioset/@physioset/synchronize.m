@@ -23,6 +23,52 @@ function obj = synchronize(varargin)
 % `obj` is the result of synchronizing (possibly resampling) the set of
 % input physiosets.
 %
+%
+% ## Optional arguments
+% 
+% The following arguments can be optionally provided as key/value pairs:
+% 
+% ### `FileNaming`
+% 
+% __Class__: `char`
+% 
+% __Default__: `inherit`
+% 
+% The policy for determining the name of the disk file that will hold the 
+% synchronized `physioset` values. 
+% 
+% ### `FileName`
+% 
+% __Class__: `char`
+% 
+% __Default__: `[]`
+% 
+% If provided and not empty, this file name will be used as the destination
+% of the synchronized `physioset`. Note that this argument overrides argument
+% `FileNaming`.
+% 
+% ### `InterpMethod`
+% 
+% __Class__: `char`
+% 
+% __Default__: `linear`
+% 
+% The interpolation method to use. See the documentation of MATLAB's 
+% built-in [interp1][interp1] function for a list of supported interpolation 
+% methods.
+% 
+% [interp1]: http://www.mathworks.nl/help/matlab/ref/interp1.html
+% 
+% ### `Verbose`
+% 
+% __Class__: `logical`
+% 
+% __Default__ : `true`
+% 
+% If set to false, the operation of `synchronize` will not produce any 
+% status messages.
+
+%
 % 
 % ## Examples
 %
@@ -187,7 +233,8 @@ while (count < numel(tsSyncTime)),
         [~, pTime] = get_sampling_time(pObjArray{i});        
         for j = 1:size(pObjArray{i},1)
            % Interpolate jth dimension from ith physioset
-           thisData(dimCount,:) = interp1(pTime, pObjArray{i}.PointSet(j,:), thisTime');   
+           thisData(dimCount,:) = interp1(pTime, ...
+               pObjArray{i}.PointSet(j,:), thisTime', opt.InterpMethod);   
            dimCount = dimCount + 1;
         end
     end
