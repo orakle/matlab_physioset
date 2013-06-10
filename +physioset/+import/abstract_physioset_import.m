@@ -90,6 +90,15 @@ classdef abstract_physioset_import < ...
     %
     % See also: physioset.import
  
+    
+    %% Private stuff
+    properties (SetAccess = private, GetAccess = private)
+        
+        StartTime_;
+        
+    end   
+    
+    
     %% PROTECTED INTERFACE ................................................
     
     methods (Access = protected)
@@ -101,7 +110,7 @@ classdef abstract_physioset_import < ...
                'Writable',  obj.Writable, ...
                'Temporary', obj.Temporary, ...
                'FileName',  obj.FileName, ...
-               'StartTime', obj.StartTime ...
+               'StartTime', obj.StartTime_ ...
                };               
             
         end
@@ -123,7 +132,7 @@ classdef abstract_physioset_import < ...
        Precision    = pset.globals.get.Precision;
        Writable     = pset.globals.get.Writable;
        Temporary    = pset.globals.get.Temporary;
-       ChunkSize    = pset.globals.get.ChunkSize;
+       ChunkSize    = pset.globals.get.ChunkSize;      
        ReadEvents   = true;  
        FileName     = '';
        FileNaming   = 'inherit';
@@ -131,6 +140,22 @@ classdef abstract_physioset_import < ...
        EventMapping = mjava.hash({'TREV', 'tr', 'TR\s.+', 'tr'})
        
     end   
+    
+    properties (Dependent)
+        StartTime;
+    end
+    
+   methods
+      
+       function val = get.StartTime(obj)
+          
+           dateFmt = pset.globals.get.DateFormat;
+           timeFmt = pset.globals.get.TimeFormat;
+           val = datestr(obj.StartTime_, [dateFmt ' ' timeFmt] );
+           
+       end
+       
+   end
    
    % Set methods / consistency checks
    methods
@@ -278,11 +303,19 @@ classdef abstract_physioset_import < ...
    methods
        
        function obj = abstract_physioset_import(varargin)    
+           import misc.split_arguments;
+           import misc.process_arguments;
            
-           if nargin < 1, return; end           
+           if nargin < 1, return; end   
+           
+           [args1, args2] = split_arguments('StartTime', varargin);
+           
+           opt.StartTime = [];
+           [~, opt] = process_arguments(opt, args1);
+           obj.StartTime_ = opt.StartTime;
         
            % Set public properties
-           obj = set(obj, varargin{:});
+           obj = set(obj, args2{:});
            
        end
        

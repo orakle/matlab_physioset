@@ -24,6 +24,8 @@ classdef matrix < physioset.import.abstract_physioset_import
     %
     % See also: abstract_physioset_import, physioset.import.
     
+  
+
      %% PROTECTED INTERFACE ................................................
     
     methods (Access = protected)       
@@ -38,8 +40,7 @@ classdef matrix < physioset.import.abstract_physioset_import
         end
         
         
-    end
-    
+    end   
     
     %% PUBLIC INTERFACE ...................................................
     
@@ -47,7 +48,8 @@ classdef matrix < physioset.import.abstract_physioset_import
         
         SamplingRate;
 
-    end
+    end    
+  
     
     % Consistency checks
     methods

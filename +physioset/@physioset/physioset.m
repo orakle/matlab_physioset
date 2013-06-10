@@ -382,18 +382,8 @@ classdef physioset < ...
         
         function nPnts    = nb_pnt(obj)
             nPnts = nb_pnt(obj.PointSet);
-        end
-        
-        function sTime    = get_sampling_time(obj)
-           
-            if isempty(obj.PntSelection),
-                sTime = obj.SamplingTime;
-            else
-                sTime = obj.SamplingTime(obj.PntSelection);
-            end
-            
-        end
-        
+        end        
+      
         function filename = get_datafile(obj)
             filename = get_datafile(obj.PointSet);
         end
@@ -523,7 +513,10 @@ classdef physioset < ...
         
         sensObj            = sensors(obj);
         
-        [sTime, absSTime]  = sampling_time(obj);
+        % These two methods are identical, sampling_time is kept for
+        % backward compatibility
+        [sTime, absTime]   = sampling_time(obj);        
+        [sTime, absTime]   = get_sampling_time(obj, idx);
         
         value              = get_method_config(obj, varargin);
         
