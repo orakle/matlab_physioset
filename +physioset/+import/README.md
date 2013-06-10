@@ -46,7 +46,7 @@ Data importers with custom behaviours can be built by specifying custom
 values for various construction options. Some of these options (also 
 referred to as _importer properties) are common to all data importers, i.e.
 they are inherited from the abstract class 
-[abstract_physioset_import][abs-phys-import], while other are specific to 
+[abstract_physioset_import][abs-phys-imp], while other are specific to 
 a given data importer class. For instance, the `.mff` and `.edf` importers 
 above could have been tuned so that the produced `physioset` stores data 
 values in `single` precision (instead of the default `double`):
