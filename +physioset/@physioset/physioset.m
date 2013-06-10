@@ -781,18 +781,9 @@ classdef physioset < ...
             opt.samplingrate    = globals.get.SamplingRate;
             opt.sensors         = [];
             opt.event           = [];
-            opt.name            = '';
-            
-            if obj.PointSet.NbPoints,
-                
-                opt.samplingtime = ...
-                    0:1/opt.samplingrate:obj.PointSet.NbPoints/...
-                    opt.samplingrate - 1/opt.samplingrate;
-                
-            else
-                opt.samplingtime = [];
-            end
-            
+            opt.name            = '';            
+          
+            opt.samplingtime  = [];
             dateFormat        = globals.get.DateFormat;
             timeFormat        = globals.get.TimeFormat;
             opt.startdate     = datestr(now, dateFormat);
@@ -809,6 +800,15 @@ classdef physioset < ...
             if isempty(opt.sensors),
                 opt.sensors = sensors.dummy(size(obj.PointSet,1));
             end
+            
+            if isempty(opt.samplingtime),
+                
+                opt.samplingtime = ...
+                    0:1/opt.samplingrate:obj.PointSet.NbPoints/...
+                    opt.samplingrate - 1/opt.samplingrate;                
+           
+            end
+            
             
             % physioset name
             if isempty(opt.name),

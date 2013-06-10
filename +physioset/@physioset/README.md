@@ -162,4 +162,9 @@ Method name             | Description
 
 ### Other methods
 
-Documentation to be done
+Method name                     | Description
+---------------                 | ------------
+[synchronize][synchronize]      | Synchronization of two or more physiosets
+
+
+[synchronize]: ./synchronize.md

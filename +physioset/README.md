@@ -164,9 +164,6 @@ absTime2 = timeOrig + round(time*1000)/msPerDay;
 assert(all(absTime == absTime2));
 ````
 
-Note that th
-
-
 ## Data selections
 
 Sometimes you want to plot or process just a sub-set of the data contained
