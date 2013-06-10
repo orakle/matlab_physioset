@@ -4,6 +4,10 @@ classdef physioset < ...
         goo.verbose_handle
     % PHYSIOSET - Memory-mapped physiological dataset class
     %
+    % A data structure to handle physiological datasets (possibly of
+    % different modalities) and related meta-information (e.g. events,
+    % sensors information, sampling instants, etc).
+    %
     %
     % ## Construction:
     %
@@ -14,41 +18,62 @@ classdef physioset < ...
     %
     % Where
     %
-    % `obj` is a physioset.physioset object
+    % `obj` is a `physioset.physioset` object
     %
     %
     % ## Optional construction arguments
     %
-    % Optional construction arguments are provided at `('key', value)` 
-    % tuples. The constructor of the physioset class admits all the 
+    % Optional construction arguments are provided at `('key', value)`
+    % tuples. The constructor of the physioset class admits all the
     % construction arguments accepted by the constructor of the parent
     % class pset.pset. Additionally, the following `('key', value)` pairs
     % are also accepted:
     %
-    % __SamplingRate__ : _numeric_
+    % ### `SamplingRate`
     %
-    %       The data sampling rate. Must be an integer scalar. Defaults to
-    %       `250`.
+    % __Default:__ `250`
     %
-    % __Sensors__ : _sensors.sensors_
+    % __Class__: `numeric`
     %
-    %       Describes the physiological sensors. Defaults to an array of 
-    %       `dummy` sensors.
+    % The data sampling rate, in samples per second.
     %
-    % __Event__ : _physioset.event.event_
     %
-    %       Event or markers that provide information on specific data
-    %       samples or epochs.
+    % ### `Sensors`
     %
-    % __StartTime__ : _char_
+    % __Default:__ An array of `dummy` sensors
     %
-    %       The start time of the recording in format HH:MM:SS. Defaults 
-    %       to `datestr(now, 'HH:MM:SS')`
+    % __Class:__ `sensors.sensors`
     %
-    % __StartDate__ : _char_
+    % Describes the physiological sensors.
     %
-    %       Starting date of the recording in format dd-mmm-yyyy. Default 
-    %       to `datestr(now, 'dd-mmm-yyyy')`
+    %
+    % ### `Event`
+    %
+    % __Default:__ `[]`
+    %
+    % __Class:__ `physioset.event.event`
+    %
+    % Event or markers that provide information on specific data samples or
+    % epochs.
+    %
+    %
+    % ### `StartTime`
+    %
+    % __Default:__ `datestr(now, 'HH:MM:SS')`
+    %
+    % __Class:__ `char` array
+    %
+    % The start time of the recording in format `HH:MM:SS`.
+    %
+    %
+    % ### `StartDate`
+    %
+    % __Default:__ `datestr(now, 'dd-mmm-yyyy')`
+    %
+    % __Class:__ `char` array
+    %
+    % Starting date of the recording in format `dd-mmm-yyyy`.
+    %
     %
     %
     % ## Usage synopsis
@@ -61,7 +86,7 @@ classdef physioset < ...
     % import spt.pca.pca;
     % ````
     %
-    % Import data from MATLAB matrix, the generated memory-mapped file 
+    % Import data from MATLAB matrix, the generated memory-mapped file
     % will be stored under directory `D:\tmp`
     %
     % ````matlab
@@ -101,15 +126,15 @@ classdef physioset < ...
     %
     % Low-pass filter a `physioset`:
     % ````matlab
-    % filtObj = filter.lpfilt('fc', 0.5) % A low pass filter
+    % filtObj = filter.lpfilt('fc', 0.5)  A low pass filter
     % filter(filtObj, myPhysioset2);
     %
-    % % Note that the filtering syntax above is completely equivalent to:
+    % Note that the filtering syntax above is completely equivalent to:
     % myPhysioset2 = filter(filtObj, myPhysioset2);
     % ````
     %
-    % In both cases above, the data values contained in myPhysioset2 
-    % _will be modified_. This is because class physioset is a handle class. 
+    % In both cases above, the data values contained in myPhysioset2
+    % _will be modified_. This is because class physioset is a handle class.
     % See `help handle` for more information. If you want to pass a
     % `physioset` object by value, you need to explicitely create a copy of
     % the object:
@@ -120,7 +145,24 @@ classdef physioset < ...
     %
     % ## Class methods
     %
-    % 
+    % ### pset.mmapset interface
+    %
+    % Class `physioset` implements the [mmappset] interface.
+    %
+    % [mmappset]: https://github.com/germangh/matlab_pset/blob/master/%2Bpset/mmappset.md
+    %
+    %
+    % ### Data conversion methods
+    %
+    % Method name             | Description
+    % ---------------         | ------------
+    % [eeglab][eeglab]        | Conversion to EEGLAB structure
+    % [fieldtrip][fieldtrip]  | Conversion to Fieldtrip structure
+    %
+    %
+    % [eeglab]: ./eeglab.md
+    % [fieldtrip]: ./fieldtrip.md
+    %
     %
     % See also: pset.pset, physioset.event.event, sensors.sensors
 

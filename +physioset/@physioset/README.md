@@ -1,7 +1,9 @@
 physioset class
 ================
 
-Memory-mapped physiological dataset class
+A data structure to handle physiological datasets (possibly of 
+different modalities) and related meta-information (e.g. events,
+sensors information, sampling instants, etc).
 
 
 ## Construction:
@@ -24,45 +26,50 @@ construction arguments accepted by the constructor of the parent
 class pset.pset. Additionally, the following `('key', value)` pairs
 are also accepted:
 
-### SamplingRate
+### `SamplingRate`
 
 __Default:__ `250`
+
 __Class__: `numeric`
 
 The data sampling rate, in samples per second.
 
 
-### Sensors
+### `Sensors`
 
 __Default:__ An array of `dummy` sensors
+
 __Class:__ `sensors.sensors`
 
 Describes the physiological sensors. 
 
 
-### Event
+### `Event`
 
 __Default:__ `[]`
+
 __Class:__ `physioset.event.event`
 
 Event or markers that provide information on specific data samples or
 epochs.
 
 
-### StartTime
+### `StartTime`
 
 __Default:__ `datestr(now, 'HH:MM:SS')`
+
 __Class:__ `char` array
 
 The start time of the recording in format `HH:MM:SS`.
 
 
-### StartDate
+### `StartDate`
 
 __Default:__ `datestr(now, 'dd-mmm-yyyy')`
+
 __Class:__ `char` array
 
-Starting date of the recording in format dd-mmm-yyyy. 
+Starting date of the recording in format `dd-mmm-yyyy`. 
 
 
 

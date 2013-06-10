@@ -17,7 +17,7 @@ urlwrite([urlBase 'pupw_0005_actigraphy_ambulatory.bin.gz'], ...
 
 % Create a data importer object that will create a physioset object of 
 % single precision
-importer = dimesimeter('Precision', 'single');
+importer = geneactiv_bin('Precision', 'single');
 
 % Import the sample file
 data = import(importer, 'sample.bin.gz');
