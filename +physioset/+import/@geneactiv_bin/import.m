@@ -61,11 +61,14 @@ if verbose,
     fprintf([verboseLabel 'Reading %s...'], fileName);
 end
 % We ignore the button output
-[hdr, time, xyz, light, ~, temp] = read(fileName, 'Temperature');
+[data, time, hdr] = read(fileName, 'DataProps', 'Temperature');
+xyz     = data(:, 1:3);
+light   = data(:, 4);
+temp    = data(:,6);
 if verbose,
     fprintf('[done]\n\n')
 end
-hdr = geneactiv_bin.process_bin_header(hdr);
+hdr.info = geneactiv_bin.process_bin_header(hdr.info);
 
 %% Read sensor information
 if verbose,
@@ -79,16 +82,16 @@ sensorsTemp  = [];
 if ~isempty(xyz) && ~all(xyz(:) < eps),
     sensorsAcc = sensors.accelerometer(...
         'Label', {'Acc X', 'Acc Y', 'Acc Z'}, ...
-        'PhysDim', hdr.capabilities.accelerometer_units);
+        'PhysDim', hdr.info.capabilities.accelerometer_units);
 end
 
 if ~isempty(light) && ~all(light(:) < eps),
     sensorsLight = sensors.light('Label', 'Light', ...
-        'PhysDim', hdr.capabilities.light_meter_units);
+        'PhysDim', hdr.info.capabilities.light_meter_units);
 end
 
 if ~isempty(temp) && ~all(temp(:) < eps),
-    tempUnit = hdr.capabilities.temperature_sensor_units;
+    tempUnit = hdr.info.capabilities.temperature_sensor_units;
     
     if ~isempty(strfind(tempUnit, 'C')),
         tempUnit = 'degC';
@@ -133,9 +136,9 @@ end
 if verbose,
     fprintf('%sGenerating a physioset object...', verboseLabel);
 end
-sampleRate = hdr.fs;
+sampleRate = hdr.info.fs;
 
-recordTime = hdr.start_time;
+recordTime = hdr.info.start_time;
 
 mat = regexpi(recordTime, ...
     ['(?<year>\d{4}+)-(?<month>\d\d)-(?<day>\d\d)\s+', ...

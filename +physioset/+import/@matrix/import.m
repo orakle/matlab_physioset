@@ -39,7 +39,6 @@ if ndims(m) > 3,
     error('Matrices of more than three dimensions are not supported');
 end
 
-
 if size(m,3) > 1,
     % It is a trial-based dataset
     trialEvents = trial_begin(...
@@ -61,7 +60,9 @@ m = pset.generate_data('matrix', m, psetArgs{:}, ...
     'ChunkSize', obj.ChunkSize, 'Temporary', false);
 
 physiosetArgs = construction_args_physioset(obj);
-pObj = physioset(m.DataFile, m.NbDims, psetArgs{:}, physiosetArgs{:});
+pObj = physioset(m.DataFile, m.NbDims, ...
+    psetArgs{:}, ...
+    physiosetArgs{:});
 
 if ~isempty(trialEvents),
     add_event(pObj, trialEvents);

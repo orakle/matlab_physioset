@@ -3,10 +3,11 @@ classdef matrix < physioset.import.abstract_physioset_import
     %
     % ## Usage synopsis:
     % 
+    % ````matrix
     % % Create a matrix importer with a sampling rate of 763 Hz
     % myImporter = physioset.import.matrix(763);
     % obj = import(myImporter, randn(10,1000));
-    %
+    % ````
     %
     % Where
     %
@@ -19,7 +20,6 @@ classdef matrix < physioset.import.abstract_physioset_import
     %
     %   * All key/value pairs accepted by the constructor of clas
     %     abstract_physioset_import
-    %
     %
     %
     % See also: abstract_physioset_import, physioset.import.
