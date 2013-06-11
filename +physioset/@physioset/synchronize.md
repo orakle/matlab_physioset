@@ -88,7 +88,7 @@ pObj1 = import(matrix(10, 'StartTime', timeOrig), randn(2,10));
 pObj2 = import(matrix(100, 'StartTime', timeOrig), randn(2,100));
 % Sampled at 1000 Hz
 pObj3 = import(matrix(1000, 'StartTime', timeOrig), randn(1,1000));
-% Synchronize them (i.e. upsample pObj1)
+% Synchronize them
 pObj = synchronize(pObj3, pObj2, pObj1, 'union');
 ````
 
@@ -119,6 +119,6 @@ add_event(pObj1, ev);
 ev = event(1000, 'Type', 'thirdEv');
 add_event(pObj3, ev);
 
-% Synchronize them (i.e. upsample pObj1)
+% Synchronize them
 pObj = synchronize(pObj3, pObj2, pObj1);
 ````

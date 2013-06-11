@@ -18,7 +18,7 @@ properties (both defined by the `abstract_physioset_import` class) will be
 set to `true` and `false`, respectively.
 
 
-## Optional construction arguments
+## Construction arguments
 
 The following optional arguments can be provided during construction
 as key/value pairs.

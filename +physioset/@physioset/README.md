@@ -1,4 +1,4 @@
-physioset class
+`physioset` class
 ================
 
 A data structure to handle physiological datasets (possibly of 
