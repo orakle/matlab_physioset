@@ -48,13 +48,14 @@ classdef sample_selector < physioset.event.selector & goo.abstract_setget
             for i = 1:numel(evArray)
                 
                 idx = (sample(i) + off(i)):(sample(i) + off(i) + dur(i) - 1);
-                inRange(i) = all(ismember(idx, obj.Sample));
-                
-            end
-            
-            if obj.Negated,
-                inRange = ~inRange;
-            end
+                if obj.Negated,
+                    inRange(i) = ~all(ismember(idx, obj.Sample));
+                else
+                    inRange(i) = all(ismember(idx, obj.Sample));
+                end
+           
+            end            
+        
             
             evArray = evArray(inRange);           
             
