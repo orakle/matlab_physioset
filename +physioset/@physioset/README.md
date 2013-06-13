@@ -164,6 +164,7 @@ Method name             | Description
 
 Method name                     | Description
 ---------------                 | ------------
+[subset][subset]                | Extract subset from a `physioset`
 [synchronize][synchronize]      | Synchronization of two or more physiosets
 
 

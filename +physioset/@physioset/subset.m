@@ -1,20 +1,30 @@
 function obj = subset(obj, varargin)
-% SUBSET - Creates physioset object as a subset of another physioset object
-%
-% objNew = subset(obj, rowIdx, colIdx)
-%
+% subset - Creates physioset object as a subset of another physioset object
+% 
+% ## Usage
+% 
+% ````matlab
+% objNew = subset(obj, rowIdx, colIdx);
+% objNew = subset(obj, mySel);
+% objNew = subset(obj);
+% ````
+% 
 % Where
-%
-% OBJ is a physioset.object
-%
-% ROWIDX is a numeric array of channel indices
-%
-% COLIDX is a numeric array of sample indices
-%
-% OBJNEW is the newly created physioset object
-%
-%
-% See also: physioset. pset
+% 
+% `obj` is a `physioset` object, `rowIdx` is an array of row (channel)
+% indices, `colIdx` is an array of column (sample) indices, `mySel` is a 
+% `selector` object, and `objNew` is a `physioset` object created from a 
+% subset of the data contained in `obj`.
+% 
+% The second usage example above will apply the provided selector on the
+% input `physioset` and, subsequently, will build `objNew` using the
+% selected subset of `obj`.
+% 
+% The third usage example above will create `objNew` using the current
+% selection of `obj`. If no selections have been applied to `obj` then 
+% `objNew` will simply be a copy of `obj`.
+% 
+% See also: physioset.physioset, pset.selector
 
 
 import physioset.physioset;
