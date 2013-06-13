@@ -169,3 +169,4 @@ Method name                     | Description
 
 
 [synchronize]: ./synchronize.md
+[subset]: ./subset.md
