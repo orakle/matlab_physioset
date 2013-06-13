@@ -1,50 +1,8 @@
-function [EEG,com] = eeglabel(EEG, regions, type)
-% eeglabel() - labels portions of continuous data in an EEGLAB dataset
-%
-% Usage:
-%   >> EEGOUT = eeglabel(EEGIN, regions, type)
-%
-% Inputs:
-%   INEEG      - input dataset
-%   regions    - array of regions to consider. number x [beg end]  of
-%                regions. 'beg' and 'end' are expressed in term of points
-%                in the input dataset. Size of the array is
-%                number x 2 of regions.
-%   type       - type of editing. Use type='add' to add events that cover
-%                the marked regions. Use type='remove' to remove the events
-%                with an onset within the marked region.
-%
-% Outputs:
-%   INEEG      - output dataset with updated data, events latencies and
-%                additional events.
-%
-% Author: German Gomez-Herrero <german.gomezherrero@tut.fi>
-%         Institute of Signal Processing
-%         Tampere University of Technology, 2008
-%
-% See also:
-%   POP_EEGLABEL, EEGLAB
-%
+function [EEG,remove_flag] = eeglabel(EEG, regions, type)
 
-% Copyright (C) <2008>  <German Gomez-Herrero>
-%
-% This program is free software; you can redistribute it and/or modify
-% it under the terms of the GNU General Public License as published by
-% the Free Software Foundation; either version 2 of the License, or
-% (at your option) any later version.
-%
-% This program is distributed in the hope that it will be useful,
-% but WITHOUT ANY WARRANTY; without even the implied warranty of
-% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-% GNU General Public License for more details.
-%
-% You should have received a copy of the GNU General Public License
-% along with this program; if not, write to the Free Software
-% Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-if nargin < 2,
-    help eeglabel;
-end
+remove_flag = false(size(EEG.event));
+
 if isempty(regions),
     return;
 end
@@ -53,13 +11,12 @@ if nargin < 3 || isempty(type),
 end
 
 
-
-
 % handle regions from eegplot and insert labels
 % -------------------------------------
 if size(regions,2) > 2,
     regions = regions(:,3:4);
 end
+
 
 switch lower(type),
     
@@ -77,8 +34,7 @@ switch lower(type),
         guititle = 'Choose a label - eeglabel()';
         result = inputgui( uigeom, uilist, 'pophelp(''eeglabel'')', guititle, [], 'normal');
         
-        if isempty(result),
-            com = '';
+        if isempty(result),          
             return;
         end
         
@@ -122,7 +78,7 @@ switch lower(type),
                     remove_flag(j) = true;
                 end
             end
-            EEG.event(remove_flag) = [];
+            %EEG.event(remove_flag) = [];
         end        
         
         
@@ -133,5 +89,4 @@ switch lower(type),
         
 end
 
-com = sprintf('%s = eeglabel( %s, %s);', inputname(1), inputname(1), vararg2str({ regions }));
-return;
+end

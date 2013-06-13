@@ -264,9 +264,9 @@ classdef physioset < ...
         % Gets equalization props. taking into account selections
         [weights, origWeights, physdim] = get_equalization(obj);
         
-        % Add events using a GUI. This is used by method add_event when
-        % called without any input arguments
+        % Add/Delete events using a GUI
         add_event_gui(obj);        
+        delete_event_gui(obj);
        
     end
     
@@ -299,6 +299,13 @@ classdef physioset < ...
             this = get_responder(src);
             add_event(this, eventData.EventArray);
           
+        end
+        
+        function handle_DelEventGui(src, eventData)
+           
+            this = get_responder(src);
+            delete_event(this, eventData.DeleteFlag);
+            
         end
         
     end

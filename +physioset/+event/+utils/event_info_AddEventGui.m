@@ -1,4 +1,4 @@
-classdef phys_event_info < event.EventData
+classdef event_info_AddEventGui < event.EventData
     
    
     properties
@@ -7,7 +7,7 @@ classdef phys_event_info < event.EventData
     
     methods
        
-        function obj = phys_event_info(evArray)
+        function obj = event_info_AddEventGui(evArray)
            
             obj.EventArray = evArray;
             

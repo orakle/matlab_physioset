@@ -12,7 +12,12 @@ function obj = delete_event(obj, idx)
 %
 % See also: add_event
 
-if nargin < 2 || isempty(idx),
+if nargin < 2,
+    delete_event_gui(obj);
+    return;
+end
+
+if isempty(idx),
     idx = 1:numel(obj.Event);
 end
 
