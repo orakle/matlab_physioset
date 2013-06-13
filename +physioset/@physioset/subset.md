@@ -1,7 +1,8 @@
-`subset` method of class `physioset` 
+`physioset` method `subset`
 ===
 
-Creates physioset object as a subset of another physioset object
+Method `subset` creates a `physioset` object as a subset of another 
+`physioset` object.
 
 ## Usage
 

@@ -79,6 +79,7 @@ check_dependency('eeglab');
 
 opt.BadDataPolicy = 'reject';
 opt.EpochRejTh    = 25;
+opt.MemoryMapped  = false;
 [~, opt] = process_arguments(opt, varargin);
 
 % Do something about the bad channels/samples
@@ -94,21 +95,23 @@ evArray = get_event(obj);
     
 if isempty(evArray),
     
-    data = obj.PointSet(:,:);    
+    if opt.MemoryMapped,
+        data = obj.PointSet;    
+    else
+        data = obj.PointSet(:,:);
+    end
     
 else    
    
     isTrialEv = evArray == trial_begin;
     trialEvs  = evArray(isTrialEv);
     
-    if isempty(trialEvs),
-        
-        data = obj.PointSet(:,:);
-        
-    else
-      
-        [data, evArray] = epoch_get(obj, trialEvs);
-       
+    if opt.MemoryMapped,
+        data = obj.PointSet;
+    elseif isempty(trialEvs),                
+        data = obj.PointSet(:,:);     
+    else      
+        [data, evArray] = epoch_get(obj, trialEvs);       
     end
     
 end

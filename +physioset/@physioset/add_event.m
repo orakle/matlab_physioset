@@ -9,6 +9,11 @@ function [obj, idx] = add_event(obj, evArray)
 %
 % See also: event, physioset
 
+if nargin < 2,
+    add_event_gui(obj);
+    idx = [];
+    return;
+end
 
 if isempty(evArray), 
     idx = [];

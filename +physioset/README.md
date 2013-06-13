@@ -1,4 +1,4 @@
-physioset API documentation
+`physioset` API documentation
 ================
 
 The MATLAB package [physioset][physioset-pkg] contains various data 

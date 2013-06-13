@@ -206,7 +206,7 @@ classdef physioset < ...
         StartDate;
         
     end
-    
+   
     % Get methods for the dependent properties
     methods
         
@@ -264,7 +264,46 @@ classdef physioset < ...
         % Gets equalization props. taking into account selections
         [weights, origWeights, physdim] = get_equalization(obj);
         
+        % Add events using a GUI. This is used by method add_event when
+        % called without any input arguments
+        add_event_gui(obj);        
+       
     end
+    
+    methods (Access = private, Static)
+       
+        function list = valid_events()
+           
+            list = {...
+                'AddEventGui', ... % Add events using EEGLAB GUI
+                'DelEventGui' ... % Delete events using EEGLAB's GUI
+                };
+            
+        end        
+        
+    end
+    
+    % Handle events
+    methods (Static)
+        
+        function handle_event(src, eventData)
+           
+            feval(['physioset.physioset.handle_' eventData.EventName], ...
+                src, eventData);
+            
+        end
+        
+        % Handle AddEventGui events
+        function handle_AddEventGui(src, eventData)
+           
+            this = get_responder(src);
+            add_event(this, eventData.EventArray);
+          
+        end
+        
+    end
+    
+    
     
     
     %% PUBLIC INTERFACE ...................................................
@@ -535,6 +574,10 @@ classdef physioset < ...
         windows = default_window_selection(data, varargin);
         
         [y, evNew, samplIdx, evOrig, trialEv] = epoch_get(x, trialEv, base);
+        
+         % Add an event listener
+        obj = add_event_listener(obj, evGen, type);
+        
         
     end
     
