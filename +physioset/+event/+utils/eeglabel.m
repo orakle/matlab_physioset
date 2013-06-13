@@ -4,6 +4,7 @@ function [EEG,remove_flag] = eeglabel(EEG, regions, type)
 remove_flag = false(size(EEG.event));
 
 if isempty(regions),
+    EEG.event = [];
     return;
 end
 if nargin < 3 || isempty(type),
