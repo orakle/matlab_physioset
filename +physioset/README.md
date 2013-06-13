@@ -243,6 +243,25 @@ delete_event(myData, 1:3);
 
 ````
 
+You can also add and remove events from a physioset using a rudimentary 
+GUI (which relies on EEGLAB's `eegplot` functionality). To add events 
+to `myData` using the GUI just call method `add_event` without any 
+argument:
+
+````matlab
+add_event(myData);
+````
+
+Similarly, you can remove events using the GUI:
+
+````matlab
+delete_event(data);
+````
+
+The latter command will open a GUI where the user will be able to perform 
+multiple time window selections. Any event whose onset falls within the 
+selected windows will be removed from `myData`. 
+
 For more information regarding physioset events see the documentation of
 the [+event][event-pkg] package.
 

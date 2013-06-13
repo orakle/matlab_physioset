@@ -283,7 +283,7 @@ classdef physioset < ...
         
     end
     
-    % Handle events
+    % Handle events (typically triggered by GUI components)
     methods (Static)
         
         function handle_event(src, eventData)
@@ -291,9 +291,8 @@ classdef physioset < ...
             feval(['physioset.physioset.handle_' eventData.EventName], ...
                 src, eventData);
             
-        end
+        end        
         
-        % Handle AddEventGui events
         function handle_AddEventGui(src, eventData)
            
             this = get_responder(src);
