@@ -124,63 +124,64 @@ end
 
 spr = max(hdr.spr(channels));
 
-if ~isempty(obj.StartTime) || ~isempty(obj.EndTime),
-    
-    if isempty(obj.StartTime),
-        startTime = samplTime(1);
-    else
-        startTime = obj.StartTime;
-    end
-    
-    if isempty(obj.EndTime),
-        endTime = samplTime(end);
-    else
-        endTime = obj.EndTime;
-    end
-    
-    % Convert time range to records range
-    recOnset     = samplTime(1:spr:end);
-    obj.StartRec = find(recOnset >= startTime, 1);
-    
-    if isempty(obj.StartRec),
-        startRec = hdr.nrec;
-    else
-        startRec = obj.StartRec;
-    end
-    
-    endRec = find(recOnset < endTime, 1, 'last');
-    
-    if isempty(endRec),
-        endRec = hdr.nrec;
-    end
-    
-    begSample = floor((startTime-recOnset(startRec))*sr)+1;
-    endOffset = spr - min(ceil((endTime-recOnset(endRec))*sr), spr);
-    
-elseif ~isempty(obj.StartRec) || ~isempty(obj.EndRec),
-    
-    if isempty(obj.StartRec),
-        startRec = 1;
-    else
-        startRec = obj.StartRec;
-    end
-    
-    if isempty(obj.EndRec),
-        endRec = hdr.nrec;
-    else
-        endRec = obj.EndRec;
-    end
-    
-    begSample = 1;
-    endOffset = 0;
-    
+if ~isempty(obj.EpochStartTime) || ~isempty(obj.EpochEndTime),
+    p>S
+
+if isempty(obj.EpochStartTime),
+    startTime = samplTime(1);
 else
-    
-    startRec  = 1;
-    endRec    = hdr.nrec;
-    begSample = 1;
-    endOffset = 0;
-    
+    startTime = obj.EpochStartTime;
+end
+
+if isempty(obj.EpochEndTime),
+    endTime = samplTime(end);
+else
+    endTime = obj.EpochEndTime;
+end
+
+% Convert time range to records range
+recOnset     = samplTime(1:spr:end);
+obj.EpochStartRec = find(recOnset >= startTime, 1);
+
+if isempty(obj.EpochStartRec),
+    startRec = hdr.nrec;
+else
+    startRec = obj.EpochStartRec;
+end
+
+endRec = find(recOnset < endTime, 1, 'last');
+
+if isempty(endRec),
+    endRec = hdr.nrec;
+end
+
+begSample = floor((startTime-recOnset(startRec))*sr)+1;
+endOffset = spr - min(ceil((endTime-recOnset(endRec))*sr), spr);
+
+elseif ~isempty(obj.EpochStartRec) || ~isempty(obj.EpochEndRec),
+
+if isempty(obj.EpochStartRec),
+    startRec = 1;
+else
+    startRec = obj.EpochStartRec;
+end
+
+if isempty(obj.EpochEndRec),
+    endRec = hdr.nrec;
+else
+    endRec = obj.EpochEndRec;
+end
+
+begSample = 1;
+endOffset = 0;
+
+else
+
+startRec  = 1;
+endRec    = hdr.nrec;
+begSample = 1;
+endOffset = 0;
+
 end
 
 ns = length(channels);
@@ -190,9 +191,9 @@ chunkSize = floor(chunkSize/spr); % in data records
 
 boundary = startRec:chunkSize:endRec;
 if length(boundary)<2 || boundary(end) < endRec,
-    boundary = [boundary,  endRec+1];
+boundary = [boundary,  endRec+1];
 else
-    boundary(end) = boundary(end)+1;
+boundary(end) = boundary(end)+1;
 end
 
 nbChunks = length(boundary) - 1;
@@ -201,57 +202,57 @@ fid = safefid(newFileName, 'w');
 
 % First chunk
 [~, dat] = read(fileName, ...
-    'startRec', boundary(1), ...
-    'endRec',   boundary(2)-1, ...
-    'verbose',  false, ...
-    'hdr',      hdr);
+'startRec', boundary(1), ...
+'endRec',   boundary(2)-1, ...
+'verbose',  false, ...
+'hdr',      hdr);
 
 if nbChunks > 1,
-    dat = dat(:, begSample:end);
+dat = dat(:, begSample:end);
 else
-    dat = dat(:, begSample:end-endOffset);
+dat = dat(:, begSample:end-endOffset);
 end
 fwrite(fid, dat(:), obj.Precision);
 
 % Middle chunks
 for chunkItr = 2:(nbChunks-1)
-    
-    [~, dat] = read(fileName, ...
-        'startRec', boundary(chunkItr),...
-        'endRec',   boundary(chunkItr+1)-1, ...
-        'verbose',  false, ...
-        'hdr',      hdr);
-    fwrite(fid, dat(:), obj.Precision);
-    
-    if verbose,
-        eta(tinit, (nbChunks-1), chunkItr);
-    end
-    
+
+[~, dat] = read(fileName, ...
+    'startRec', boundary(chunkItr),...
+    'endRec',   boundary(chunkItr+1)-1, ...
+    'verbose',  false, ...
+    'hdr',      hdr);
+fwrite(fid, dat(:), obj.Precision);
+
+if verbose,
+    eta(tinit, (nbChunks-1), chunkItr);
+end
+
 end
 
 % Last chunk
 if nbChunks > 1,
-    
-    [~, dat] = read(fileName, ...
-        'startRec',     boundary(nbChunks), ...
-        'endRec',       boundary(nbChunks+1)-1, ...
-        'verbose',      false, ...
-        'hdr',          hdr);
-    
-    dat = dat(:, 1:end-endOffset);
-    fwrite(fid, dat(:), obj.Precision);
-    
+
+[~, dat] = read(fileName, ...
+    'startRec',     boundary(nbChunks), ...
+    'endRec',       boundary(nbChunks+1)-1, ...
+    'verbose',      false, ...
+    'hdr',          hdr);
+
+dat = dat(:, 1:end-endOffset);
+fwrite(fid, dat(:), obj.Precision);
+
 end
 
 if verbose,
-    fprintf('[done]\n\n');
+fprintf('[done]\n\n');
 end
 
 
 %% Generate the output physioset object
 physiosetArgs = construction_args_physioset(obj);
 pObj = physioset(newFileName, size(dat,1), physiosetArgs{:}, ...
-    'StartDate',    startDate, 'StartTime', startTime, ...
+'StartDate',    startDate, 'StartTime', startTime, ...
     'Event',        eventArray, ...
     'Sensors',      sensorArray, ...
     'SamplingRate', max(hdr.sr), ...

@@ -18,16 +18,16 @@ classdef edfplus < physioset.import.abstract_physioset_import
     %   Channels : Numeric array. Default: [], i.e. all channels
     %       Subset of channels to import.
     %
-    %   StartTime/EndTime : Numeric scalar. Default: [], from beginning/end
+    %   EpochStartTime/EpochEndTime : Numeric scalar. Default: [], from beginning/end
     %       Start/End time of the data epoch to be imported, in seconds
     %
-    %   StartRec/EndRec : Numeric scalar. Default: [], first/last record
+    %   EpochStartRec/EpochEndRec : Numeric scalar. Default: [], first/last record
     %       Index of the first/last record to be imported.
     %
     % ## Notes:
     %
     %   * A data range to be imported can be specified using either the
-    %   StartTime/EndTime keys or the StartRec/EndRec keys, but not using
+    %   EpochStartTime/EpochEndTime keys or the EpochStartRec/EpochEndRec keys, but not using
     %   both keys simultaneously.
     %
     % See also: abstract_physioset_import, io.edfplus.signal_types
@@ -36,10 +36,10 @@ classdef edfplus < physioset.import.abstract_physioset_import
         
         SignalType;        
         Channels;
-        StartTime;
-        EndTime;
-        StartRec;
-        EndRec;
+        EpochStartTime;
+        EpochEndTime;
+        EpochStartRec;
+        EpochEndRec;
         
     end
     
@@ -88,8 +88,8 @@ classdef edfplus < physioset.import.abstract_physioset_import
           
            obj = obj@physioset.import.abstract_physioset_import(varargin{:}); 
            
-           if (~isempty(obj.StartTime) || ~isempty(obj.EndTime)) && ...
-                   (~isempty(obj.StartRec) || ~isempty(obj.EndRec)),
+           if (~isempty(obj.EpochStartTime) || ~isempty(obj.EpochEndTime)) && ...
+                   (~isempty(obj.EpochStartRec) || ~isempty(obj.EpochEndRec)),
                throw(Inconsistent('Inconsistent epoch specifications'));
            end
            
