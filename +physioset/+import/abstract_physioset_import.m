@@ -258,6 +258,11 @@ classdef abstract_physioset_import < ...
             
             [pathName, fileName, ext] = fileparts(value);
             
+            if isempty(fileName),
+                obj.FileName = '';
+                return;
+            end
+            
             if isempty(pathName), pathName = pwd; end
             
             psetExt = globals.get.DataFileExt;
