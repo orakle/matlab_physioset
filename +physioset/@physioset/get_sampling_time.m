@@ -50,8 +50,11 @@ end
 
 value = value(idx);
 
-msPerDay = 24*60*60*1000;
-absTime = get_time_origin(obj) + round(value*1000)/msPerDay;
-
+if isempty(value),
+    absTime = [];
+else
+    msPerDay = 24*60*60*1000;
+    absTime = get_time_origin(obj) + round(value*1000)/msPerDay;
+end
 
 end

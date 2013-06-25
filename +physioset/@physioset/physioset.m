@@ -405,6 +405,27 @@ classdef physioset < ...
             
         end
         
+        function set.TimeOrig(obj, v)
+            import exceptions.InvalidPropValue;
+            
+            if numel(v) ~= 1 || ~isa(v, 'double') || isnan(v) || isinf(v),
+                dims = regexprep(num2str(size(v)), '\s+', 'x');
+                if isnan(v),
+                    c = 'NaN';
+                elseif isinf(v),
+                    c = 'Inf';
+                else
+                    c = class(v);
+                end
+                
+                throw(InvalidPropValue('TimeOrig', ...
+                    sprintf(['Must be a datenum scalar but is a %s of ' ...
+                    'dimensions %s'], c, dims)));
+            end
+            obj.TimeOrig = v;
+  
+        end
+        
     end
     
     % goo.printable_handle interface

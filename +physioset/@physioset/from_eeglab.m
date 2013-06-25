@@ -90,7 +90,7 @@ end
 sensorGroups = cell(1, numel(uTypes));
 if ~isempty(str.chanlocs),    
     for i = 1:numel(uTypes)
-        chans = str.chanlocs(ismember(opt.SensorClass, uTypes{i}));
+        chans = str.chanlocs(ismember(opt.SensorClass, uTypes{i})); %#ok<NASGU>
         sensorGroups{i} = ...
             eval(sprintf('sensors.%s.from_eeglab(chans);', ...
             lower(uTypes{i})));
