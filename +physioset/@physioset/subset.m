@@ -29,6 +29,7 @@ function obj = subset(obj, varargin)
 
 import physioset.physioset;
 import physioset.event.std.discontinuity;
+import misc.isnatural;
 
 if nargin > 1 && isa(varargin{1}, 'pset.selector.selector'),
     

@@ -14,16 +14,16 @@ classdef eeglab < physioset.import.abstract_physioset_import
     % See also: abstract_physioset_import
     
     properties
-       
+        
         SensorClass;
         
     end
     
     methods
-       
+        
         function obj = set.SensorClass(obj, value)
             import exceptions.*;
-           
+            
             if isempty(value),
                 obj.SensorClass = [];
                 return;
@@ -35,13 +35,17 @@ classdef eeglab < physioset.import.abstract_physioset_import
             end
             
             for i = 1:numel(value),
-               
+                
                 try
                     evalc(['sensors.' value{i}]);
                 catch ME
-                    msg = sprintf(['''%s'' is not a valid class within the '  ...
-                        'sensors package'], value{i});
-                    throw(InvalidPropValue('SensorClass', msg));
+                    if strcmp(ME.identifier, 'MATLAB:undefinedVarOrClass'),
+                        msg = sprintf(['''%s'' is not a valid class within the '  ...
+                            'sensors package'], value{i});
+                        throw(InvalidPropValue('SensorClass', msg));
+                    else
+                        rethrow(ME);
+                    end
                 end
             end
             
@@ -55,14 +59,14 @@ classdef eeglab < physioset.import.abstract_physioset_import
     
     % physioset.import.import interface
     methods
-        physObj = import(obj, ifilename, varargin);        
+        physObj = import(obj, ifilename, varargin);
     end
     
     % Constructor
     methods
         
         function obj = eeglab(varargin)
-            obj = obj@physioset.import.abstract_physioset_import(varargin{:});             
+            obj = obj@physioset.import.abstract_physioset_import(varargin{:});
         end
         
     end
