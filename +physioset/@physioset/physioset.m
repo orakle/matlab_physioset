@@ -2,174 +2,9 @@ classdef physioset < ...
         pset.mmappset & ...
         goo.printable_handle & ...
         goo.verbose_handle
-    % PHYSIOSET - Memory-mapped physiological dataset class
+    % physioset - Data structure for physiological datasets
     %
-    % A data structure to handle physiological datasets (possibly of
-    % different modalities) and related meta-information (e.g. events,
-    % sensors information, sampling instants, etc).
-    %
-    %
-    % ## Construction:
-    %
-    % ````
-    % obj = physioset.physioset
-    % obj = physioset.physioset('key', value, ...)
-    % ````
-    %
-    % Where
-    %
-    % `obj` is a `physioset.physioset` object
-    %
-    %
-    % ## Optional construction arguments
-    %
-    % Optional construction arguments are provided at `('key', value)`
-    % tuples. The constructor of the physioset class admits all the
-    % construction arguments accepted by the constructor of the parent
-    % class pset.pset. Additionally, the following `('key', value)` pairs
-    % are also accepted:
-    %
-    % ### `SamplingRate`
-    %
-    % __Default:__ `250`
-    %
-    % __Class__: `numeric`
-    %
-    % The data sampling rate, in samples per second.
-    %
-    %
-    % ### `Sensors`
-    %
-    % __Default:__ An array of `dummy` sensors
-    %
-    % __Class:__ `sensors.sensors`
-    %
-    % Describes the physiological sensors.
-    %
-    %
-    % ### `Event`
-    %
-    % __Default:__ `[]`
-    %
-    % __Class:__ `physioset.event.event`
-    %
-    % Event or markers that provide information on specific data samples or
-    % epochs.
-    %
-    %
-    % ### `StartTime`
-    %
-    % __Default:__ `datestr(now, 'HH:MM:SS')`
-    %
-    % __Class:__ `char` array
-    %
-    % The start time of the recording in format `HH:MM:SS`.
-    %
-    %
-    % ### `StartDate`
-    %
-    % __Default:__ `datestr(now, 'dd-mmm-yyyy')`
-    %
-    % __Class:__ `char` array
-    %
-    % Starting date of the recording in format `dd-mmm-yyyy`.
-    %
-    %
-    %
-    % ## Usage synopsis
-    %
-    % The usage examples below assume the following import directives:
-    %
-    % ````matlab
-    % import physioset.physioset physioset.import.matrix;
-    % import pset.pset  pset.session;
-    % import spt.pca.pca;
-    % ````
-    %
-    % Import data from MATLAB matrix, the generated memory-mapped file
-    % will be stored under directory `D:\tmp`
-    %
-    % ````matlab
-    % session.instance('D:/tmp');
-    % myPhysioset = import(matrix, randn(4, 10000))
-    % ````
-    %
-    % Create a new physioset object that will contain only the first 20
-    % channels and the first 1000 samples of `myPhysioset`
-    %
-    % ````matlab
-    % myPhysiosetSubset = subset(myPhysioset, 1:20, 1:1000);
-    % ````
-    %
-    % Project data into its principal components:
-    %
-    % ````matlab
-    % pcaObj = learn(pca, myPhysioset);
-    % pcs = project(pcaObj, myPhysioset);
-    % ````
-    %
-    % Convert `physioset` object to a plain `pset` object
-    % ````matlab
-    % myPset = pset.pset(myPhysioset);
-    % ````
-    %
-    % Convert `myPhysioset` to a Fieldtrip and EEGLAB structures:
-    %
-    % ````matlab
-    % myFtripStr  = fieldtrip(myPhysioset);
-    % myEEGLABStr = eeglab(myPhysioset);
-    % ````
-    %
-    % Construct `physioset` object from Fieldtrip structure:
-    % ````matlab
-    % myPhysioset2 = physioset.from_fieldtrip(myFtripStruct);
-    %
-    % Low-pass filter a `physioset`:
-    % ````matlab
-    % filtObj = filter.lpfilt('fc', 0.5)  A low pass filter
-    % filter(filtObj, myPhysioset2);
-    %
-    % Note that the filtering syntax above is completely equivalent to:
-    % myPhysioset2 = filter(filtObj, myPhysioset2);
-    % ````
-    %
-    % In both cases above, the data values contained in myPhysioset2
-    % _will be modified_. This is because class physioset is a handle class.
-    % See `help handle` for more information. If you want to pass a
-    % `physioset` object by value, you need to explicitely create a copy of
-    % the object:
-    % ````matlab
-    % myPhysiosetCopy = copy(myPhysioset);
-    % myPhysiosetCopy = filter(filtObj, myPhysioset);
-    % ````
-    %
-    % ## Class methods
-    %
-    % ### pset.mmapset interface
-    %
-    % Class `physioset` implements the [mmappset] interface.
-    %
-    % [mmappset]: https://github.com/germangh/matlab_pset/blob/master/%2Bpset/mmappset.md
-    %
-    %
-    % ### Data conversion methods
-    %
-    % Method name             | Description
-    % ---------------         | ------------
-    % [eeglab][eeglab]        | Conversion to EEGLAB structure
-    % [fieldtrip][fieldtrip]  | Conversion to Fieldtrip structure
-    %
-    %
-    % [eeglab]: ./eeglab.md
-    % [fieldtrip]: ./fieldtrip.md
-    %
-    %
-    % ### Other methods
-    %
-    % Documentation to be done
-    %
-    % See also: pset.pset, physioset.event.event, sensors.sensors
-
+    % See: <a href="matlab:misc.md_help('physioset.physioset')">misc.md_help(''physioset.physioset'')</a>
     
     
     %% IMPLEMENTATION .....................................................
@@ -189,7 +24,7 @@ classdef physioset < ...
         Sensors;            % A sensors.physiology object
         SamplingTime;       % Sampling instants relative to StartTime
         Config = physioset.config;     % Method configuration options
-        ProcHistory = {};   
+        ProcHistory = {};
         TimeOrig;
         
     end
@@ -206,7 +41,7 @@ classdef physioset < ...
         StartDate;
         
     end
-   
+    
     % Get methods for the dependent properties
     methods
         
@@ -234,14 +69,14 @@ classdef physioset < ...
             val = obj.PointSet.DimInvMap;
         end
         
-        function val    = get.StartTime(obj)            
-            val = datestr(obj.TimeOrig, pset.globals.get.TimeFormat);            
+        function val    = get.StartTime(obj)
+            val = datestr(obj.TimeOrig, pset.globals.get.TimeFormat);
         end
         
         function val    = get.StartDate(obj)
             val = datestr(obj.TimeOrig, pset.globals.get.DateFormat);
-        end            
-            
+        end
+        
         
     end
     
@@ -265,21 +100,21 @@ classdef physioset < ...
         [weights, origWeights, physdim] = get_equalization(obj);
         
         % Add/Delete events using a GUI
-        add_event_gui(obj);        
+        add_event_gui(obj);
         delete_event_gui(obj);
-       
+        
     end
     
     methods (Access = private, Static)
-       
+        
         function list = valid_events()
-           
+            
             list = {...
                 'AddEventGui', ... % Add events using EEGLAB GUI
                 'DelEventGui' ... % Delete events using EEGLAB's GUI
                 };
             
-        end        
+        end
         
     end
     
@@ -287,21 +122,21 @@ classdef physioset < ...
     methods (Static)
         
         function handle_event(src, eventData)
-           
+            
             feval(['physioset.physioset.handle_' eventData.EventName], ...
                 src, eventData);
             
-        end        
+        end
         
         function handle_AddEventGui(src, eventData)
-           
+            
             this = get_responder(src);
             add_event(this, eventData.EventArray);
-          
+            
         end
         
         function handle_DelEventGui(src, eventData)
-           
+            
             this = get_responder(src);
             delete_event(this, eventData.DeleteFlag);
             
@@ -317,7 +152,7 @@ classdef physioset < ...
     properties (SetAccess = private)
         
         SamplingRate;       % Sampling rate in Hz
-    
+        
     end
     
     % Consistency checks (Set methods)
@@ -423,7 +258,7 @@ classdef physioset < ...
                     'dimensions %s'], c, dims)));
             end
             obj.TimeOrig = v;
-  
+            
         end
         
     end
@@ -448,8 +283,8 @@ classdef physioset < ...
         
         function nPnts    = nb_pnt(obj)
             nPnts = nb_pnt(obj.PointSet);
-        end        
-      
+        end
+        
         function filename = get_datafile(obj)
             filename = get_datafile(obj.PointSet);
         end
@@ -504,12 +339,12 @@ classdef physioset < ...
             
             if nargin < 2, return; end
             
-            select(obj.PointSet, varargin{:});            
-           
+            select(obj.PointSet, varargin{:});
+            
         end
         
         function obj = invert_selection(obj, varargin)
-            invert_selection(obj.PointSet, varargin{:});            
+            invert_selection(obj.PointSet, varargin{:});
         end
         
         function obj = clear_selection(obj)
@@ -581,7 +416,7 @@ classdef physioset < ...
         
         % These two methods are identical, sampling_time is kept for
         % backward compatibility
-        [sTime, absTime]   = sampling_time(obj);        
+        [sTime, absTime]   = sampling_time(obj);
         [sTime, absTime]   = get_sampling_time(obj, idx);
         
         value              = get_method_config(obj, varargin);
@@ -602,7 +437,7 @@ classdef physioset < ...
         
         [y, evNew, samplIdx, evOrig, trialEv] = epoch_get(x, trialEv, base);
         
-         % Add an event listener
+        % Add an event listener
         obj = add_event_listener(obj, evGen, type);
         
         
@@ -627,7 +462,7 @@ classdef physioset < ...
         
         obj             = set_method_config(obj, varargin);
         
-        % node is a pset.node.node object or 
+        % node is a pset.node.node object or
         obj             = add_processing_history(obj, node);
         
         obj             = equalize(obj, varargin);
@@ -637,8 +472,8 @@ classdef physioset < ...
     % MATLAB built-in numeric methods (pset.pset forwarded)
     methods
         
-        function obj        = circshift(obj, ~, varargin) %#ok<MANU>            
-            error('Not implemented yet!');            
+        function obj        = circshift(obj, ~, varargin) %#ok<MANU>
+            error('Not implemented yet!');
         end
         
         function obj        = conj(obj, varargin)
@@ -851,8 +686,8 @@ classdef physioset < ...
             opt.samplingrate    = globals.get.SamplingRate;
             opt.sensors         = [];
             opt.event           = [];
-            opt.name            = '';            
-          
+            opt.name            = '';
+            
             opt.samplingtime  = [];
             dateFormat        = globals.get.DateFormat;
             timeFormat        = globals.get.TimeFormat;
@@ -875,8 +710,8 @@ classdef physioset < ...
                 
                 opt.samplingtime = ...
                     0:1/opt.samplingrate:obj.PointSet.NbPoints/...
-                    opt.samplingrate - 1/opt.samplingrate;                
-           
+                    opt.samplingrate - 1/opt.samplingrate;
+                
             end
             
             
@@ -893,7 +728,7 @@ classdef physioset < ...
             
             obj.SamplingRate    = opt.samplingrate;
             obj.Sensors         = opt.sensors;
-            obj.SamplingTime    = opt.samplingtime;            
+            obj.SamplingTime    = opt.samplingtime;
             obj.TimeOrig        = opt.starttime;
             obj.Event           = opt.event;
             obj.EqWeights       = opt.eqweights;
