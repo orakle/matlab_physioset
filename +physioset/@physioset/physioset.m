@@ -689,8 +689,8 @@ classdef physioset < ...
             val = mean(obj.PointSet, varargin{:});
         end
         
-        function val        = center(obj, varargin)
-            val = center(obj.PointSet, varargin{:});
+        function obj = center(obj, varargin)
+            center(obj.PointSet, varargin{:});
         end
         
         function obj        = minus(varargin)
