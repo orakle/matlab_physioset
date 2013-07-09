@@ -12,13 +12,13 @@ classdef (Sealed) ecg_ann < physioset.event.event
             import exceptions.InvalidPropValue;
             
             if isempty(value),
-                obj.SubType = '';
+                obj.SubType = 0;
                 return;
             end
             
-            if ~ischar(value) || ~isvector(value),
+            if ~isnumeric(value) || numel(value) ~= 1,
                 throw(InvalidPropValue('SubType', ...
-                    'Must be a char array (a string)'));
+                    'Must be a numeric scalar'));
             end
             obj.SubType = value;
             

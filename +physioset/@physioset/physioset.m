@@ -525,7 +525,11 @@ classdef physioset < ...
         end
         
         function obj = center(obj, varargin)
+            verbOrig = is_verbose(obj.PointSet);
+            set_verbose(obj.PointSet, is_verbose(obj));
             center(obj.PointSet, varargin{:});
+            set_verbose(obj.PointSet, verbOrig);
+            
         end
         
         function obj        = minus(varargin)
