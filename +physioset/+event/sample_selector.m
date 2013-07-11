@@ -1,4 +1,4 @@
-classdef sample_selector < physioset.event.selector & goo.abstract_setget
+classdef sample_selector < physioset.event.abstract_selector
     
     
     
@@ -70,6 +70,8 @@ classdef sample_selector < physioset.event.selector & goo.abstract_setget
     methods
         
         function obj = sample_selector(varargin)
+            
+            obj = obj@physioset.event.abstract_selector(varargin{:});
             
             if nargin < 1, return; end
             

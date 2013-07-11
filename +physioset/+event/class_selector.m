@@ -1,4 +1,4 @@
-classdef class_selector < physioset.event.selector & goo.abstract_setget
+classdef class_selector < physioset.event.abstract_selector
     % CLASS_SELECTOR - Selects events of standard class(es)
     %
     %
@@ -48,7 +48,9 @@ classdef class_selector < physioset.event.selector & goo.abstract_setget
         
         function obj = set.EventType(obj, value)
             
-            import exceptions.*
+            import exceptions.*;
+            import misc.join;
+            
             
             if ~iscell(value), value = {value}; end
             
@@ -60,6 +62,16 @@ classdef class_selector < physioset.event.selector & goo.abstract_setget
             end
             
             obj.EventType = value;
+            
+               
+            if isempty(obj.Name),
+               
+                % Name is based on the types of selected events
+                name = join('_', value);
+                obj = set_name(obj, name);                
+                
+            end
+            
             
         end
         
@@ -138,6 +150,10 @@ classdef class_selector < physioset.event.selector & goo.abstract_setget
             
             import misc.process_arguments;
             
+            obj = obj@physioset.event.abstract_selector(varargin{:});
+            
+            if nargin < 1, return; end
+            
             opt.Class = {};
             opt.Type  = {};
             
@@ -145,7 +161,7 @@ classdef class_selector < physioset.event.selector & goo.abstract_setget
             
             obj.EventClass = opt.Class;
             obj.EventType  = opt.Type;
-            
+         
         end
         
     end
