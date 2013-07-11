@@ -1,13 +1,7 @@
 classdef class_selector < physioset.event.selector & goo.abstract_setget
     % CLASS_SELECTOR - Selects events of standard class(es)
     %
-    % import physioset.event.*;
-    % mySelector = class_selector(evClass1, evClass2, ...);
     %
-    % Where
-    %
-    % EVCLASS1, EVCLASS2, etc are the classes of the events that are to be
-    % selected.
     %
     %
     % See also: event, physioset, selector, physioset.event.std
@@ -107,12 +101,23 @@ classdef class_selector < physioset.event.selector & goo.abstract_setget
             end
             
             
-            if ~isempty(obj.EventType),
+            if isempty(obj.EventType),                
                 
-                af = @(x) ismember(get(x, 'Type'), obj.EventType);
-                selected = selected & arrayfun(af, evArray);
+                thisSelected = true(size(selected));
+                
+            else
+                
+                thisSelected = false(size(selected));
+                for i = 1:numel(obj.EventType),
+                    regex = obj.EventType{i};
+                    af = @(x) ~isempty(regexp(get(x, 'Type'), regex, 'once'));
+                    
+                    thisSelected = thisSelected | arrayfun(af, evArray);
+                end               
                 
             end
+            
+            selected = selected & thisSelected;
             
             if obj.Negated,
                 selected = ~selected;

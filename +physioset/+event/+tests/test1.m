@@ -7,7 +7,7 @@ import test.simple.*;
 
 MEh     = [];
 
-initialize(15);
+initialize(16);
 
 %% default constructors
 try
@@ -344,10 +344,10 @@ catch ME
 end
 
 
-%% class_selector
+%% class_selector (event class)
 try
     
-    name = 'class_selector';
+    name = 'class_selector (event class)';
    
      ev = [event(1000), ...
         analysis_window(2000), ...
@@ -365,6 +365,33 @@ try
         numel(sel) == 1 && isa(sel, 'physioset.event.std.analysis_window') && ...
         numel(sel2) == 2 && isa(sel2(1), 'physioset.event.std.epoch_begin'), ...
         name);    
+    
+catch ME
+    
+    ok(ME, name);
+    MEh = [MEh ME];
+    
+end
+
+%% class_selector (event type)
+try
+    
+    name = 'class_selector (event type)';
+   
+     ev = [event(1000, 'Type', 'type1'), ...
+        analysis_window(2000, 'Type', 'type2'), ...
+        discontinuity(3000, 'Type', 'other'), ...
+        event(4000, 'Type', 'type3'), ...
+        event(5000, 'Type', 'other') ...
+        event(5000, 'Type', 'othertype') ...
+        trial_begin(6000)];
+    
+    sel = select(class_selector('Type', 'type\d'), ev);
+    
+    evSelector = class_selector('Type', {'other$', 'type\d'});
+    sel2 = select(evSelector, ev);
+ 
+    ok(numel(sel) == 3 && numel(sel2) == 5, name);    
     
 catch ME
     
