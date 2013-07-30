@@ -223,11 +223,12 @@ for groupItr = 1:numel(epochs)
         end
         
         %% Plot only events within this epoch
-        if ~isempty(get_event(data))
+        epochEv = get_event(data);
+        if ~isempty(epochEv)
             
             evSel = physioset.event.sample_selector(firstSample:lastSample);
             
-            thisEvents = select(evSel, get_event(data));
+            thisEvents = select(evSel, epochEv);
             thisEvents = shift(thisEvents, -firstSample+1);
             if ~isempty(thisEvents),
                 thisEvents = eeglab(thisEvents);

@@ -1,8 +1,8 @@
-classdef (Sealed) trial_begin < physioset.event.event
+classdef (Sealed) split_begin < physioset.event.event
     
     methods
         
-        function obj = trial_begin(pos, varargin)
+        function obj = split_begin(pos, varargin)
             
             if nargin < 1 || isempty(pos),
                 obj.Type = '__TrialBegin';

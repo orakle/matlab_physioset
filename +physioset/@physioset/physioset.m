@@ -472,7 +472,7 @@ classdef physioset < ...
     % MATLAB built-in numeric methods (pset.pset forwarded)
     methods
         
-        function obj        = circshift(obj, ~, varargin) %#ok<MANU>
+        function obj        = circshift(obj, ~, varargin)
             error('Not implemented yet!');
         end
         

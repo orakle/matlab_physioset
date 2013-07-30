@@ -53,6 +53,7 @@ classdef latency_selector < ...
             
             import eegpipe.exception.*;
             import misc.isnatural;
+            import exceptions.*
             
             if isempty(value) || ~isnatural(value),
                 throw(InvalidPropValue('SamplingRate', ...

@@ -5,9 +5,6 @@ function nbEvent = nb_event(obj)
 %
 % See also: nb_pnt, nb_dim, physioset, pset.event
 
-% Description: Get event(s)
-% Documentation: class_physioset.txt
-
 pntSel = pnt_selection(obj);
 if ~isempty(pntSel),
     
