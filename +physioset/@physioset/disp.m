@@ -36,7 +36,7 @@ end
 
 if ~isempty(obj.DimMap),
     str = sprintf('[%dx%d double]', size(obj.DimMap,1), size(obj.DimMap,2));
-    fprintf('%20s : %s\n', 'SpatialProjection',  str); 
+    fprintf('%20s : %s\n', 'SpatialProjection',  str);
 end
 
 fprintf('%20s : %s\n', 'StartTime',      get_msg_starttime(obj));
@@ -64,37 +64,45 @@ if isempty(events),
     return;
 end
 
-types = unique(events);
-if ischar(types), types = {types}; end
-nbTypes = numel(types);
-if nbTypes > 1,
-    if iscell(types),
-        typesDescr = join(', ', types);
-    elseif isnumeric(types),
-        typesDescr = regexprep(num2str(types(:)'), '\s+', ', ');
-    else
-        error('Something is wrong!');
+if numel(events) < 10000,
+    types = unique(events);
+    
+    if ischar(types), types = {types}; end
+    nbTypes = numel(types);
+    if nbTypes > 1,
+        if iscell(types),
+            typesDescr = join(', ', types);
+        elseif isnumeric(types),
+            typesDescr = regexprep(num2str(types(:)'), '\s+', ', ');
+        else
+            error('Something is wrong!');
+        end
+    elseif nbTypes == 1,
+        typesDescr = ['' types{1} ''];
     end
-elseif nbTypes == 1,
-    typesDescr = ['' types{1} ''];
-end
-if numel(typesDescr) > 15,
-    idx = strfind(typesDescr, ',');
-    if ~isempty(idx),
-        idx = idx(find(idx>15, 1));
+    if numel(typesDescr) > 15,
+        idx = strfind(typesDescr, ',');
+        if ~isempty(idx),
+            idx = idx(find(idx>15, 1));
+        end
+        if isempty(idx),
+            idx = min(27, numel(typesDescr));
+        end
+        typesDescr = [typesDescr(1:idx) '...'];
     end
-    if isempty(idx),
-        idx = min(27, numel(typesDescr));
+    
+    if nbTypes == 1,
+        msgEvent = sprintf('%d event(s) of type ''%s''', ...
+            numel(events), typesDescr);
+    elseif nbTypes > 1,
+        msgEvent = sprintf('%d events of %d types (%s)', ...
+            numel(events), nbTypes, typesDescr);
     end
-    typesDescr = [typesDescr(1:idx) '...'];
-end
-
-if nbTypes == 1,
-    msgEvent = sprintf('%d event(s) of type ''%s''', ...
-        numel(events), typesDescr);
-elseif nbTypes > 1,
-    msgEvent = sprintf('%d events of %d types (%s)', ...
-        numel(events), nbTypes, typesDescr);
+    
+else
+    
+    msgEvent = sprintf('%d events', numel(events));
+    
 end
 
 end
@@ -170,15 +178,15 @@ end
 if flag,
     nbBad = numel(find(is_bad_channel(obj)));
     msgNbDims = sprintf('%d, %d bad channels (%2.1f%%)', ...
-    nb_dim(obj), ...
-    nbBad, ...
-    100*nbBad/nb_dim(obj));
+        nb_dim(obj), ...
+        nbBad, ...
+        100*nbBad/nb_dim(obj));
 else
     nbBad = numel(find(obj.BadChan));
     msgNbDims = sprintf('%d, %d bad channels (%2.1f%%)', ...
-    obj.PointSet.NbDims, ...
-    nbBad, ...
-    100*nbBad/obj.PointSet.NbDims);
+        obj.PointSet.NbDims, ...
+        nbBad, ...
+        100*nbBad/obj.PointSet.NbDims);
 end
 
 end
