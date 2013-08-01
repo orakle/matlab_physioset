@@ -139,6 +139,8 @@ classdef event < goo.abstract_setget & ...
     % Need to be sealed because of matlab.mixin.Heterogeneous
     methods (Sealed)
         
+        time        = etime(ev1, ev2);
+        
         evArray     = group_types(evArray);
         
         b           = struct(a);
