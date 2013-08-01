@@ -68,9 +68,9 @@ end
 % be within a package instead of polluting the global namespace
 myPath = path;
 if isunix
-   myPath = split(':', myPath); 
+    myPath = split(':', myPath);
 else
-   myPath = split(';', myPath); 
+    myPath = split(';', myPath);
 end
 mustRemove = cellfun(@(x) ~isempty(strfind(x, 't200_FileAccess')), myPath);
 if any(mustRemove),
@@ -91,7 +91,7 @@ if ~exist(fileName, 'file'),
             'Must be a valid (existing) file name'));
     end
 end
-[data, fs, fidBins] = read_data(fileName, 1, 1, [], true, false); 
+[data, fs, fidBins] = read_data(fileName, 1, 1, [], true, false);
 if ~iscell(data),
     data = {data};
 end
@@ -141,7 +141,7 @@ if ~isempty(fids),
     fidStr      = fids;
     fiducials   = mjava.hash;
     fiducials{fidStr.label{:}} = ...
-        mat2cell(fidStr.loc, ones(size(fidStr.loc,1),1), 3);  
+        mat2cell(fidStr.loc, ones(size(fidStr.loc,1),1), 3);
 else
     fiducials = [];
 end
@@ -161,7 +161,7 @@ eegSensors = sensors.eeg(...
     'Cartesian',    sens.loc, ...
     'OrigLabel',    sens.label, ...
     'Fiducials',    fiducials, ...
-    'Extra',        extra); 
+    'Extra',        extra);
 
 % Read calibrations for eeg sensors
 [gcal, ical] = read_cal(fileName);
@@ -169,7 +169,7 @@ eegSensors = set_meta(eegSensors, 'gcal', gcal);
 eegSensors = set_meta(eegSensors, 'ical', ical);
 
 % Take care of additional physiological sensors
-if numel(hdr.signal) > 1,    
+if numel(hdr.signal) > 1,
     % Read PNS sensor information
     sens = read_pns_sensors(fileName);
     
@@ -181,7 +181,7 @@ if numel(hdr.signal) > 1,
         sens.name);
     
     muxIdx        = find(isMux);
-    nbMux         = numel(muxIdx);  
+    nbMux         = numel(muxIdx);
     muxSensors    = cell(1, nbMux);
     
     for i = 1:nbMux,
@@ -196,12 +196,12 @@ if numel(hdr.signal) > 1,
     unit  = unit(~isMux);
     
     pnsIdx = setdiff(1:numel(sens.name), muxIdx);
-  
+    
     pnsSensors = sensors.physiology(...
         'Name',         hdr.signal{2}.pnsSetName, ...
         'Label',        label, ...
-        'OrigLabel',    label, ...        
-        'PhysDim',      unit);    
+        'OrigLabel',    label, ...
+        'PhysDim',      unit);
 else
     pnsSensors = [];
     pnsIdx     = [];
@@ -232,13 +232,17 @@ end
 if verbose,
     fprintf([verboseLabel 'Reading events...']);
 end
-if get_config(obj, 'ReadEvents'),
+if obj.ReadEvents,
     evArray = read_events(fileName, hdr.fs, hdr.begin_time, hdr.epochs);
 else
     evArray = [];
 end
 if verbose,
-    fprintf('[done]\n\n');
+    if obj.ReadEvents,
+        fprintf('[done]\n\n');
+    else
+        fprintf('[skipped]\n\n');
+    end
 end
 
 %% Read data values
@@ -264,8 +268,8 @@ try
         if ~isempty(muxIdx),
             umuxData = cell(numel(muxIdx), 1);
             for i = numel(muxIdx),
-               umuxData{i} = unmultiplex(muxSensors{i}, ...
-                   data{2}(muxIdx(i),:), hdr.fs); 
+                umuxData{i} = unmultiplex(muxSensors{i}, ...
+                    data{2}(muxIdx(i),:), hdr.fs);
             end
             tmp = data{2}(pnsIdx,:);
             
@@ -315,11 +319,11 @@ try
             data = {data};
         end
         if verbose,
-           eta(tinit, lastPos(1), ftell(fidBins(1))); 
-        end        
-    end    
+            eta(tinit, lastPos(1), ftell(fidBins(1)));
+        end
+    end
     clear +io/+mff2/read_data; % Clear persistent block counter
-   
+    
 catch ME
     fclose(fid);
     if ~isempty(fidBins),
@@ -360,7 +364,7 @@ startDate = [mat.day '-' mat.month '-' mat.year];
 
 % Map events
 if ~isempty(evArray) && ~isempty(obj.EventMapping),
-   evArray = type2class(evArray, obj.EventMapping);
+    evArray = type2class(evArray, obj.EventMapping);
 end
 
 % Create epoch events if there is more than one epoch in this file
@@ -368,7 +372,7 @@ samplingTime = linspace(0, nbSamples/fs, nbSamples);
 if numel(hdr.epochs) > 1,
     epochEvents = repmat(epoch_begin, numel(hdr.epochs), 1);
     
-    epochSampl = 1;   
+    epochSampl = 1;
     for i = 1:numel(epochEvents)
         epochDur      = hdr.epochs(i).end_time-hdr.epochs(i).begin_time;
         epochDurSampl = (epochDur/1e9)*fs;
@@ -386,8 +390,8 @@ if numel(hdr.epochs) > 1,
         
         epochSampl = epochSampl + epochDurSampl;
         
-    end 
-   
+    end
+    
 end
 
 psetArgs = construction_args_pset(obj);
@@ -411,7 +415,7 @@ if verbose,
     fprintf('[done]\n\n');
 end
 
-%% Undoing stuff 
+%% Undoing stuff
 
 % Add BIOSIG back to the path
 if any(mustRemove),

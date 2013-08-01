@@ -46,6 +46,9 @@ else
     else
         evSel = physioset.event.sample_selector(pntSel);
         [evArray, rawIdx] = select(evSel, obj.Event);
+        
+        if isempty(evArray), return; end
+        
         % And now re-map the Sample property to match selection
         origSample = get_sample(evArray);
         
@@ -60,9 +63,7 @@ else
         evArray = set_sample(evArray, newSample);
     end
     if isempty(evArray), return; end
-    
-    
-    
+  
 end
 
 if ~isempty(idx),
