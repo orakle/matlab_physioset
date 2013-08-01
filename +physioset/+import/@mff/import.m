@@ -232,7 +232,11 @@ end
 if verbose,
     fprintf([verboseLabel 'Reading events...']);
 end
-evArray = read_events(fileName, hdr.fs, hdr.begin_time, hdr.epochs);
+if get_config(obj, 'ReadEvents'),
+    evArray = read_events(fileName, hdr.fs, hdr.begin_time, hdr.epochs);
+else
+    evArray = [];
+end
 if verbose,
     fprintf('[done]\n\n');
 end
@@ -364,8 +368,7 @@ samplingTime = linspace(0, nbSamples/fs, nbSamples);
 if numel(hdr.epochs) > 1,
     epochEvents = repmat(epoch_begin, numel(hdr.epochs), 1);
     
-    epochSampl = 1;
-    samplingTime = nan(1, size(data,2));
+    epochSampl = 1;   
     for i = 1:numel(epochEvents)
         epochDur      = hdr.epochs(i).end_time-hdr.epochs(i).begin_time;
         epochDurSampl = (epochDur/1e9)*fs;
